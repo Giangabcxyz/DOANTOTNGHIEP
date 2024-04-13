@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time News</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Tin Trong nước</h1>
+        <div id="news-container" class="row mt-5"></div>
+        <h1>Tin Quốc Tế</h1>
+        <div id="newsout-container" class="row mt-5"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and display news
+            function fetchNews() {
+                $.ajax({
+                    url: 'https://newsdata.io/api/1/news?country=vi&category=top&apikey=pub_41430d56e87e828d941a683129d32f90c058a',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var articles = response.results;
+                        var newsContainer = $('#news-container');
+                        newsContainer.empty(); // Clear existing news items
+
+                        // Loop through each article and append it to the news container
+                        articles.forEach(function (article) {
+                            if (article.image_url) {
+                                var articleHtml = `
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <img src="${article.image_url}" class="card-img-top" alt="Article Image">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${article.title}</h5>
+                                                <p class="card-text">${article.description}</p>
+                                                <a href="${article.link}" class="btn btn-primary">Read more</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    `;
+                                newsContainer.append(articleHtml);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching news:', error);
+                    }
+                });
+            }
+
+            // Fetch news initially
+            fetchNews();
+
+            // Set interval to fetch news every 5 minutes (adjust as needed)
+            setInterval(fetchNews, 300000); // 5 minutes in milliseconds
+
+            // Function to update like, comment, and share counts
+            function updateCounts() {
+                // Placeholder function, you need to implement your logic here to update counts
+                // For example, you can make another API call to fetch the counts for each article
+                // and then update the HTML accordingly
+            }
+
+            // Set interval to update counts every 1 minute (adjust as needed)
+            setInterval(updateCounts, 60000); // 1 minute in milliseconds
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var apiUrl = "https://newsapi.org/v2/everything?q=tesla&from=2024-03-09&sortBy=publishedAt&apiKey=433b78deef9344e4a5e0e7ca07b985aa";
+            var newsoutContainer = $("#newsout-container");
+
+            // Function to fetch and display news
+            function fetchNews1() {
+                $.ajax({
+                    url: apiUrl,
+                    method: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        var articles = response.articles;
+
+                        articles.forEach(function (article) {
+                            var articleHtml = `
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="${article.urlToImage}" class="card-img-top" alt="Article Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${article.title}</h5>
+                                        <p class="card-text">${article.description}</p>
+                                        <a href="${article.url}" class="btn btn-primary">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            newsoutContainer.append(articleHtml);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching news:", error);
+                    }
+                });
+            }
+
+            // Fetch news initially
+            fetchNews1();
+
+            // Set interval to fetch news every 30 seconds (30000 milliseconds)
+            setInterval(fetchNews1, 300000);
+        });
+
+    </script>
+    
+</body>
+</html>

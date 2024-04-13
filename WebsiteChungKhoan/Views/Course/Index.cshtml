@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebsiteChungKhoan.Models.Course>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+
+<style>
+    /* Custom CSS */
+    .video-list {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .video-list-item {
+        cursor: pointer;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .video-list-item:hover {
+            background-color: #f0f0f0;
+        }
+
+    .video-player {
+        height: 60vh; /* Giảm kích thước video */
+        padding: 0 20px; /* Khoảng cách giữa video và danh sách */
+    }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+    .video-thumbnail {
+        width: 100px; /* Độ rộng của hình ảnh */
+        height: auto; /* Chiều cao tự động */
+        margin-right: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+    }
+</style>
+ 
+<div class="container-fluid">
+    <div class="row">
+        <!-- Nội dung video -->
+        <div class="col-md-9 col-lg-9">
+            <!-- Thay đổi col-md-9 thành col-md-12 -->
+            <div class="video-player">
+                <!-- Video đầu tiên sẽ hiển thị ở đây -->
+                @if (Model.Any())
+                {
+                    var firstVideo = Model.FirstOrDefault();
+                    <iframe src="https://www.youtube.com/embed/@firstVideo.Link_Id" allowfullscreen></iframe>
+                }
+            </div>
+        </div>
+        <!-- Danh sách video -->
+        <div class="col-md-3">
+            <!-- Thay đổi col-md-4 thành col-md-3 -->
+            <div class="video-list">
+                @foreach (var item in Model.Skip(1))
+                {
+                    <div class="video-list-item" data-video-id="@item.Link_Id">
+                        <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail">
+                        <span class="badge badge-dark">@item.Name</span>
+                    </div>
+                }
+            </div>
+            </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>$(document).ready(function () {
+        // Xử lý sự kiện click vào một video
+        $('.video-list-item').click(function () {
+            var videoId = $(this).data('video-id');
+            var embedUrl = "https://www.youtube.com/embed/" + videoId;
+            // Thay đổi nội dung của iframe để phát video
+            $('.video-player').html('<iframe src="' + embedUrl + '" allowfullscreen></iframe>');
+        });
+    });</script>

@@ -1,0 +1,45 @@
+﻿@model WebsiteChungKhoan.Models.Product
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <!-- Include các file CSS của Bootstrap nếu cần -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+        <hr>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>Name:</dt>
+                <dd>@Model.Name</dd>
+
+                <dt>Price:</dt>
+                <dd>@Model.Price VNĐ</dd>
+
+                <dt>Quantity:</dt>
+                <dd>@Model.Quantity</dd>
+
+                <dt>Image:</dt>
+                <dd><img src="@Url.Content(Model.Img)" alt="Product Image" style="max-width: 200px;"></dd>
+
+                <dt>Description:</dt>
+                <dd>@Model.Description</dd>
+            </dl>
+        </div>
+        <p>
+            <!-- Điều hướng trở lại danh sách sản phẩm hoặc chỉnh sửa sản phẩm -->
+            <a href="@Url.Action("Index", "Books")" class="btn btn-primary">Back to Product List</a>
+            <a href="@Url.Action("Index", "Carts", new { id = Model.Id_Product })" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
+        </p>
+    </div>
+
+    <!-- Include các file script của Bootstrap và các thư viện khác nếu cần -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

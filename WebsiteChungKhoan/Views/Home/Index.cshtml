@@ -1,6 +1,82 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style>
+  
+        .form-control:focus {
+            outline-color: transparent !important;
+            box-shadow: none !important;
+        }
+</style>
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="mt-4">Bảng Giá Chứng Khoán </h1>
+        <div class="row">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control col-md-8 mx-3" id="stockSymbol" placeholder="Nhập mã cổ phiếu" >
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" onclick="updateSymbol()">Tìm Kiếm</button>
+                </div>
+            </div>
+            <script type="text/javascript">
+                function updateSymbol() {
+                    var symbolInput = document.getElementById("stockSymbol").value;
+                    var widget = new FireAnt.QuoteWidget({
+                        "container_id": "fan-quote-112",
+                        "symbols": symbolInput,
+                        "locale": "vi",
+                        "price_line_color": "#71BDDF",
+                        "grid_color": "#999999",
+                        "label_color": "#999999",
+                        "width": "600px",
+                        "height": "300px"
+                    });
+                }
+            </script>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12" data-wow-delay="0.1s">
+                <div id="dnse-market-index" class="dnse-market-index">
+                    
+                        <script src="https://www.fireant.vn/Scripts/web/widgets.js"></script>
+                        <div id="fan-quote-112"></div>
+                        <script type="text/javascript">
+                            new FireAnt.QuoteWidget({
+                                "container_id": "fan-quote-112",
+                                "symbols": "HPG",
+                                "locale": "vi",
+                                "price_line_color": "#71BDDF",
+                                "grid_color": "#999999",
+                                "label_color": "#999999",
+                                "width": "600px",
+                                "height": "300px"
+                            });
+                        </script>
+                    
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12" data-wow-delay="0.1s">
+                <div id="dnse-market-index" class="dnse-market-index">
+                    <script src="https://www.fireant.vn/Scripts/web/widgets.js"></script>
+                    <div id="fan-quote-192"></div>
+                    <script type="text/javascript">
+                        new FireAnt.MarketsWidget({
+                            "container_id": "fan-quote-192",
+                            "locale": "vi",
+                            "price_line_color": "#71BDDF",
+                            "grid_color": "#999999",
+                            "label_color": "#999999",
+                            "width": "600px",
+                            "height": "250px"
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Service Start -->
 <div class="container-xxl py-5">
@@ -10,17 +86,18 @@
                 <div class="service-item rounded pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                        <h5>Master Chefs</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        <h5>Financial Advisor</h5>
+                        <p>cung cấp các lời khuyên và hướng dẫn cho khách hàng về các quyết định tài chính, bao gồm đầu tư, quản lý tiền bạc, hưu trí và bảo hiểm</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="service-item rounded pt-3">
                     <div class="p-4">
-                        <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
-                        <h5>Quality Food</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        
+                        <i class="fa-solid fa-3x fa-money-bill-trend-up text-primary mb-4"></i>
+                        <h5>Stock</h5>
+                        <p>cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh</p>
                     </div>
                 </div>
             </div>
@@ -29,7 +106,7 @@
                     <div class="p-4">
                         <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
                         <h5>Online Order</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        <p>Hiện tại đang hỗ trợ mặt hàng Sách , trong tương lai thì sẽ có thêm các mặt hàng khác như Sổ tay, bút ...  , hoặc là các thẻ Cart dễ hiểu </p>
                     </div>
                 </div>
             </div>
@@ -38,7 +115,7 @@
                     <div class="p-4">
                         <i class="fa fa-3x fa-headset text-primary mb-4"></i>
                         <h5>24/7 Service</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        <p> Nhân viên hỗ trợ trực tiếp để xử lý các vấn đề phát sinh khi khách hàng sử dụng dịch vụ . Những bài viết có cơ sở kiến thức, các câu hỏi thường gặp</p>
                     </div>
                 </div>
             </div>
@@ -53,24 +130,28 @@
             <div class="col-lg-6">
                 <div class="row g-3">
                     <div class="col-6 text-start">
-                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="img/about-1.jpg">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="~/Assets/Client/img/vang.jpg">
                     </div>
                     <div class="col-6 text-start">
-                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="img/about-2.jpg" style="margin-top: 25%;">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="~/Assets/Client/img/cp.jpg" style="margin-top: 25%;">
                     </div>
                     <div class="col-6 text-end">
-                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="img/about-3.jpg">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="~/Assets/Client/img/bank.png">
                     </div>
                     <div class="col-6 text-end">
-                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="img/about-4.jpg">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="~/Assets/Client/img/nh.jpg">
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
-                <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>Restoran</h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos erat ipsum et lorem et sit, sed stet lorem sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Introduce</h5>
+                <h1 class="mb-4">Welcome to <i class="fa-solid text-primary fa-arrow-trend-down "></i> Stock Market</h1>
+                <p class="mb-4">Chứng khoán bao gồm các loại như cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh và các loại chứng khoán khác. Chứng khoán là một tài sản tài chính có thể giao dịch.</p>
+                <p class="mb-4">
+                    Thị trường ngoại hối (còn được gọi là ngoại hối hoặc FX) là thị trường trao đổi tiền tệ quốc gia trên toàn cầu. Tiền tệ đóng vai trò quan trọng, cho phép chúng ta mua bán dịch vụ, hàng hóa trong nước và quốc tế. Khi kinh doanh và thương mại, tiền tệ quốc tế cần được trao đổi.
+
+                    Điểm đặc biệt của loại thị trường ngoại hối này là giao dịch trực tiếp 100% qua quầy điện tử OTC, thay vì trên một sàn giao dịch tập trung. Thị trường sôi động làm việc 24/7, tại các trung tâm tài chính lớn của Frankfurt, Hồng Kông, Luân Đôn, New York, Paris, Singapore, Sydney, Tokyo và Zurich
+                </p>
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center border-start border-5 border-primary px-3">
@@ -86,12 +167,12 @@
                             <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
                             <div class="ps-4">
                                 <p class="mb-0">Popular</p>
-                                <h6 class="text-uppercase mb-0">Master Chefs</h6>
+                                <h6 class="text-uppercase mb-0">Master Financial</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                <a class="btn btn-success py-3 px-5 mt-2" href="">Read More</a>
             </div>
         </div>
     </div>
@@ -101,35 +182,36 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Sản phẩm chính</h5>
             <h1 class="mb-5">Most Popular Items</h1>
         </div>
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-                        <i class="fa fa-coffee fa-2x text-primary"></i>
+                       
+                        <i class="fa-solid fa-book fa-2x text-primary"></i>
                         <div class="ps-3">
                             <small class="text-body">Popular</small>
-                            <h6 class="mt-n1 mb-0">Breakfast</h6>
+                            <h6 class="mt-n1 mb-0">Books</h6>
                         </div>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                        <i class="fa fa-hamburger fa-2x text-primary"></i>
+                        <i class="fa-solid fa-clapperboard fa-2x text-primary"></i>
                         <div class="ps-3">
                             <small class="text-body">Special</small>
-                            <h6 class="mt-n1 mb-0">Launch</h6>
+                            <h6 class="mt-n1 mb-0">Courses</h6>
                         </div>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                        <i class="fa fa-utensils fa-2x text-primary"></i>
+                        <i class="fa-solid fa-arrows-to-circle fa-2x text-primary"></i>
                         <div class="ps-3">
                             <small class="text-body">Lovely</small>
-                            <h6 class="mt-n1 mb-0">Dinner</h6>
+                            <h6 class="mt-n1 mb-0">Concept</h6>
                         </div>
                     </a>
                 </li>
@@ -139,97 +221,97 @@
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b1.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Tâm lý thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">The Psychology of Financial Markets</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b2.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Chiến lược đầu tư chứng khoán</span>
+                                        <span class="text-success"`>$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Benjamin Graham</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b3.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Phân tích chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic"> Benjamin Graham</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b4.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Bí quyết đầu tư kinh doanh chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Warren Buffett</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b5.png" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Phương pháp đầu tư Warren Buffet</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Warren Buffet</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b6.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Ngay cả Buffet cũng không hoàn hảo</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">John C. Bogle</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b7.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>22 Thương vụ đầu tư</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">John C. Bogle</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b8.png" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Tâm lý thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Philip Fisher</small>
                                 </div>
                             </div>
                         </div>
@@ -239,97 +321,97 @@
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b9.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Giao dịch như một phù thủy chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Peter Lynch</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b10.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Thị trường chứng khoán việt nam</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Robert G. Hagstrom</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b11.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Chứng khoán phái sinh</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Roger Lowenstein</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b12.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Chết vì chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Lawrence A. Cunningham</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b13.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Phân tích biểu đồ chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b14.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>24 bài học sống còn trên thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b15.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Hướng dẫn đâu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b16.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Tâm lý giao dịch</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Roger Lowenstein</small>
                                 </div>
                             </div>
                         </div>
@@ -339,97 +421,97 @@
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b17.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Đầu tư</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Roger Lowenstein</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b18.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>20 Năm lịch sử thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Roger Lowenstein</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b20.png" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Đánh bại phố Wall</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Burton G. Malkie</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b19.png" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Đánh bại phố Wall</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">David Dreman</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b21.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Bí quyết đầu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Pat Dorsey</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b22.png" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Phù thủy chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Joel Greenblat</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b15.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Đầu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Jim Collins</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b16.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                        <span>Chicken Burger</span>
-                                        <span class="text-primary">$115</span>
+                                        <span>Tâm lý Giao dịch</span>
+                                        <span class="text-success">$115</span>
                                     </h5>
-                                    <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                    <small class="fst-italic">Joel Greenblatt</small>
                                 </div>
                             </div>
                         </div>
@@ -445,10 +527,11 @@
     <div class="row g-0">
         <div class="col-md-6">
             <div class="video">
-                <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/qUPn3wFPEhA?si=oP7hPTuy1ifi3mfZ" data-bs-target="#videoModal">
                     <span></span>
                 </button>
             </div>
+
         </div>
         <div class="col-md-6 bg-dark d-flex align-items-center">
             <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
@@ -523,15 +606,15 @@
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
-            <h1 class="mb-5">Our Master Chefs</h1>
+            <h1 class="mb-5">Our Master Financial</h1>
         </div>
         <div class="row g-4">
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="team-item text-center rounded overflow-hidden">
                     <div class="rounded-circle overflow-hidden m-4">
-                        <img class="img-fluid" src="img/team-1.jpg" alt="">
+                        <img class="img-fluid" src="~/Assets/Client/img/dna.png" alt="">
                     </div>
-                    <h5 class="mb-0">Full Name</h5>
+                    <h5 class="mb-0">Sofia Rodriguez</h5>
                     <small>Designation</small>
                     <div class="d-flex justify-content-center mt-3">
                         <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -543,9 +626,9 @@
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="team-item text-center rounded overflow-hidden">
                     <div class="rounded-circle overflow-hidden m-4">
-                        <img class="img-fluid" src="img/team-2.jpg" alt="">
+                        <img class="img-fluid" src="~/Assets/Client/img/dnf.jpg" alt="">
                     </div>
-                    <h5 class="mb-0">Full Name</h5>
+                    <h5 class="mb-0">Phạm Thị Hà</h5>
                     <small>Designation</small>
                     <div class="d-flex justify-content-center mt-3">
                         <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -557,9 +640,9 @@
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="team-item text-center rounded overflow-hidden">
                     <div class="rounded-circle overflow-hidden m-4">
-                        <img class="img-fluid" src="img/team-3.jpg" alt="">
+                        <img class="img-fluid" src="~/Assets/Client/img/dnc.jpg" alt="">
                     </div>
-                    <h5 class="mb-0">Full Name</h5>
+                    <h5 class="mb-0">Sophia Nguyen</h5>
                     <small>Designation</small>
                     <div class="d-flex justify-content-center mt-3">
                         <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -571,9 +654,9 @@
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="team-item text-center rounded overflow-hidden">
                     <div class="rounded-circle overflow-hidden m-4">
-                        <img class="img-fluid" src="img/team-4.jpg" alt="">
+                        <img class="img-fluid" src="~/Assets/Client/img/dne.jpg" alt="">
                     </div>
-                    <h5 class="mb-0">Full Name</h5>
+                    <h5 class="mb-0">Fabio Santos</h5>
                     <small>Designation</small>
                     <div class="d-flex justify-content-center mt-3">
                         <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -589,56 +672,58 @@
 <!-- Testimonial Start -->
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
-        <div class="text-center">
+       <div class="text-center">
             <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
             <h1 class="mb-5">Our Clients Say!!!</h1>
-        </div>
-        <div class="owl-carousel testimonial-carousel">
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-1.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Client Name</h5>
-                        <small>Profession</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-2.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Client Name</h5>
-                        <small>Profession</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-3.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Client Name</h5>
-                        <small>Profession</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-4.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Client Name</h5>
-                        <small>Profession</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div> 
+       <div class="owl-carousel testimonial-carousel">
+           <div class="testimonial-item bg-transparent border rounded p-4">
+               <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+               <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+               <div class="d-flex align-items-center">
+                   <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/cp.jpg" style="width: 50px; height: 50px;">
+                   <div class="ps-3">
+                       <h5 class="mb-1">Cổ Phiếu</h5>
+                       <small>Vnindex</small>
+                   </div>
+               </div>
+           </div>
+           <div class="testimonial-item bg-transparent border rounded p-4">
+               <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+               <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+               <div class="d-flex align-items-center">
+                   <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/nh.jpg" style="width: 50px; height: 50px;">
+                   <div class="ps-3">
+                       <h5 class="mb-1">Ngoại Hối</h5>
+                       <small>Việt Nam</small>
+                   </div>
+               </div>
+           </div>
+           <div class="testimonial-item bg-transparent border rounded p-4">
+               <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+               <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+               <div class="d-flex align-items-center">
+                   <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/bank.png" style="width: 50px; height: 50px;">
+                   <div class="ps-3">
+                       <h5 class="mb-1">Ngân Hàng</h5>
+                       <small>Profession</small>
+                   </div>
+               </div>
+           </div>
+           <div class="testimonial-item bg-transparent border rounded p-4">
+               <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+               <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+               <div class="d-flex align-items-center">
+                   <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-4.jpg" style="width: 50px; height: 50px;">
+                   <div class="ps-3">
+                       <h5 class="mb-1">Client Name</h5>
+                       <small>Profession</small>
+                   </div>
+               </div>
+           </div>
+       </div>
     </div>
 </div>
+
+
 <!-- Testimonial End -->
