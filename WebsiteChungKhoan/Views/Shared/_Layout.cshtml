@@ -31,15 +31,24 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
         <!-- Libraries Stylesheet -->
-        <link href="~/Content/lib/animate/animate.min.css" rel="stylesheet" />
-        <link href="~/Content/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
-        <link href="~/Content/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+        <link href="~/Assets/Client/lib/animate/animate.min.css" rel="stylesheet" />
+        <script src="~/Assets/Client/lib/owlcarousel/owl.carousel.js"></script>
 
+        <link href="~/Assets/Client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+
+        <link href="~/Assets/Client/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+        <link href="~/Assets/icon/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet" />
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
-
+        <link href="~/Assets/Client/css/bootstrap.min.css" rel="stylesheet" />
         <!-- Template Stylesheet -->
-        <link href="~/Content/css/style.css" rel="stylesheet" />
+        
+        <link href="~/Assets/Client/css/style.css" rel="stylesheet" />
+        <style>
+            .nav-item.dropdown {
+                list-style: none;
+            }
+        </style>
     </head>
 
     <body>
@@ -55,7 +64,8 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="/Home/Index" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-chart-line me-3"></i>Market</h1>
+                        <h1 class="text-success m-0"><i class="fa-solid fa-arrow-trend-up"></i> Market</h1>
+
 
 
 
@@ -66,25 +76,43 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="/Home/Index" class="nav-item nav-link active">Home</a>
-                            <a href="/Home/Index" class="nav-item nav-link ">New</a>
-                            <a href="/Home/About" class="nav-item nav-link">Concept</a>
-                            <a href="service.html" class="nav-item nav-link">Page</a>
-                            <a href="menu.html" class="nav-item nav-link">Course</a>
+                            <a href="/Home/Index" class="nav-item nav-link active-link">Home</a>
+                            <a href="/News/Index" class="nav-item nav-link ">New</a>
+                            <a href="/Post/Index" class="nav-item nav-link">Concept</a>
+                            <a href="/Course/Index" class="nav-item nav-link">Course</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Book</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="booking.html" class="dropdown-item">Warren Buffett </a>
+                                    <a href="/Books/Index" class="dropdown-item">Warren Buffett </a>
                                     <a href="team.html" class="dropdown-item">Benjamin Graham</a>
                                     <a href="testimonial.html" class="dropdown-item">Peter Lynch</a>
                                     <a href="testimonial.html" class="dropdown-item">Ray Dalio</a>
                                     <a href="testimonial.html" class="dropdown-item">Jack Bogle</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Cart</a>
+                            <a href="/Carts/Index" class="nav-item nav-link">Cart</a>
                         </div>
-                        <a href="" class="btn btn-danger py-2 px-4 m-0 m-2">Đăng Kí</a>
-                        <a href="" class="btn btn-danger py-2 px-4">Đăng Nhập</a>
+
+                        @{
+                            if (Session["name"] == null)
+                            {
+                                <a href="/Account/Login" class="btn btn-danger py-2 px-4 m-0 m-2">login</a>
+                                <a href="/Account/Register" class="btn btn-danger py-2 px-4 m-0 m-2">Register</a>
+
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                                        <li><a class="dropdown-item" href="#!"> @Session["name"]</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item" href="/Account/Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        }
                     </div>
                 </nav>
 
@@ -94,10 +122,10 @@
                             <div class="col-lg-6 text-center text-lg-start">
                                 <h1 class="display-4 text-white animated slideInLeft">Website<br>hướng dẫn đầu tư</h1>
                                 <p class="text-white animated slideInLeft mb-4 pb-2">Cung cấp các kiến thức , kĩ năng cần thiết cho nhà đầu tư cá nhân mới trước khi tham gia vào thị trường đầu tư</p>
-                                <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">BẮT ĐẦU NGAY</a>
+                                <a href="/Course/Index" class="btn btn-success py-sm-3 px-sm-5 me-3 animated slideInLeft">BẮT ĐẦU NGAY</a>
                             </div>
                             <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                                <img class="img-fluid rounded-circle" src="~/Content/img/btc2.jpg" alt="">
+                                <img class="img-fluid rounded-circle" src="~/Assets/Client/img/btc2.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -105,6 +133,9 @@
             </div>
             <!-- Navbar & Hero End -->
             @RenderBody();
+
+        
+
             <!-- Footer Start -->
             <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
                 <div class="container py-5">
@@ -175,16 +206,25 @@
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/Content/lib/wow/wow.min.js"></script>
-        <script src="~/Content/lib/easing/easing.min.js"></script>
-        <script src="~/Content/lib/waypoints/waypoints.min.js"></script>
-        <script src="~/Content/lib/counterup/counterup.min.js"></script>
-        <link href="~/Content/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
-        <link href="~/Content/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-        <script src="~/Content/lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="~/Content/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+        <script src="~/Assets/Client/lib/wow/wow.min.js"></script>
+
+
+        <script src="~/Assets/Client/lib/easing/easing.min.js"></script>
+
+        <script src="~/Assets/Client/lib/waypoints/waypoints.min.js"></script>
+        <script src="~/Assets/Client/lib/counterup/counterup.min.js"></script>
+
+
+        <link href="~/Assets/Client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+
+        <link href="~/Assets/Client/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+        <script src="~/Assets/Client/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="~/Assets/Client/lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="~/Assets/Client/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
         <!-- Template Javascript -->
-        <script src="~/Content/js/main.js"></script>
+        <script src="~/Assets/Client/js/main.js"></script>
     </body>
 
 </html>

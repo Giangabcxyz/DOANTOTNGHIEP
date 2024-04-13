@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WebsiteChungKhoan.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh Sách video</h2>
+
+<p>
+    @Html.ActionLink("Thêm bài viết", "Create")
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Tiêu Đề
+        </th>
+        <th>
+            Link Video
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <div class="video-list-item" data-video-id="@item.Link_Id">
+                    <!-- Ảnh thumbnail của video -->
+                    <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail">
+                    <!-- Tiêu đề hoặc mô tả của video -->
+
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Course.ToString().Trim() }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Course.ToString().Trim() }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Course.ToString().Trim() })
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    $(document).ready(function () {
+        // Xử lý sự kiện click vào một video
+        $('.video-list-item').click(function () {
+            var videoId = $(this).data('video-id');
+            var embedUrl = "https://www.youtube.com/embed/" + videoId;
+            // Thay đổi nội dung của iframe để phát video
+            $('.video-player').html('<iframe width="560" height="315" src="' + embedUrl + '" frameborder="0" allowfullscreen></iframe>');
+        });
+    });
+</script>
+
+<style>
+    .video-thumbnail {
+        max-width: 300px; /* Giới hạn chiều rộng tối đa */
+        max-height: 200px; /* Giới hạn chiều cao tối đa */
+        width: auto; /* Chiều rộng tự động điều chỉnh để giữ nguyên tỷ lệ hình ảnh */
+        height: auto; /* Chiều cao tự động điều chỉnh để giữ nguyên tỷ lệ hình ảnh */
+    }
+</style>

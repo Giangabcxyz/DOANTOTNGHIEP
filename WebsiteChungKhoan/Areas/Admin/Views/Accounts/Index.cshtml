@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebsiteChungKhoan.Models.Account>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-body {
+        flex: 1 1 auto;
+        padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+        color: var(--bs-card-color);
+    }
+    .datatable-search, .datatable-pagination {
+        margin-right: 20px;
+    }
+    .datatable-dropdown, .btn-successfull {
+        margin-left: 20px;
+    }
+    .datatable-container {
+        padding: 0px 20px;
+    }
+
+</style>
+<main>
+<div class="class=" card mb-4"">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        DataTable Example
+    </div>
+    <p class="btn-successfull">
+        @Html.ActionLink("Tạo", "Create")
+    </p>
+    <table id="datatablesSimple">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Password</th>
+                <th>Rolex</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rolex)</td>
+                    <td>
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+</main>
+
