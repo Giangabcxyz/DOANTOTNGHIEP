@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Product>
+@{
+    ViewBag.Title = "Buy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Buy</h2>
+@{ 
+    List<WebsiteChungKhoann.Models.Cart> cart = (List<WebsiteChungKhoann.Models.Cart>)Session["giohang"];
+    List<WebsiteChungKhoann.Models.Product> ds = (List<WebsiteChungKhoann.Models.Product>)Session["hanghoa"];
+}
+@*<table class="table-bordered">
+     <tr style="background-color : #ffffcc">
+         <th>
+             Mã sản phẩm
+         </th>
+         <th>Tên Sản phẩm</th>
+         <th>Hình ảnh</th>
+         <th>Số Lượng</th>
+         <th>Giá</th>
+         <th>Xóa sản phẩm</th>
+     </tr>
+    @foreach(var item in cart)
+    {
+        WebsiteChungKhoann.Models.Product s = new WebsiteChungKhoann.Models.Product(item.Id_Product);
+        <td>@s.Id_Product</td>
+        <td>@s.Name</td>
+        <td>@s.Img</td>
+        <td>@item.Quantity</td>
+        <td>@s.Price</td>
+        <td>
+            <a href="@Url.Action("Delete","Cart", new {id_pro = item.Id_Product})"></a>
+        </td>
+    }
+</table>*@
+@Html.ActionLink("Đặt hàng", "Datmua", "Cart");
+@Html.ActionLink("Mua Tiếp", "Index", "Product");

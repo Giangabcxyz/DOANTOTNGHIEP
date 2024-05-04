@@ -1,0 +1,165 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<div class="container mt-5">
+    @foreach (var item in Model)
+    {
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="col-md-8">
+                <div class="card" id="postCard">
+                    <div class="card-header">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUUqKTx77lwnS3yg0kUSKQxs3SJrSM22PaSIZpoYumhiuGlCOIRo6O7f88MtIjq1DkAuE&usqp=CAU" class="rounded-avatar mr-2" alt="Avatar">
+                        @{
+                            var accountId = item.Id_Account;
+                            var accountName = ViewBag.Accounts.ContainsKey((int)accountId) ? ViewBag.Accounts[(int)accountId] : "Unknown";
+                        }
+                        @accountName <span class="text-muted">@item.Date</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text card-title font-weight-bold" style="font-size: 20px;">@item.Name</p>
+                        <img src="@Url.Content(item.Img)" class="img-fluid mb-3 post-image" alt="Post Image" id="postImage" width="680" height="665" />
+                        <p class="card-text">@item.Description</p>
+                        <!-- Like, Comment, Share icons -->
+                        <!-- Comment box -->
+                        <div id="commentForm">
+
+                            @using (Ajax.BeginForm("Create", "Comment_Post", new AjaxOptions
+                            {
+                                HttpMethod = "Post",
+                                InsertionMode = InsertionMode.InsertBefore,
+                                UpdateTargetId = "commentsContainer",
+
+
+                            }, new { @class = "form" }))
+                            {
+                                <input type="hidden" name="Id_Post" value="@item.Id_Post" />
+                                <input type="hidden" name="Id_Account" value="@Session["Id"]" />
+                                <input type="hidden" name="Name" value="@Session["Name"]" />
+                                <textarea id="text" class="form__textarea" placeholder="Nhập bình luận" name="comment"></textarea>
+                                <button type="submit" class="form__btn">Gửi</button>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <div id="commentsContainer">
+
+                            @foreach (var comment in ViewBag.Comment)
+                            {
+                                if (comment.Id_Post == item.Id_Post)
+                                {
+                                    <div class="comment">
+                                        <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                                        <div class="comment-details">
+                                            <h6>@comment.AccountName</h6>
+                                            <p>@comment.Comment</p>
+                                        </div>
+                                    </div>
+                                }
+
+                                <!-- Hiển thị các thuộc tính khác của bình luận nếu cần -->
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $('#commentForm').submit(function (event) {
+            // Kiểm tra xem session có giá trị hay không
+            var name = '@Session["Name"]';
+            var id = '@Session["Id"]';
+
+            if (!name || !id) {
+                alert("Bạn Chưa Đăng nhập tài khoản");
+                // Chuyển hướng người dùng đến trang đăng nhập
+                window.location.href = '/Account/Login';
+                // Ngăn chặn việc gửi form
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+

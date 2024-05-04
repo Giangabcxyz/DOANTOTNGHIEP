@@ -1,0 +1,296 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Product>
+@{
+    ViewBag.Title = "GetProductsByCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<style>
+    /* Custom CSS */
+    .video-list {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .video-list-item {
+        cursor: pointer;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .video-list-item.selected {
+            border: 2px solid red; /* Đổi màu và độ rộng viền tùy ý */
+        }
+
+        .video-list-item:hover {
+            background-color: #f0f0f0;
+        }
+
+    .video-player {
+        height: 60vh; /* Giảm kích thước video */
+        padding: 0 20px; /* Khoảng cách giữa video và danh sách */
+    }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+    .video-thumbnail {
+        max-width: 300px; /* Độ rộng của hình ảnh */
+        max-height: 200px; /* Chiều cao tự động */
+        margin-right: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        border-radius: 20px;
+        transition: transform 0.8s ease-out;
+    }
+
+        .video-thumbnail:hover {
+            transform: scale(1.1);
+        }
+
+    .comment-section {
+        margin-top: 20px;
+    }
+
+    /*.comment {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }*/
+    .video-list {
+        display: flex;
+        width: 100%;
+        padding: 0 5px;
+    }
+
+    .item {
+        position: relative;
+        display: flex;
+        padding: 0;
+        border-radius: 20px;
+        justify-content: space-between;
+        /* Màu xám có độ mờ là 0.5 */
+    }
+
+    .video-list-item {
+        position: absolute;
+        width: 95%;
+        height: 200px;
+        padding: 0;
+    }
+
+    .nname, .descriptionn {
+        color: black;
+        position: absolute;
+        top: 105%;
+    }
+
+    .descriptionn {
+        top: 115%;
+    }
+
+        .descriptionn:hover {
+            color: red;
+            transition: ease-in-out 0.5s;
+            transform: 0.5s;
+        }
+
+    .nname:hover {
+        transition: ease-in-out 0.5s;
+        color: red;
+        font-size: 18px;
+    }
+</style>
+
+<style>
+    .product-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 2px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 250px;
+        background-size: cover;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .product-price {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .add-to-cart {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+
+    .product-price {
+        font-size: 18px;
+        color: red;
+        margin-bottom: 10px;
+        display: inline-block;
+        transform: skewX(-10deg); /* Nghiêng văn bản */
+    }
+</style>
+
+<!--<div class="col-sm-9 padding-right">
+    <div class="features_items">-->
+<!--features_items-->
+<!--<h2 class="title text-center">Features Items</h2>
+        @foreach (var i in Model)
+        {
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <img src="@Url.Content(i.Img)" alt="" />
+                            <h2>@i.Price</h2>
+                            <p>@i.Name</p>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <h2>@i.Price</h2>
+                                <p>@i.Name</p>
+                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>-->
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var i in Model)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="@Url.Content(i.Img)" alt="Product Image" />
+                    </div>
+                    <div class="product-info">
+                        <h2>@i.Price</h2>
+                        <p class="product-name">@i.Name</p>
+                        <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i></a> |
+                        <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    public string FormatPrice(decimal price)
+    {
+        return price.ToString("N0") + " đ"; // Định dạng số tiền theo định dạng có dấu chấm phân cách hàng nghìn và thêm đơn vị tiền tệ VND
+    }
+}
+
+

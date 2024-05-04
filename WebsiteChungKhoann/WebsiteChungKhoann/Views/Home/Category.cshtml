@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Category>
+
+<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Book</a>
+    <div class="dropdown-menu m-0">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <a href="@Url.Action("GetProductsByCategory", "Home", new { categoryId = item.Id_Category })"  class="dropdown-item category-item" data-category-id="@item.Id_Category">@item.Name_Category</a>
+            }
+        }
+    </div>
+</div>
+@*<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Book</a>
+    <div class="dropdown-menu m-0">
+        <a href="/Books/Index" class="dropdown-item">Warren Buffett </a>
+        <a href="team.html" class="dropdown-item">Benjamin Graham</a>
+        <a href="testimonial.html" class="dropdown-item">Peter Lynch</a>
+        <a href="testimonial.html" class="dropdown-item">Ray Dalio</a>
+        <a href="testimonial.html" class="dropdown-item">Jack Bogle</a>
+    </div>
+</div>*@

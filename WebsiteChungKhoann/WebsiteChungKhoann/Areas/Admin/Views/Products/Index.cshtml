@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Author.Name_Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name_Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Img)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.Name_Author)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name_Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.Img))
+            {
+                <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+            }
+            else
+            {
+                <span>No image available</span>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Product }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Product }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Product })
+        </td>
+    </tr>
+}
+
+</table>

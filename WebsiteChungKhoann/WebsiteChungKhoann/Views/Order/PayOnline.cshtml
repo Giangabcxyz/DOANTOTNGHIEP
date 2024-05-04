@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PayOnline</title>
+    <style>
+        /* CSS cho lớp phủ tròn */
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+            display: none; /* Mặc định ẩn */
+        }
+
+        /* CSS cho nội dung trong lớp phủ */
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <p id="conceptPay"></p>
+        </div>
+    </div>
+
+    <script>
+        // Lấy giá trị status từ ViewBag
+        var status = @Html.Raw(Json.Encode(ViewBag.Status));
+
+        // Lấy giá trị conceptPay từ ViewBag
+        var conceptPay = @Html.Raw(Json.Encode(ViewBag.ConceptPay));
+
+        // Kiểm tra nếu status thay đổi, ẩn hoặc hiển thị lớp phủ tương ứng
+        function updateOverlay() {
+            if (status === 3) {
+                document.getElementById("overlay").style.display = "none"; // Ẩn lớp phủ
+            } else {
+                document.getElementById("overlay").style.display = "block"; // Hiển thị lớp phủ
+                document.getElementById("conceptPay").innerHTML = conceptPay; // Hiển thị conceptPay
+            }
+        }
+
+        // Gọi hàm updateOverlay mỗi khi trang được tải lại
+        updateOverlay();
+    </script>
+</body>
+</html>

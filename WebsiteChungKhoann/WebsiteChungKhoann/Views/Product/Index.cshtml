@@ -1,0 +1,219 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<style>
+    /* Custom CSS */
+    .video-list {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .video-list-item {
+        cursor: pointer;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .video-list-item.selected {
+            border: 2px solid red; /* Đổi màu và độ rộng viền tùy ý */
+        }
+
+        .video-list-item:hover {
+            background-color: #f0f0f0;
+        }
+
+    .video-player {
+        height: 60vh; /* Giảm kích thước video */
+        padding: 0 20px; /* Khoảng cách giữa video và danh sách */
+    }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+    .video-thumbnail {
+        max-width: 300px; /* Độ rộng của hình ảnh */
+        max-height: 200px; /* Chiều cao tự động */
+        margin-right: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        border-radius: 20px;
+        transition: transform 0.8s ease-out;
+    }
+
+        .video-thumbnail:hover {
+            transform: scale(1.1);
+        }
+
+    .comment-section {
+        margin-top: 20px;
+    }
+
+    /*.comment {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }*/
+    .video-list {
+        display: flex;
+        width: 100%;
+        padding: 0 5px;
+    }
+
+    .item {
+        position: relative;
+        display: flex;
+        padding: 0;
+        border-radius: 20px;
+        justify-content: space-between;
+        /* Màu xám có độ mờ là 0.5 */
+    }
+
+    .video-list-item {
+        position: absolute;
+        width: 95%;
+        height: 200px;
+        padding: 0;
+    }
+
+    .nname, .descriptionn {
+        color: black;
+        position: absolute;
+        top: 105%;
+    }
+
+    .descriptionn {
+        top: 115%;
+    }
+
+        .descriptionn:hover {
+            color: red;
+            transition: ease-in-out 0.5s;
+            transform: 0.5s;
+        }
+
+    .nname:hover {
+        transition: ease-in-out 0.5s;
+        color: red;
+        font-size: 18px;
+    }
+</style>
+<h2>Đây Là trang hiển thị sản phẩm </h2>
+
+<ul>
+
+    @foreach (var item in Model)
+    {
+        <li>
+            <p>@item.Name</p>
+            <p>@item.Price</p>
+            <p>
+                @Html.ActionLink("Thêm Vào giỏ hàng", "Cart", "Cart", new { id = item.Id_Product }, null)
+                |
+                @Html.ActionLink("Mua", "Buy", "Cart", new { id = item.Id_Product }, null)
+            </p>
+        </li>
+    }
+
+
+
+</ul>
+<br />
+<h1>Đây là giỏ hàng lấy đươc </h1>
+@if (Session["hanghoa"] != null)
+{
+    var giohang = Session["hanghoa"] as List<WebsiteChungKhoann.Models.Product>
+    ;
+    if (giohang != null)
+    {
+        foreach (var item in giohang)
+        {
+            <li>
+                <p>@item.Name</p>
+                <p>@item.Price</p>
+                <p>
+                    @Html.ActionLink("Thêm Vào giỏ hàng", "Cart", "Cart", new { id = item.Id_Product }, null) |
+                    @Html.ActionLink("Mua", "Buy", "Cart", new { id = item.Id_Product }, null)
+                </p>
+            </li>
+        }
+    }
+}

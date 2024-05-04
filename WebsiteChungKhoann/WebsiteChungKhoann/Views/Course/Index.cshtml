@@ -1,0 +1,274 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<style>
+    /* Custom CSS */
+    .video-list {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .video-list-item {
+        cursor: pointer;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+        .video-list-item.selected {
+            border: 2px solid red; /* Đổi màu và độ rộng viền tùy ý */
+        }
+
+        .video-list-item:hover {
+            background-color: #f0f0f0;
+        }
+
+    .video-player {
+        height: 60vh; /* Giảm kích thước video */
+        padding: 0 20px; /* Khoảng cách giữa video và danh sách */
+    }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+    .video-thumbnail {
+        max-width: 300px; /* Độ rộng của hình ảnh */
+        max-height: 200px; /* Chiều cao tự động */
+        margin-right: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        border-radius: 20px;
+        transition: transform 0.8s ease-out;
+    }
+        .video-thumbnail:hover {
+            transform: scale(1.1);
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+
+    /*.comment {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }*/
+    .video-list{
+        display: flex;
+        width: 100%;
+        padding: 0 5px;
+       
+    }
+    .item {
+        position: relative;
+        display: flex;
+        padding: 0;
+        border-radius: 20px;
+        justify-content: space-between;
+         /* Màu xám có độ mờ là 0.5 */
+    }
+    .video-list-item {
+        position: absolute;
+        width: 95%;
+        height: 200px;
+        padding: 0;
+      
+    }
+    .nname, .descriptionn {
+        color: black;
+        position: absolute;
+        top: 105%;
+    }
+    .descriptionn {
+        top: 115%;
+    }
+        .descriptionn:hover {
+            color: red;
+            transition: ease-in-out 0.5s;
+            transform: 0.5s;
+        }
+    .nname:hover {
+        transition: ease-in-out 0.5s;
+        color: red;
+        font-size: 18px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Nội dung video -->
+        <div class="col-md-9 col-lg-9">
+            <!-- Thay đổi col-md-9 thành col-md-12 -->
+            <!-- Thêm một modal -->
+            <div class="video-details">
+                <!-- Thông tin video sẽ được hiển thị ở đây -->
+            </div>
+
+
+
+            <!-- Phần hiển thị bình luận -->
+
+
+            <div class="comment-section">
+
+                <!-- Thêm mã HTML và Razor để hiển thị bình luận ở đây -->
+            </div>
+        </div>
+        <!-- Danh sách video -->
+        <div class="col-md-12 col-sm-12 col-lg-12 display-flex">
+            <!-- Thay đổi col-md-4 thành col-md-3 -->
+            <div class="row video-list display-flex">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-5 item">
+                    <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
+                       <div class="video-list-item" data-course-id="@item.Id_Course" data-video-id="@item.Link_Id">
+                          <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail"><br />
+                          <p class="nname" style="color: black">@item.Name</p>
+                        <span class="descriptionn" class="p-1">@item.Description</span>
+                      </div>
+                    </a>
+
+                    </div>
+                    @*<div id="commentForm_@item.Id_Course">
+                        @using (Ajax.BeginForm("Create", "Course", new AjaxOptions
+                        {
+                            HttpMethod = "Post",
+                            InsertionMode = InsertionMode.InsertBefore,
+                            UpdateTargetId = "commentsContainer_" + item.Id_Course,
+                        }, new { @class = "form" }))
+                        {
+                            <input type="hidden" name="Id_Course" value="@item.Id_Course" />
+                            <input type="hidden" name="Id_Account" value="@Session["Id"]" />
+                            <input type="hidden" name="Name" value="@Session["Name"]" />
+                            <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
+                            <button type="submit" class="form__btn">Gửi</button>
+                        }
+                    </div>*@
+                    <!--<div class="comment-section">
+                        <div id="commentsContainer_@item.Id_Course">-->
+                            <!-- Hiển thị các bình luận -->
+                            <!--@foreach (var comment in ViewBag.Comment)
+                            {
+                                <div class="comment">
+                                    <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                                    <div class="comment-details">
+                                        <h6>@comment.AccountName</h6>
+                                        <p>@comment.Comment</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>-->
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#commentForm').submit(function (event) {
+            // Kiểm tra xem session có giá trị hay không
+            var name = '@Session["Name"]';
+            var id = '@Session["Id"]';
+
+            if (!name || !id) {
+                alert("Bạn Chưa Đăng nhập tài khoản");
+                // Chuyển hướng người dùng đến trang đăng nhập
+                window.location.href = '/Account/Login';
+                // Ngăn chặn việc gửi form
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+
+

@@ -1,0 +1,818 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-4 text-white animated slideInLeft">Website<br>hướng dẫn đầu tư</h1>
+                <p class="text-white animated slideInLeft mb-4 pb-2">Cung cấp các kiến thức , kĩ năng cần thiết cho nhà đầu tư cá nhân mới trước khi tham gia vào thị trường đầu tư</p>
+                <a href="/Course/Index" class="btn btn-success py-sm-3 px-sm-5 me-3 animated slideInLeft">BẮT ĐẦU NGAY</a>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end overflow-hidden">
+                <img class="img-fluid rounded-circle" src="~/Assets/Client/img/btc2.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<h1>@ViewBag.sl</h1>
+<style>
+
+    .form-control:focus {
+        outline-color: transparent !important;
+        box-shadow: none !important;
+    }
+</style>
+<div class="container-xxl py-5">
+    <div class="container">
+        <h2>
+            Dữ Liệu : @Session["Id"]
+            @if (Session["giohang"] != null && ((List<string>)Session["giohang"]).Count > 0)
+            {
+                <h2>Name : @((List<string>)Session["giohang"]).Count</h2>
+            }
+        </h2>
+        <h1 class="mt-4">Bảng Giá Chứng Khoán </h1>
+        <div class="row">
+            <div class="input-group mb-3">
+                <input style="width:200px" type="text" class="form-control col-md-8 mx-3" id="stockSymbol" placeholder="Nhập mã cổ phiếu">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" onclick="updateSymbol()">Tìm Kiếm</button>
+                </div>
+            </div>
+            <script type="text/javascript">
+                function updateSymbol() {
+                    var symbolInput = document.getElementById("stockSymbol").value;
+                    var widget = new FireAnt.QuoteWidget({
+                        "container_id": "fan-quote-112",
+                        "symbols": symbolInput,
+                        "locale": "vi",
+                        "price_line_color": "#71BDDF",
+                        "grid_color": "#999999",
+                        "label_color": "#999999",
+                        "width": "600px",
+                        "height": "300px"
+                    });
+                }
+            </script>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12" data-wow-delay="0.1s">
+                <div id="dnse-market-index" class="dnse-market-index">
+
+                    <script src="https://www.fireant.vn/Scripts/web/widgets.js"></script>
+                    <div id="fan-quote-112"></div>
+                    <script type="text/javascript">
+                        new FireAnt.QuoteWidget({
+                            "container_id": "fan-quote-112",
+                            "symbols": "HPG",
+                            "locale": "vi",
+                            "price_line_color": "#71BDDF",
+                            "grid_color": "#999999",
+                            "label_color": "#999999",
+                            "width": "600px",
+                            "height": "300px"
+                        });
+                    </script>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12" data-wow-delay="0.1s">
+                <div id="dnse-market-index" class="dnse-market-index">
+                    <script src="https://www.fireant.vn/Scripts/web/widgets.js"></script>
+                    <div id="fan-quote-192"></div>
+                    <script type="text/javascript">
+                        new FireAnt.MarketsWidget({
+                            "container_id": "fan-quote-192",
+                            "locale": "vi",
+                            "price_line_color": "#71BDDF",
+                            "grid_color": "#999999",
+                            "label_color": "#999999",
+                            "width": "600px",
+                            "height": "250px"
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
+                        <h5>Financial Advisor</h5>
+                        <p>cung cấp các lời khuyên và hướng dẫn cho khách hàng về các quyết định tài chính, bao gồm đầu tư, quản lý tiền bạc, hưu trí và bảo hiểm</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+
+                        <i class="fa-solid fa-3x fa-money-bill-trend-up text-primary mb-4"></i>
+                        <h5>Stock</h5>
+                        <p>cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
+                        <h5>Online Order</h5>
+                        <p>Hiện tại đang hỗ trợ mặt hàng Sách , trong tương lai thì sẽ có thêm các mặt hàng khác như Sổ tay, bút ...  , hoặc là các thẻ Cart dễ hiểu </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-headset text-primary mb-4"></i>
+                        <h5>24/7 Service</h5>
+                        <p> Nhân viên hỗ trợ trực tiếp để xử lý các vấn đề phát sinh khi khách hàng sử dụng dịch vụ . Những bài viết có cơ sở kiến thức, các câu hỏi thường gặp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="~/Assets/Client/img/vang.jpg">
+                    </div>
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="~/Assets/Client/img/cp.jpg" style="margin-top: 25%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="~/Assets/Client/img/bank.png">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="~/Assets/Client/img/nh.jpg">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Introduce</h5>
+                <h1 class="mb-4">Welcome to <i class="fa-solid text-primary fa-arrow-trend-down "></i> Stock Market</h1>
+                <p class="mb-4">Chứng khoán bao gồm các loại như cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh và các loại chứng khoán khác. Chứng khoán là một tài sản tài chính có thể giao dịch.</p>
+                <p class="mb-4">
+                    Thị trường ngoại hối (còn được gọi là ngoại hối hoặc FX) là thị trường trao đổi tiền tệ quốc gia trên toàn cầu. Tiền tệ đóng vai trò quan trọng, cho phép chúng ta mua bán dịch vụ, hàng hóa trong nước và quốc tế. Khi kinh doanh và thương mại, tiền tệ quốc tế cần được trao đổi.
+
+                    Điểm đặc biệt của loại thị trường ngoại hối này là giao dịch trực tiếp 100% qua quầy điện tử OTC, thay vì trên một sàn giao dịch tập trung. Thị trường sôi động làm việc 24/7, tại các trung tâm tài chính lớn của Frankfurt, Hồng Kông, Luân Đôn, New York, Paris, Singapore, Sydney, Tokyo và Zurich
+                </p>
+                <div class="row g-4 mb-4">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
+                            <div class="ps-4">
+                                <p class="mb-0">Years of</p>
+                                <h6 class="text-uppercase mb-0">Experience</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                            <div class="ps-4">
+                                <p class="mb-0">Popular</p>
+                                <h6 class="text-uppercase mb-0">Master Financial</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-success py-3 px-5 mt-2" href="">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+<!-- Menu Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Sản phẩm chính</h5>
+            <h1 class="mb-5">Most Popular Items</h1>
+        </div>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+
+                        <i class="fa-solid fa-book fa-2x text-primary"></i>
+                        <div class="ps-3">
+                            <small class="text-body">Popular</small>
+                            <h6 class="mt-n1 mb-0">Books</h6>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                        <i class="fa-solid fa-clapperboard fa-2x text-primary"></i>
+                        <div class="ps-3">
+                            <small class="text-body">Special</small>
+                            <h6 class="mt-n1 mb-0">Courses</h6>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                        <i class="fa-solid fa-arrows-to-circle fa-2x text-primary"></i>
+                        <div class="ps-3">
+                            <small class="text-body">Lovely</small>
+                            <h6 class="mt-n1 mb-0">Concept</h6>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b1.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Tâm lý thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">The Psychology of Financial Markets</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b2.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Chiến lược đầu tư chứng khoán</span>
+                                        <span class="text-success" `>$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Benjamin Graham</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b3.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Phân tích chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic"> Benjamin Graham</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b4.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Bí quyết đầu tư kinh doanh chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Warren Buffett</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b5.png" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Phương pháp đầu tư Warren Buffet</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Warren Buffet</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b6.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Ngay cả Buffet cũng không hoàn hảo</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">John C. Bogle</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b7.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>22 Thương vụ đầu tư</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">John C. Bogle</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b8.png" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Tâm lý thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Philip Fisher</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane fade show p-0">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b9.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Giao dịch như một phù thủy chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Peter Lynch</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b10.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Thị trường chứng khoán việt nam</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Robert G. Hagstrom</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b11.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Chứng khoán phái sinh</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Roger Lowenstein</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b12.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Chết vì chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Lawrence A. Cunningham</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b13.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Phân tích biểu đồ chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b14.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>24 bài học sống còn trên thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b15.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Hướng dẫn đâu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Mary Buffett và David Clark</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b16.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Tâm lý giao dịch</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Roger Lowenstein</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane fade show p-0">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b17.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Đầu tư</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Roger Lowenstein</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b18.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>20 Năm lịch sử thị trường chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Roger Lowenstein</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b20.png" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Đánh bại phố Wall</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Burton G. Malkie</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b19.png" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Đánh bại phố Wall</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">David Dreman</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b21.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Bí quyết đầu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Pat Dorsey</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b22.png" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Phù thủy chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Joel Greenblat</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b15.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Đầu tư chứng khoán</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Jim Collins</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/Assets/Client/img/b16.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>Tâm lý Giao dịch</span>
+                                        <span class="text-success">$115</span>
+                                    </h5>
+                                    <small class="fst-italic">Joel Greenblatt</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Menu End -->
+<!-- Reservation Start -->
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="row g-0">
+        <div class="col-md-6">
+            <div class="video">
+                <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/qUPn3wFPEhA?si=oP7hPTuy1ifi3mfZ" data-bs-target="#videoModal">
+                    <span></span>
+                </button>
+            </div>
+
+        </div>
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
+                <h1 class="text-white mb-4">Book A Table Online</h1>
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                <label for="name">Your Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                <label for="email">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating date" id="date3" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
+                                <label for="datetime">Date & Time</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="select1">
+                                    <option value="1">People 1</option>
+                                    <option value="2">People 2</option>
+                                    <option value="3">People 3</option>
+                                </select>
+                                <label for="select1">No Of People</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                                <label for="message">Special Request</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 16:9 aspect ratio -->
+                <div class="ratio ratio-16x9">
+                    <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
+                            allow="autoplay"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Reservation Start -->
+<!-- Team Start -->
+<div class="container-xxl pt-5 pb-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
+            <h1 class="mb-5">Our Master Financial</h1>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        <img class="img-fluid" src="~/Assets/Client/img/dna.png" alt="">
+                    </div>
+                    <h5 class="mb-0">Sofia Rodriguez</h5>
+                    <small>Designation</small>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        <img class="img-fluid" src="~/Assets/Client/img/dnf.jpg" alt="">
+                    </div>
+                    <h5 class="mb-0">Phạm Thị Hà</h5>
+                    <small>Designation</small>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        <img class="img-fluid" src="~/Assets/Client/img/dnc.jpg" alt="">
+                    </div>
+                    <h5 class="mb-0">Sophia Nguyen</h5>
+                    <small>Designation</small>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        <img class="img-fluid" src="~/Assets/Client/img/dne.jpg" alt="">
+                    </div>
+                    <h5 class="mb-0">Fabio Santos</h5>
+                    <small>Designation</small>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Team End -->
+<!-- Testimonial Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
+            <h1 class="mb-5">Our Clients Say!!!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Một loại chứng khoán biểu thị sở hữu một phần của một công ty cụ thể</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/cp.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Cổ Phiếu</h5>
+                        <small>Vnindex</small>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Nơi mà các loại tiền tệ từ các quốc gia trên toàn thế giới được trao đổi</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/nh.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ngoại Hối</h5>
+                        <small>Việt Nam</small>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Một tổ chức tài chính cung cấp nhiều dịch vụ và sản phẩm tài chính </p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/bank.png" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ngân Hàng</h5>
+                        <small>Banking</small>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Các sản phẩm hoặc tài sản có thể được mua bán hoặc giao dịch trên thị trường</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/hh.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Hàng Hóa</h5>
+                        <small>Dầu,Vàng</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

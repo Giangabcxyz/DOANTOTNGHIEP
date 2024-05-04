@@ -1,0 +1,119 @@
+﻿@model List<WebsiteChungKhoann.Models.Cart>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+</style>
+<h2>Index</h2>
+@{
+    // Lấy giá trị từ Session và chuyển đổi sang kiểu int
+    int accountId = Convert.ToInt32(Session["Id"]);
+}
+
+@using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>mã sản phẩm</th>
+                <th>Tên SP</th>
+                <th>Giá</th>
+                <th>Số Lượng</th>
+                <th>Thành Tiền</th>
+                <th>Xóa Sản phẩm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="radio" name="selectedItems" value="@item.Id_Cart" /></td>
+                    <td>@item.Id_Product</td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td>
+                        <a href="@Url.Action("Disc", "Cart", new { id = item.Id_Product }, null)">+</a>
+                        <span>@item.Quantity</span>
+                        <a href="@Url.Action("Desc", "Cart", new { id = item.Id_Product }, null)">-</a>
+                    </td>
+                    <td>@(item.Product.Price * item.Quantity)</td>
+                    <td>@Html.ActionLink("Xóa", "Delete", "Cart", new { id = item.Id_Product }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit">Thanh Toán</button>
+}
+

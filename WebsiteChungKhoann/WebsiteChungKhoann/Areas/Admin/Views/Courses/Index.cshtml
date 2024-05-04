@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    // Phương thức để lấy ID video YouTube từ URL
+    public static string GetYouTubeVideoId(string url)
+    {
+        try
+        {
+            // Loại bỏ mọi ký tự không cần thiết khỏi URL
+            var startIndex = url.LastIndexOf("/") + 1;
+            var endIndex = url.IndexOf("?");
+
+            // Lấy phần của URL chứa ID của video
+            var videoId = url.Substring(startIndex, endIndex - startIndex);
+
+            return videoId;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    // Phương thức để lấy URL của hình ảnh thumbnail từ ID video YouTube
+    public static string GetYouTubeThumbnailUrl(string videoId)
+    {
+        // URL của hình ảnh thumbnail dựa trên ID video
+        return $"https://img.youtube.com/vi/{videoId}/0.jpg";
+    }
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Video Thumbnail
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Account)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Create_Date)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @{
+                    var videoId = item.Link_Id;
+                    var imageUrl = "https://img.youtube.com/vi/" + videoId + "/default.jpg";
+                }
+                <img src="@imageUrl" class="video-thumbnail" alt="Thumbnail">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Create_Date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Course }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Course }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Course })
+            </td>
+        </tr>
+    }
+
+</table>
+

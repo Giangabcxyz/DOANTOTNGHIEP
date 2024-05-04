@@ -1,0 +1,43 @@
+﻿@model WebsiteChungKhoann.Models.Author
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Author</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name_Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name_Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address_Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address_Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age_Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age_Author)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Author }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
