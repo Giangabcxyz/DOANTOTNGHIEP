@@ -1,0 +1,10 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Category>
+
+<ul class="category">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="@Url.Action("GetProductsByCategory", "Home", new { categoryId = item.Id_Category })" class="dropdown-item category-item" data-category-id="@item.Id_Category">@item.Name_Category</a>
+        </li>
+    }
+</ul>

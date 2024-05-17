@@ -12,6 +12,7 @@ namespace WebsiteChungKhoann.Controllers
         private Mode1 db = new Mode1();
         public ActionResult Index()
         {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             ViewBag.sl = db.Accounts.ToList().Count();
             return View(ViewBag.sl);
         }
@@ -40,8 +41,12 @@ namespace WebsiteChungKhoann.Controllers
         {
             var products = db.Products.Where(p => p.Id_Category == categoryId).ToList();
             return View(products);
-
-
         }
     }
 }
+
+//Ngân hàng: NCB
+//Số thẻ: 9704198526191432198
+//Tên chủ thẻ:NGUYEN VAN A
+//Ngày phát hành:07 / 15
+//Mật khẩu OTP:123456

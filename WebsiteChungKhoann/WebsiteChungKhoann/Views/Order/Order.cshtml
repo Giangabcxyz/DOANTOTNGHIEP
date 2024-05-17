@@ -215,49 +215,88 @@
             background-color: #45a049;
         }
 </style>
-<h2>Đây là trang Đăng kí thông tin nhận hàng </h2>
 
-<div class="center">
-    <div class="product">
-    </div>
-    <div class="register">
-        <form action="/Order/Order" method="post">
-            <label for="full-name">Họ và tên:</label>
-            <input type="text" name="fullname">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <div class="rdetail_pr">
+                <div class="product-image">
+                    <img src="@Url.Content(ViewBag.ProductImg)" alt="Product Image" />
+                </div>
 
-            <label for="address">Địa chỉ:</label>
-            <input type="text" name="address">
+                <div class="product-info">
+                    @if (ViewBag.ProductPrice != null)
+                    {
+                        decimal price = (decimal)ViewBag.ProductPrice; // Chuyển đổi từ kiểu int? sang decimal
+                        <h2 class="product-price">@FormatPrice(price)</h2>
+                    }
+                    else
+                    {
+                        <h2 class="product-price">Price not available</h2>
+                    }
 
-            <label for="phone-number">Số điện thoại:</label>
-            <input type="text" name="phonenumber">
+                    <p class="product-name">@ViewBag.ProductName</p>
+                    <p class="product-description">@ViewBag.ProductDescript</p>
+                </div>
 
-            <label for="payment-method">Chọn phương thức thanh toán:</label>
-            <select id="payment-method" name="paymentmethod">
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="center">
+                <div class="product">
+                </div>
+                <div class="register">
+                    <form action="/Order/Order" method="post">
+                        <label for="full-name">Họ và tên:</label>
+                        <input type="text" name="fullname">
 
-                <option value="1">Thanh toán trực tuyến</option>
-                <option value="2">Thanh toán khi nhận hàng</option>
-            </select>
-            <input type="hidden" name="name_pr" value="@ViewBag.ProductName" />
-            <input type="hidden" name="img" value="@ViewBag.ProductImg" />
-            <input type="hidden" name="price" value="@ViewBag.ProductPrice" />
-            <input type="hidden" name="status" value="1" />
-            <input type="hidden" name="total" value="@(ViewBag.ProductQuantity*ViewBag.ProductPrice)" />
-            <input type="hidden" name="id" value="@ViewBag.AccountId" />
-            <input type="hidden" name="date" value="@DateTime.Now" />
-            <input type="hidden" name="quantity" value="@ViewBag.ProductQuantity" />
-            <input type="submit" value="Thanh Toán" class="submit-btn">
-        </form>
+                        <label for="address">Địa chỉ:</label>
+                        <input type="text" name="address">
+
+                        <label for="phone-number">Số điện thoại:</label>
+                        <input type="text" name="phonenumber">
+
+                        <label for="payment-method">Chọn phương thức thanh toán:</label>
+                        <select id="payment-method" name="paymentmethod">
+
+                            <option value="1">Thanh toán trực tuyến</option>
+                            <option value="2">Thanh toán khi nhận hàng</option>
+                        </select>
+                        <input type="hidden" name="idCart" value="@ViewBag.IdCart" />
+                        <input type="hidden" name="id_pr" value="@ViewBag.ProductId" />
+                        <input type="hidden" name="name_pr" value="@ViewBag.ProductName" />
+                        <input type="hidden" name="img" value="@ViewBag.ProductImg" />
+                        <input type="hidden" name="price" value="@ViewBag.ProductPrice" />
+                        <input type="hidden" name="status" value="1" />
+                        <input type="hidden" name="pay_status" value="1" />
+                        <input type="hidden" name="total" value="@ViewBag.Total" />
+                        <input type="hidden" name="id" value="@ViewBag.AccountId" />
+                        <input type="hidden" name="date" value="@DateTime.Now" />
+                        <input type="hidden" name="quantity" value="@ViewBag.ProductQuantity" />
+                        <input type="submit" value="Thanh Toán" class="submit-btn">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<p>Họ và tên: @ViewBag.FullName</p>
-<p>Địa chỉ: @ViewBag.Address</p>
-<p>Số điện thoại: @ViewBag.PhoneNumber</p>
-<p>Phương thức thanh toán: @ViewBag.PaymentMethod</p>
-<p>Tên sản phẩm: @ViewBag.ProductName</p>
-<p>Ảnh sản phẩm: <img src="@ViewBag.ProductImg" alt="Product Image"></p>
-<p>Giá sản phẩm: @ViewBag.ProductPrice</p>
-<p>Số lượng : @ViewBag.ProductQuantity</p>
-<p>Trạng thái: @ViewBag.Status</p>
-<p>Tổng số tiền: @ViewBag.Total</p>
-<p>Thông tin chi tiết thanh toán: @ViewBag.ConcepctPay</p>
-<p>Date : @ViewBag.Date</p>
+
+@*<p>Họ và tên: @ViewBag.FullName</p>
+    <p>Địa chỉ: @ViewBag.Address</p>
+    <p>Số điện thoại: @ViewBag.PhoneNumber</p>
+    <p>Phương thức thanh toán: @ViewBag.PaymentMethod</p>
+    <p>Tên sản phẩm: @ViewBag.ProductName</p>
+    <p>Ảnh sản phẩm: <img src="@ViewBag.ProductImg" alt="Product Image"></p>
+    <p>Giá sản phẩm: @ViewBag.ProductPrice</p>
+    <p>Số lượng : @ViewBag.ProductQuantity</p>
+    <p>Trạng thái: @ViewBag.Status</p>
+    <p>Tổng số tiền: @ViewBag.Total</p>
+    <p>Thông tin chi tiết thanh toán: @ViewBag.ConcepctPay</p>
+    <p>Date : @ViewBag.Date</p>*@
+@functions {
+    public string FormatPrice(decimal price)
+    {
+        return price.ToString("N0") + " đ"; // Định dạng số tiền theo định dạng có dấu chấm phân cách hàng nghìn và thêm đơn vị tiền tệ VND
+    }
+}
+

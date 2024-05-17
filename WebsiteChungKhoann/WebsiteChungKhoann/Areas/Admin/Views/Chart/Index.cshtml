@@ -1,0 +1,205 @@
+﻿@model List<WebsiteChungKhoann.Models.Finance>
+
+@{
+    ViewBag.Title = "Biểu đồ Doanh số bán hàng";
+    var chartData = ViewBag.ChartData;
+}
+
+
+<style>
+    a {
+        text-decoration: none;
+    }
+    .vnd-format::before {
+        content: '₫ '; /* Thêm ký hiệu đồng Việt Nam trước giá trị */
+    }
+ 
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+    <div class="col-xl-3 col-md-3 col-sm-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">Số lượng</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">@ViewBag.OrderAll</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-3 col-sm-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">Chưa Giao</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">@ViewBag.Fails</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-3 col-sm-6">
+        <div class="card bg-info text-white mb-4">
+            <div class="card-body">Thành Công</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">@ViewBag.Success</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-3 col-sm-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">Doanh thu</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">
+                    <span class="vnd-format">@String.Format("{0:0,0}", ViewBag.Total)</span>
+                </a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h2>@ViewBag.Title</h2>
+    <canvas id="salesChart" width="800" height="400"></canvas>
+
+
+</div>
+@*<script>
+        // Parse the JSON data passed from the controller
+        var data = JSON.parse('@Html.Raw(chartData)');
+
+        // Prepare data for Chart.js
+        var labels = data.map(item => new Date(item.date).toLocaleString());
+        var datasets = {};
+
+        data.forEach(item => {
+            if (!datasets[item.Id_pr]) {
+                datasets[item.Id_pr] = {
+                    label: 'Loại sản phẩm ' + item.Id_pr,
+                    data: [],
+                    borderColor: getRandomColor(),
+                    fill: false
+                };
+            }
+            datasets[item.Id_pr].data.push(item.Total);
+        });
+
+        var chartData = {
+            labels: labels,
+            datasets: Object.values(datasets)
+        };
+
+        // Create the chart
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Biểu đồ Doanh số bán hàng'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Thời gian'
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Giá'
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Function to generate a random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>*@
+
+<script>
+        // Parse the JSON data passed from the controller
+        var data = JSON.parse('@Html.Raw(chartData)');
+
+        // Prepare data for Chart.js
+        var labels = data.map(item => new Date(item.date).toLocaleString());
+        var datasets = {};
+
+        data.forEach(item => {
+            if (!datasets[item.Id_pr]) {
+                datasets[item.Id_pr] = {
+                    label: 'Loại sản phẩm ' + item.Id_pr,
+                    data: [],
+                    borderColor: getRandomColor(),
+                    fill: false
+                };
+            }
+            datasets[item.Id_pr].data.push(item.Total);
+        });
+
+        var chartData = {
+            labels: labels,
+            datasets: Object.values(datasets)
+        };
+
+        // Create the chart
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Biểu đồ Doanh số bán hàng'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Thời gian'
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 100000000 // 100 triệu
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Giá (VND)'
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Function to generate a random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+</script>

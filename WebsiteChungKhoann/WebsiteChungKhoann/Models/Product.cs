@@ -15,7 +15,7 @@ namespace WebsiteChungKhoann.Models
 
         public string Name { get; set; }
 
-        public int? Price { get; set; }
+        public int Price { get; set; }
 
         public int? Id_Author { get; set; }
 
@@ -25,6 +25,8 @@ namespace WebsiteChungKhoann.Models
 
         public string Description { get; set; }
 
+        public int Count { get; set; }
+
         public int? Year { get; set; }
         public virtual Category Category { get; set; }
         public virtual Author Author { get; set; }
@@ -33,6 +35,6 @@ namespace WebsiteChungKhoann.Models
 
         public virtual ICollection<Cart> Cart { get; set; } 
 
-
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

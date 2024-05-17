@@ -6,61 +6,76 @@
 }
 
 
+<style>
+    .ip {
+        width: 500px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+</style>
+<p style="background-color: #C40C0C; color: white; text-align: center; padding: 10px">Sửa khóa học</p>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Course</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id_Course)
+    <div class="form-horizontal" style="display: flex; justify-content: center; margin: auto auto; margin-top: 60px;">
+        <div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Course)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            <div class="form-group" style="display:flex">
+                <label style="margin: 0px 30px">Name:</label>
+                <div class="col-md-10 ip">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group" style="display:flex">
+                <label style="margin: 0px 15px">LinkVideo:</label>
+                <div class="col-md-10 ip">
+                    <!-- Trường nhập URL của video -->
+                    @Html.TextBoxFor(model => model.Link_Id, new { @class = "form-control", placeholder = "Enter YouTube video URL" })
+                    @Html.ValidationMessageFor(model => model.Link_Id, "", new { @class = "text-danger" })
+
+                    <!-- Hiển thị video nếu có URL -->
+                    @if (Model != null && !string.IsNullOrEmpty(Model.Link_Id))
+                    {
+                        <video width="320" height="240" controls>
+                            <source src="https://www.youtube.com/embed/@(GetYouTubeVideoId(Model.Link_Id))" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    }
+                </div>
+            </div>
+            <br />
+            <div class="form-group" style="display:flex">
+                <label style="margin: 0px 10px">Description:</label>
+                <div class="col-md-10 ip">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <br />
+
+            <div class="form-group" style="display : flex; justify-content: center">
+                <div class="col-md-10 ip" style="display: flex; justify-content: center; background-color: #C40C0C; color: white; width: 120px; border-radius: 10px">
+                    <input style="color:white; outline: none; border: none;" onclick="confirmAndSubmit(); return false;" type="submit" value="Cập nhật" class="btn btn-default" />
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Link_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <!-- Trường nhập URL của video -->
-                @Html.TextBoxFor(model => model.Link_Id, new { @class = "form-control", placeholder = "Enter YouTube video URL" })
-                @Html.ValidationMessageFor(model => model.Link_Id, "", new { @class = "text-danger" })
-
-                <!-- Hiển thị video nếu có URL -->
-                <!-- Kết thúc hiển thị video -->
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 @functions {
     public string GetYouTubeVideoId(string url)
     {
@@ -68,18 +83,37 @@
         try
         {
             Uri videoUri = new Uri(url);
-            string query = videoUri.Query;
-            if (!string.IsNullOrEmpty(query))
+            string host = videoUri.Host.ToLower();
+
+            if (host.Contains("youtube.com"))
             {
-                videoId = System.Web.HttpUtility.ParseQueryString(query)["v"];
+                string query = videoUri.Query;
+                if (!string.IsNullOrEmpty(query))
+                {
+                    videoId = System.Web.HttpUtility.ParseQueryString(query)["v"];
+                }
+                else
+                {
+                    string[] segments = videoUri.Segments;
+                    if (segments.Length >= 2)
+                    {
+                        videoId = segments[segments.Length - 1].Trim('/');
+                    }
+                }
             }
-            else
+            else if (host.Contains("youtu.be"))
             {
                 string[] segments = videoUri.Segments;
                 if (segments.Length >= 2)
                 {
-                    videoId = segments[segments.Length - 1];
+                    videoId = segments[1].Trim('/');
                 }
+            }
+
+            // Kiểm tra xem videoId có phải là ID hợp lệ hay không
+            if (!IsYouTubeVideoIdValid(videoId))
+            {
+                videoId = string.Empty;
             }
         }
         catch (Exception ex)
@@ -87,5 +121,12 @@
             // Xử lý ngoại lệ nếu cần
         }
         return videoId;
+    }
+
+    private bool IsYouTubeVideoIdValid(string videoId)
+    {
+        // Kiểm tra xem videoId có đúng định dạng của một ID video YouTube hay không
+        // Định dạng ID video YouTube là chuỗi có độ dài 11 ký tự
+        return !string.IsNullOrEmpty(videoId) && videoId.Length == 11;
     }
 }

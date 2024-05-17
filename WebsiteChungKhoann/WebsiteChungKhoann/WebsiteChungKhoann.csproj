@@ -134,21 +134,27 @@
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChartController.cs" />
     <Compile Include="Areas\Admin\Controllers\CoursesController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SenEmailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="log4net\ILog.cs" />
+    <Compile Include="log4net\LogManager.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Cart.cs" />
@@ -157,11 +163,13 @@
     <Compile Include="Models\Comment_Post.cs" />
     <Compile Include="Models\Comment_Product.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Detail_Order.cs" />
+    <Compile Include="Models\Finance.cs" />
     <Compile Include="Models\History_Pay.cs" />
     <Compile Include="Models\Mode1.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderInfo.cs" />
     <Compile Include="Models\Pay.cs" />
+    <Compile Include="Models\PayStatus.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Status.cs" />
@@ -171,6 +179,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="VnPayLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Account\dist\all.css" />
@@ -2412,6 +2421,7 @@
     <Content Include="Assets\Product\css\prettyPhoto.css" />
     <Content Include="Assets\Product\css\price-range.css" />
     <Content Include="Assets\Product\css\responsive.css" />
+    <Content Include="Assets\Product\css\notification.css" />
     <Content Include="Assets\Product\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\Product\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\Product\js\bootstrap.min.js" />
@@ -2700,16 +2710,6 @@
     <Content Include="Areas\Admin\Views\Accounts\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Accounts\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Accounts\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Details.cshtml" />
@@ -2723,6 +2723,17 @@
     <Content Include="Areas\Admin\Views\Courses\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Courses\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Courses\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Chart\Index.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -2757,23 +2768,33 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
     <Content Include="Views\Cart\Buy.cshtml" />
-    <Content Include="Views\Order\Order.cshtml" />
-    <Content Include="Views\Order\Status.cshtml" />
-    <Content Include="Views\Order\PayOnline.cshtml" />
-    <Content Include="Views\Order\Error.cshtml" />
-    <Content Include="Views\Order\Create.cshtml" />
-    <Content Include="Views\Order\Creatte.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Home\GetProductsByCategory.cshtml" />
     <Content Include="Views\New\Index.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Detail.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\Creatte.cshtml" />
+    <Content Include="Views\Order\Error.cshtml" />
+    <Content Include="Views\Order\Order.cshtml" />
+    <Content Include="Views\Order\PayOnline.cshtml" />
+    <Content Include="Views\Order\Status.cshtml" />
+    <Content Include="Views\Order\User_Order.cshtml" />
+    <Content Include="Views\Product\List.cshtml" />
+    <Content Include="Views\Product\_Category.cshtml" />
+    <Content Include="Views\Cart\_CartItemCount.cshtml" />
+    <Content Include="Views\Order\Pay.cshtml" />
+    <Content Include="Views\Payment\Pay.cshtml" />
+    <Content Include="Views\Payment\VnpayReturn.cshtml" />
+    <Content Include="Views\Order\vnpay_return.cshtml" />
+    <Content Include="Views\SenEmail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Contact\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

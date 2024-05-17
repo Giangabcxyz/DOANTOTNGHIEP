@@ -1,5 +1,7 @@
 ﻿@{
     Layout = null;
+    int ttValue = int.Parse(ViewContext.RouteData.Values["tt"].ToString());
+    string ndValue = ViewContext.RouteData.Values["nd"].ToString();
 }
 
 <!DOCTYPE html>
@@ -38,26 +40,10 @@
             <p id="conceptPay"></p>
         </div>
     </div>
+    <h2>Thông tin thanh toán</h2>
+    <p>Số tiền thanh toán: @ttValue</p>
+    <p>Nội dung thanh toán: @ndValue</p>
 
-    <script>
-        // Lấy giá trị status từ ViewBag
-        var status = @Html.Raw(Json.Encode(ViewBag.Status));
 
-        // Lấy giá trị conceptPay từ ViewBag
-        var conceptPay = @Html.Raw(Json.Encode(ViewBag.ConceptPay));
-
-        // Kiểm tra nếu status thay đổi, ẩn hoặc hiển thị lớp phủ tương ứng
-        function updateOverlay() {
-            if (status === 3) {
-                document.getElementById("overlay").style.display = "none"; // Ẩn lớp phủ
-            } else {
-                document.getElementById("overlay").style.display = "block"; // Hiển thị lớp phủ
-                document.getElementById("conceptPay").innerHTML = conceptPay; // Hiển thị conceptPay
-            }
-        }
-
-        // Gọi hàm updateOverlay mỗi khi trang được tải lại
-        updateOverlay();
-    </script>
 </body>
 </html>

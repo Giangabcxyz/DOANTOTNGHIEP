@@ -72,48 +72,226 @@
             margin: 0; /* Không có margin */
         }
 </style>
-<h2>Index</h2>
+
+<style>
+    .cart_product {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        padding: -12px;
+    }
+
+        .cart_product img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+    .bg-orange {
+        background-color: orange;
+        color: white; /* Thay đổi màu chữ nếu cần thiết */
+    }
+
+    .it:hover {
+        background-color: rgb(128, 128, 128, 0.2);
+    }
+
+    .cart_quantity_delete {
+        padding: 15px 30px;
+    }
+
+    .cart_quantity_up, .cart_quantity_down {
+        background-color: #f0f0f0; /* Màu nền */
+        color: #333; /* Màu chữ */
+        padding: 5px 10px; /* Kích thước padding */
+        border: 1px solid #ccc; /* Đường viền */
+        font-size: 16px; /* Kích thước chữ */
+        text-align: center; /* Canh giữa văn bản */
+        cursor: pointer; /* Con trỏ khi di chuột vào */
+    }
+</style>
+
+@*<link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/prettyPhoto.css" rel="stylesheet" />
+    <link href="css/price-range.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/price-range.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/animate.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/main.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet">
+    <link href="~/Assets/Product/css/responsive.css" rel="stylesheet" />*@
+
 @{
     // Lấy giá trị từ Session và chuyển đổi sang kiểu int
     int accountId = Convert.ToInt32(Session["Id"]);
 }
 
-@using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+@*@using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>mã sản phẩm</th>
-                <th>Tên SP</th>
-                <th>Giá</th>
-                <th>Số Lượng</th>
-                <th>Thành Tiền</th>
-                <th>Xóa Sản phẩm</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <table>
+            <thead>
                 <tr>
-                    <td><input type="radio" name="selectedItems" value="@item.Id_Cart" /></td>
-                    <td>@item.Id_Product</td>
-                    <td>@item.Product.Name</td>
-                    <td>@item.Product.Price</td>
-                    <td>
-                        <a href="@Url.Action("Disc", "Cart", new { id = item.Id_Product }, null)">+</a>
-                        <span>@item.Quantity</span>
-                        <a href="@Url.Action("Desc", "Cart", new { id = item.Id_Product }, null)">-</a>
-                    </td>
-                    <td>@(item.Product.Price * item.Quantity)</td>
-                    <td>@Html.ActionLink("Xóa", "Delete", "Cart", new { id = item.Id_Product }, null)</td>
+                    <th></th>
+                    <th>mã sản phẩm</th>
+                    <th>Tên SP</th>
+                    <th>Giá</th>
+                    <th>Số Lượng</th>
+                    <th>Thành Tiền</th>
+                    <th>Xóa Sản phẩm</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="radio" name="selectedItems" value="@item.Id_Cart" /></td>
+                        <td>@item.Id_Product</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Price</td>
+                        <td>
+                            <a href="@Url.Action("Disc", "Cart", new { id = item.Id_Product }, null)">+</a>
+                            <span>@item.Quantity</span>
+                            <a href="@Url.Action("Desc", "Cart", new { id = item.Id_Product }, null)">-</a>
+                        </td>
+                        <td>@(item.Product.Price * item.Quantity)</td>
+                        <td>@Html.ActionLink("Xóa", "Delete", "Cart", new { id = item.Id_Product }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <button type="submit">Thanh Toán</button>
-}
+        <button type="submit">Thanh Toán</button>
+    }*@
 
+
+
+
+
+<div class="container mt-1">
+    <h4>Giỏ hàng của @Session["Name"]</h4>
+    <div class="table-responsive cart_info">
+        <table class="table table-condensed">
+            <thead>
+                <tr class="cart_menu bg-orange">
+                    <td class="image">Item</td>
+                    <td class="description"></td>
+                    <td class="price">Price</td>
+                    <td class="quantity">Quantity</td>
+                    <td class="total">Total</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var i in Model)
+                    {
+                        <tr class="it" style=" padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; padding: 8px; white-space: nowrap; /* Ngăn chữ xuống dòng */ overflow: hidden; /* Ẩn chữ thừa */ text-overflow: ellipsis; /* Thêm dấu ba chấm */">
+                            <td class="cart_product" style="padding: 0">
+                                <a><img src="@Url.Content(i.Product.Img)" alt=""></a>
+                            </td>
+                            <td class="cart_description" style="padding-left: 20px; max-width: 350px; overflow:hidden; max-height: 100px; ">
+                                <h4><a href="">@i.Product.Name</a></h4>
+                                <p>@i.Product.Description</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>@i.Product.Price</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <a class="cart_quantity_up" href="javascript:void(0);" onclick="increaseQuantity(@i.Id_Product)"> + </a>
+                                    <span id="sl_@i.Id_Product">@i.Quantity</span>
+                                    <a class="cart_quantity_down" href="javascript:void(0);" onclick="decreaseQuantity(@i.Id_Product)"> - </a>
+                                </div>
+
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price">@(i.Product.Price * i.Quantity)</p>
+                            </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" href="@Url.Action("Delete", "Cart", new { id = i.Id_Product }, null)"><i class="fa fa-times"></i></a>
+                                <a href="@Url.Action("Order", "Order", new { id = i.Id_Cart }, null)" class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart"></i> Đặt Hàng
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">Giỏ hàng trống</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog text-center" style="margin-top: 15%">
+        <div class="modal-content text-center">
+            <div class="modal-header bg-success text-center" style="text-align: center">
+                <p class="modal-title text-center text-white" id="myModalLabel">Đăng nhập thành công</p>
+            </div>
+            <div class="modal-body">
+
+                <i class="fa-regular fa-circle-check text-success" style="font-size: 64px; padding:20px"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Kiểm tra xem Session ID có tồn tại không
+        var sessionId = "@Session["Cart"];
+
+        // Nếu Session ID không rỗng, hiển thị modal
+        if (sessionId !== "") {
+            $('#myModal').modal('show');
+
+            // Sau 2 giây, tự động ẩn modal
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 2000);
+        }
+    });
+</script>
+
+<script>
+
+function increaseQuantity(productId) {
+    $.ajax({
+        url: '@Url.Action("Disc", "Cart")',
+        type: 'POST',
+        data: { id: productId },
+        success: function(data) {
+            // Cập nhật số lượng sản phẩm trên giao diện người dùng nếu cần
+            $('#sl_' + productId).text(data);
+        },
+        error: function(xhr, status, error) {
+        // Xử lý lỗi nếu có
+        }
+        });
+        }
+ function decreaseQuantity(productId) {
+        $.ajax({
+        url: '@Url.Action("Desc", "Cart")',
+        type: 'POST',
+        data: { id: productId },
+            success: function (data) {
+                $('#sl_' + productId).text(data);
+        // Cập nhật số lượng sản phẩm trên giao diện người dùng nếu cần
+        },
+        error: function(xhr, status, error) {
+        // Xử lý lỗi nếu có
+        }
+        });
+        }
+</script>

@@ -23,7 +23,7 @@ namespace WebsiteChungKhoann.Models
 
         public virtual DbSet<Cart> Carts_pr { get; set; }
         public virtual DbSet<Order> Orders_pr { get; set; }
-        public virtual DbSet<Detail_Order> Details { get; set; }
+      
 
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Pay> Pays { get; set; }
@@ -34,6 +34,8 @@ namespace WebsiteChungKhoann.Models
 
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Comment_Course> Comments_Course { get; set; }
+        public virtual DbSet<Comment_Product> Comment_Product { get; set; }
+        public virtual DbSet<Finance> Finance { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //sản phẩm
@@ -46,22 +48,7 @@ namespace WebsiteChungKhoann.Models
            .HasMany(e => e.Product)
            .WithRequired(e => e.Author)
            .WillCascadeOnDelete(false);
-             //bình luận
-          // modelBuilder.Entity<Product>()
-          //.HasMany(e => e.Comment_Product)
-          //.WithRequired(e => e.Product)
-          //.WillCascadeOnDelete(false);
-              //đánh giá sản phẩm
-          //  modelBuilder.Entity<Product>()
-          //.HasMany(e => e.Star)
-          //.WithRequired(e => e.Product)
-          //.WillCascadeOnDelete(false);
-          //  //đánh giá tác giả
-          //  modelBuilder.Entity<Account>()
-          //.HasMany(e => e.Star)
-          //.WithRequired(e => e.Account)
-          //.WillCascadeOnDelete(false);
-            //bình luận người dùng
+          //bình luận sản phẩm 
             modelBuilder.Entity<Account>()
          .HasMany(e => e.Comment_Product)
          .WithRequired(e => e.Account)
@@ -71,27 +58,7 @@ namespace WebsiteChungKhoann.Models
           .HasMany(e => e.Cart)
           .WithRequired(e => e.Product)
           .WillCascadeOnDelete(false);
-            //giỏ hàng khách hàng 
-         //   modelBuilder.Entity<Account>()
-         //.HasMany(e => e.Cart)
-         //.WithRequired(e => e.Account)
-         //.WillCascadeOnDelete(false);
-            //hóa đơn
-            // modelBuilder.Entity<Order>()
-            //.HasMany(e => e.Product)
-            //.WithRequired(e => e.Order)
-            //.WillCascadeOnDelete(false);
-            // hoa don và giỏ hàng 
-          //  modelBuilder.Entity<Order>()
-          //.HasMany(e => e.Cart)
-          //.WithRequired(e => e.Order)
-          //.WillCascadeOnDelete(false);
-            //Hóa Đươn Chi Tiết 
-            //modelBuilder.Entity<Detail_Order>()
-            //.HasMany(e => e.Order)
-            //.WithRequired(e => e.Detail)
-            //.WillCascadeOnDelete(false);
-            //Thanh toán
+          //phương thức thanh toán
             modelBuilder.Entity<Pay>()
            .HasMany(e => e.Order)
            .WithRequired(e => e.Pay)
@@ -102,11 +69,6 @@ namespace WebsiteChungKhoann.Models
             .WithRequired(e => e.Status)
             .WillCascadeOnDelete(false);
 
-            //history 
-            // modelBuilder.Entity<History_Pay>()
-            //.HasMany(e => e.order)
-            //.WithRequired(e => e.History_Pay)
-            //.WillCascadeOnDelete(false);
             //post 
             modelBuilder.Entity<Post>()
            .HasMany(e => e.Comment_Post)
@@ -146,8 +108,47 @@ namespace WebsiteChungKhoann.Models
           .HasMany(e => e.Comment_Course)
           .WithRequired(e => e.Course)
           .WillCascadeOnDelete(false);
+
+            // 
+            modelBuilder.Entity<Product>()
+           .HasMany(e => e.Order)
+           .WithRequired(e => e.Product)
+           .WillCascadeOnDelete(false);
+            //
+            modelBuilder.Entity<Account>()
+         .HasMany(e => e.Order)
+         .WithRequired(e => e.Account)
+         .WillCascadeOnDelete(false);
+            //
+            modelBuilder.Entity<Order>()
+          .HasMany(e => e.Finance)
+          .WithRequired(e => e.Order)
+          .WillCascadeOnDelete(false);
+         //
+          modelBuilder.Entity<Account>()
+        .HasMany(e => e.Order)
+        .WithRequired(e => e.Account)
+        .WillCascadeOnDelete(false);
+
+            //
+         modelBuilder.Entity<Order>()
+        .HasRequired(o => o.Account)
+        .WithMany(a => a.Order)
+        .HasForeignKey(o => o.Id_Account)
+        .WillCascadeOnDelete(false);
+            //
+            modelBuilder.Entity<Finance>()
+            .HasRequired(o => o.Order)
+            .WithMany(a => a.Finance)
+            .WillCascadeOnDelete(false);
+            //
+            modelBuilder.Entity<Account>()
+          .HasMany(e => e.Comment_Product)
+          .WithRequired(e => e.Account)
+          .HasForeignKey(p => p.Id_Account)
+          .WillCascadeOnDelete(false);
         }
 
-
+        public System.Data.Entity.DbSet<WebsiteChungKhoann.Models.PayStatus> PayStatus { get; set; }
     }
 }

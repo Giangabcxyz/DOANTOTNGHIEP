@@ -176,44 +176,95 @@
         font-size: 18px;
     }
 </style>
-<h2>Đây Là trang hiển thị sản phẩm </h2>
-
-<ul>
-
-    @foreach (var item in Model)
-    {
-        <li>
-            <p>@item.Name</p>
-            <p>@item.Price</p>
-            <p>
-                @Html.ActionLink("Thêm Vào giỏ hàng", "Cart", "Cart", new { id = item.Id_Product }, null)
-                |
-                @Html.ActionLink("Mua", "Buy", "Cart", new { id = item.Id_Product }, null)
-            </p>
-        </li>
+<style>
+    .product-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 2px;
+        margin-bottom: 20px;
+        background-color: #fff;
     }
 
+    .product-image img {
+        width: 100%;
+        height: 250px;
+        background-size: cover;
+        display: block;
+        margin-bottom: 15px;
+    }
 
+    .product-price {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
 
-</ul>
-<br />
-<h1>Đây là giỏ hàng lấy đươc </h1>
-@if (Session["hanghoa"] != null)
-{
-    var giohang = Session["hanghoa"] as List<WebsiteChungKhoann.Models.Product>
-    ;
-    if (giohang != null)
-    {
-        foreach (var item in giohang)
-        {
-            <li>
-                <p>@item.Name</p>
-                <p>@item.Price</p>
-                <p>
-                    @Html.ActionLink("Thêm Vào giỏ hàng", "Cart", "Cart", new { id = item.Id_Product }, null) |
-                    @Html.ActionLink("Mua", "Buy", "Cart", new { id = item.Id_Product }, null)
-                </p>
-            </li>
+    .product-name {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .add-to-cart {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .add-to-cart:hover {
+            background-color: #0056b3;
         }
+
+    .product-price {
+        font-size: 18px;
+        color: red;
+        margin-bottom: 10px;
+        display: inline-block;
+        transform: skewX(-10deg); /* Nghiêng văn bản */
     }
-}
+
+    .cate {
+        background-color: red;
+    }
+
+    .sp {
+        display: flex;
+        width: 100%;
+    }
+</style>
+<div class="container-xxl mt-5">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2 cate">
+            <div class="col-sm-2 col-md-2 col-lg-2 cate">
+                @Html.Action("_Category", "Product", new { model = Model })
+                <!-- Gọi lại partial view _Category -->
+            </div>
+
+        </div>
+        <div class="col-sm-10 col-md-10 col-lg-10">
+            <div class="row sp">
+                @foreach (var i in Model)
+                {
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img src="@Url.Content(i.Img)" alt="Product Image" />
+                            </div>
+                            <div class="product-info">
+                                <h2>@i.Price</h2>
+                                <p class="product-name">@i.Name</p>
+                                <p class="count">Còn Lại :  @i.Count</p>
+                                <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i></a> |
+                                <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

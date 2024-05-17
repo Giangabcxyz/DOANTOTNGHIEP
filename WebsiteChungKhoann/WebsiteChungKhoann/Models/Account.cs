@@ -22,9 +22,8 @@ namespace WebsiteChungKhoann.Models
         public virtual ICollection<Comment_Product> Comment_Product { get; set; }
         public virtual ICollection<Post> Post { get; set; }
         public virtual ICollection<Comment_Post> Comment_Post { get; set; }
-        public virtual ICollection<Order> Order { get; set; }
-
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Comment_Course> Comment_Course { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

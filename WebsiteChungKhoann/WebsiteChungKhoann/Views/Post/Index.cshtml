@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["id"] == null)
+    {
+        Session["post"] =1;
+    }
+
 }
 
 
@@ -14,6 +20,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
+    .container-xl{
+        text-align: center;
+    }
     /* Add your custom CSS styles here */
     .rounded-avatar {
         width: 50px;
@@ -59,6 +68,8 @@
 
     .card-body {
         position: relative;
+        width: 100%;
+      
     }
 
 
@@ -74,11 +85,81 @@
             width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
             margin: 0; /* Không có margin */
         }
+    #commentsContainer {
+        position: relative; /* Bắt đầu vị trí tương đối */
+        max-height: 300px; /* Chiều cao mặc định của commentsContainer */
+        overflow: hidden; /* Ẩn bớt phần nội dung vượt quá max-height */
+        transition: max-height 0.8s ease; /* Hiệu ứng chuyển đổi khi thay đổi max-height */
+       
+    }
+
+    #showMoreButton {
+        position: absolute; /* Thiết lập vị trí tuyệt đối */
+        bottom: 0; /* Nằm ở phía dưới */
+        right: 0; /* Nằm ở phía bên phải */
+        margin: 10px; /* Khoảng cách từ nút đến mép phải và dưới của commentsContainer */
+    }
+
+
+
+    /* đây là bình luận*/
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+       
+      
+    }
+
+    .form__btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+       
+        
+    }
+    #cm .form__textarea {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: aqua;
+        color: red;
+    }
+    .form__btn:hover {
+        background-color: #3B5998; /* Màu nền khi di chuột qua */
+    }
+    #commentForm{
+        position: relative;
+    }
+    .comment{
+        margin : 10px;
+    }
+        .comment p {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 5px 10px;
+            margin: 0px 5px;
+        }
 </style>
-<div class="container mt-5">
-    @foreach (var item in Model)
-    {
-        <div class="d-flex align-items-center justify-content-center">
+<div class="container-xl mt-5">
+    @if(Model.Any())
+     {
+         foreach (var item in Model)
+         {
+              <div class="d-flex align-items-center justify-content-center">
             <div class="col-md-8">
                 <div class="card" id="postCard">
                     <div class="card-header">
@@ -91,30 +172,35 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text card-title font-weight-bold" style="font-size: 20px;">@item.Name</p>
-                        <img src="@Url.Content(item.Img)" class="img-fluid mb-3 post-image" alt="Post Image" id="postImage" width="680" height="665" />
+                        <img src="@Url.Content(item.Img)" class="img-fluid mb-3 post-image" alt="Post Image" id="postImage" width="100%" height="665" />
                         <p class="card-text">@item.Description</p>
                         <!-- Like, Comment, Share icons -->
                         <!-- Comment box -->
                         <div id="commentForm">
-
                             @using (Ajax.BeginForm("Create", "Comment_Post", new AjaxOptions
                             {
                                 HttpMethod = "Post",
                                 InsertionMode = InsertionMode.InsertBefore,
                                 UpdateTargetId = "commentsContainer",
-
-
                             }, new { @class = "form" }))
                             {
                                 <input type="hidden" name="Id_Post" value="@item.Id_Post" />
                                 <input type="hidden" name="Id_Account" value="@Session["Id"]" />
                                 <input type="hidden" name="Name" value="@Session["Name"]" />
-                                <textarea id="text" class="form__textarea" placeholder="Nhập bình luận" name="comment"></textarea>
+                                <textarea id="text cm" class="form__textarea" placeholder="Nhập bình luận" name="comment"></textarea>
                                 <button type="submit" class="form__btn">Gửi</button>
                             }
                         </div>
-
                     </div>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <img src="" id="modalImage" alt="Modal Image" style="width: 100%; height: auto;">
+                        </div>
+                    </div>
+
 
                     <div class="card-footer">
                         <div id="commentsContainer">
@@ -142,7 +228,12 @@
 
             </div>
         </div>
-    }
+          }
+}
+else
+            {
+                   <p>Chưa Có Dữ liệu</p>
+            }
 </div>
 <script>
     $(document).ready(function () {
@@ -152,7 +243,9 @@
             var id = '@Session["Id"]';
 
             if (!name || !id) {
+
                 alert("Bạn Chưa Đăng nhập tài khoản");
+
                 // Chuyển hướng người dùng đến trang đăng nhập
                 window.location.href = '/Account/Login';
                 // Ngăn chặn việc gửi form
@@ -160,6 +253,31 @@
             }
         });
     });
+
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        var commentsContainer = document.getElementById('commentsContainer');
+
+        var showMoreButton = document.createElement('button');
+        showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-down"></i>'; // Sử dụng innerHTML để chèn icon vào button
+        showMoreButton.id = 'showMoreButton';
+        commentsContainer.parentNode.appendChild(showMoreButton);
+
+        var initialHeight = commentsContainer.offsetHeight; // Lưu chiều cao ban đầu của commentsContainer
+
+        showMoreButton.addEventListener('click', function () {
+            commentsContainer.classList.toggle('showAllComments');
+            if (commentsContainer.classList.contains('showAllComments')) {
+                var totalHeight = commentsContainer.scrollHeight;
+                commentsContainer.style.maxHeight = totalHeight + 'px';
+                showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            } else {
+                commentsContainer.style.maxHeight = '300px'; // Đặt lại max-height về giá trị mặc định
+                showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-down"></i>'; // Sử dụng innerHTML để thay đổi icon
+            }
+        });
+    });
+
 </script>
 
 

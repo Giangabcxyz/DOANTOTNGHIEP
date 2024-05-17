@@ -5,30 +5,59 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 98%;
+        margin-left: 20px;
+        margin-top: -15px;
+    }
 
+    thead {
+        background-color: #C40C0C;
+        color: white;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: rgba(255, 127, 80, 0.4 );
+    }
+</style>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create")"><i class="fa-solid fa-square-plus" style="color: #C40C0C; font-size: 34px; margin-top: 10px; margin-left: 20px; cursor: pointer ">Tạo Danh Mục</i></a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name_Category)
-        </th>
-        <th></th>
-    </tr>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name_Category)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit",new { id = item.Id_Category })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px; "></i></a>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name_Category)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Category }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Category }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Category })
-        </td>
-    </tr>
-}
+                    <a href="@Url.Action("Xoa",new { id = item.Id_Category })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
 
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script>
+    function Notifical() {
+        alert("Bạn có chắc  muốn xóa ?");
+    }
+</script>

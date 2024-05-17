@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
 using WebsiteChungKhoann.Models;
 
@@ -46,45 +47,45 @@ namespace WebsiteChungKhoann.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
-
-
-            var y = db.Accounts.Where(e => e.Name.ToString() == username && e.Password.ToString() == password).FirstOrDefault();
-            var x = db.Accounts.Where(e => e.Name.ToString() == username && e.Password.ToString() == password && e.Rolex == "Admin").FirstOrDefault();
-            var account = db.Accounts.FirstOrDefault(e => e.Name == username && e.Password == password && e.Rolex == "Admin");
             var user = db.Accounts.FirstOrDefault(e => e.Name == username && e.Password == password);
-            if (account != null)
-            {
-                int accountId = account.Id;
-                // Sử dụng accountId ở đây
-                ViewBag.accountId = accountId;
-                // Tạo cookie và lưu Id_Account vào đó
-                HttpCookie cookie = new HttpCookie("AccountId");
-                cookie.Value = accountId.ToString();
-                Response.Cookies.Add(cookie);
-                Session["Id"] = account.Id;
-                Debug.WriteLine("Cookie Value: " + cookie.Value);
-            }
+          
             if (user != null)
             {
                 Session["Id"] = user.Id;
-            }
-            if (x != null)
-            {
-                Session["name"] = username;
+                Session["name"] = user.Name;
+                Session["password"] = user.Password;
+                Session["role"] = user.Rolex;
+                ViewBag.id = user.Id;
+                ViewBag.rolex = user.Rolex;
+                
+                //if (user.Rolex == "Admin")
+                //{
 
+                //    return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                //}
+                if (Session["post"]!=null)
+                {
+                    Session["post"] = null;
+                    return RedirectToAction("Index", "Post");
+                }
+                if (Session["Course"] !=null)
+                {
+                        
+                        return RedirectToAction("Detail", "Course", new { id = int.Parse(Session["Course"].ToString()) });
+                   
+                }
+                if (Session["Pro"] != null)
+                {
 
-                return RedirectToAction("Index", "Admin", new { area = "Admin" });
-            }
-            else if (y != null)
-            {
-                int accountId = y.Id;
+                    return RedirectToAction("Detail", "Product", new { id = int.Parse(Session["Pro"].ToString()) });
 
-                // Tạo cookie và lưu Id_Account vào đó
-                HttpCookie cookie = new HttpCookie("AccountId");
-                cookie.Value = accountId.ToString();
-                Response.Cookies.Add(cookie);
+                }
+                if (Session["Cart"] != null)
+                {
 
-                Session["name"] = username;
+                    return RedirectToAction("Index", "Cart");
+
+                }
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -99,6 +100,9 @@ namespace WebsiteChungKhoann.Controllers
             Session["name"] = null;
             Session["Id"] = null;
             Session["giohang"] = null;
+            Session["post"] = null;
+            Session["Course"] = null;
+            Session["Pro"] = null;
             return RedirectToAction("Index", "Home");
         }
 

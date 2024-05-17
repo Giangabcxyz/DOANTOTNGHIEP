@@ -30,9 +30,10 @@ namespace WebsiteChungKhoann.Controllers
             return View(list);
         }
         [HttpPost]
-        public ActionResult Create(string Comment, int Id_Account, string Name, int Id_Course)
+        public ActionResult Create(string Comment, int? Id_Account, string Name, int Id_Course)
         {
-            if (Id_Account == 0)
+            
+            if (Id_Account == null)
             {
                 // Redirect hoặc hiển thị thông báo lỗi khi Id_Account là null
                 return RedirectToAction("Login", "Account"); // Chuyển hướng đến trang đăng nhập
@@ -56,9 +57,19 @@ namespace WebsiteChungKhoann.Controllers
 
 
         }
-
+     
         public ActionResult Detail(int id)
         {
+            if (Session["Id"] == null)
+            {
+                Session["Course"] = id;
+                ViewBag.id = true;
+            }
+            else
+            {
+                Session["Course"] = null;
+                ViewBag.id = false;
+            }
             var list =  db.Courses.ToList();
             ViewBag.id = id;
             // Lấy danh sách các comment từ csdl dựa trên id của video
@@ -73,6 +84,8 @@ namespace WebsiteChungKhoann.Controllers
             ViewBag.Comment = comments;
             return View(list);
         }
+
+
         public class CommentViewModel
         {
             public string Comment { get; set; }

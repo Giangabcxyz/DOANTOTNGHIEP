@@ -72,7 +72,13 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
             }
             return View(author);
         }
-
+        public ActionResult Xoa(int id)
+        {
+            Author author = db.Authors.Find(id);
+            db.Authors.Remove(author);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // POST: Admin/Authors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

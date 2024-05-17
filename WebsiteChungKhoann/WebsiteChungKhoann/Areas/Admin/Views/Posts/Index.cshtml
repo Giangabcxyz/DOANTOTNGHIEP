@@ -5,64 +5,102 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Img)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_Account)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.Img))
-                {
-                    <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
-                }
-                else
-                {
-                    <span>No image available</span>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_Account)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Post }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_Post }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Post })
-            </td>
-        </tr>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 98%;
+        margin-left: 20px;
+        margin-top: -15px;
     }
 
+    thead {
+        background-color: #C40C0C;
+        color: white;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        white-space: nowrap; /* Ngăn chữ xuống dòng */
+        overflow: hidden; /* Ẩn chữ thừa */
+        text-overflow: ellipsis; /* Thêm dấu ba chấm */
+        max-width: 150px; 
+    }
+
+    tr:hover {
+        background-color: rgba(255, 127, 80, 0.4 );
+    }
+</style>
+<p>
+    <a href="@Url.Action("Create")"><i class="fa-solid fa-square-plus" style="color: #C40C0C; font-size: 34px; margin-top: 10px; margin-left: 20px; cursor: pointer "></i></a>
+</p>
+<table class="ml-1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Img)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Account)
+            </th>
+            <th></th>
+        </tr>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Img))
+                    {
+                        <img src="@Url.Content(item.Img)" alt="Image"  style="width: 150px; height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Account)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit",new { id = item.Id_Post })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px; "></i></a>
+
+                    <a href="@Url.Action("Xoa",new { id = item.Id_Post })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
+                    @*<a href="javascript:void(0);" onclick="deleteAccount(@item.Id)"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>*@
+
+                    @*<button onclick="deleteAccount(@item.Id)">
+                            <i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i>
+                        </button>*@
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
 </table>
+<script>
+    function Notifical() {
+        alert("Bạn có chắc muốn xóa??");
+    }
+</script>

@@ -75,6 +75,9 @@
         }
 </style>
 <style>
+    .container {
+        text-align: center;
+    }
     /* Custom CSS */
     .video-list {
         height: 100vh;
@@ -87,7 +90,6 @@
         border-bottom: 1px solid #ddd;
         display: flex;
         flex-direction: column;
-
     }
 
         .video-list-item.selected {
@@ -121,52 +123,58 @@
         border-radius: 20px;
         transition: transform 0.8s ease-out;
     }
+
         .video-thumbnail:hover {
             transform: scale(1.1);
         }
-        .comment-section {
-            margin-top: 20px;
-        }
+
+    .comment-section {
+        margin-top: 20px;
+    }
 
     /*.comment {
         margin-bottom: 10px;
         padding: 10px;
         border: 1px solid #ddd;
     }*/
-    .video-list{
+    .video-list {
         display: flex;
         width: 100%;
         padding: 0 5px;
-       
     }
+
     .item {
         position: relative;
         display: flex;
         padding: 0;
         border-radius: 20px;
         justify-content: space-between;
-         /* Màu xám có độ mờ là 0.5 */
+        /* Màu xám có độ mờ là 0.5 */
     }
+
     .video-list-item {
         position: absolute;
         width: 95%;
         height: 200px;
         padding: 0;
-      
     }
+
     .nname, .descriptionn {
         color: black;
         position: absolute;
         top: 105%;
     }
+
     .descriptionn {
         top: 115%;
     }
+
         .descriptionn:hover {
             color: red;
             transition: ease-in-out 0.5s;
             transform: 0.5s;
         }
+
     .nname:hover {
         transition: ease-in-out 0.5s;
         color: red;
@@ -175,77 +183,99 @@
 </style>
 
 <div class="container mt-5">
-    <div class="row">
-        <!-- Nội dung video -->
-        <div class="col-md-9 col-lg-9">
-            <!-- Thay đổi col-md-9 thành col-md-12 -->
-            <!-- Thêm một modal -->
-            <div class="video-details">
-                <!-- Thông tin video sẽ được hiển thị ở đây -->
+    @if (Model.Any())
+    {
+        <div class="row">
+            <!-- Nội dung video -->
+            <div class="col-md-9 col-lg-9">
+                <!-- Thay đổi col-md-9 thành col-md-12 -->
+                <!-- Thêm một modal -->
+                <div class="video-details">
+                    <!-- Thông tin video sẽ được hiển thị ở đây -->
+                </div>
+
+
+
+                <!-- Phần hiển thị bình luận -->
+
+
+                <div class="comment-section">
+
+                    <!-- Thêm mã HTML và Razor để hiển thị bình luận ở đây -->
+                </div>
             </div>
+            <!-- Danh sách video -->
+            <div class="col-md-12 col-sm-12 col-lg-12 display-flex">
+                <!-- Thay đổi col-md-4 thành col-md-3 -->
+                <div class="row video-list display-flex">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-5 item">
+                            <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
+                                <div class="video-list-item" data-course-id="@item.Id_Course" data-video-id="@item.Link_Id">
+                                    <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail"><br />
+                                    <p class="nname" style="color: black">@item.Name</p>
+                                    <span class="descriptionn" class="p-1">@item.Description</span>
+                                </div>
+                            </a>
 
+                        </div>
+                        @*<div id="commentForm_@item.Id_Course">
+                                @using (Ajax.BeginForm("Create", "Course", new AjaxOptions
+                                {
+                                    HttpMethod = "Post",
+                                    InsertionMode = InsertionMode.InsertBefore,
+                                    UpdateTargetId = "commentsContainer_" + item.Id_Course,
+                                }, new { @class = "form" }))
+                                {
+                                    <input type="hidden" name="Id_Course" value="@item.Id_Course" />
+                                    <input type="hidden" name="Id_Account" value="@Session["Id"]" />
+                                    <input type="hidden" name="Name" value="@Session["Name"]" />
+                                    <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
+                                    <button type="submit" class="form__btn">Gửi</button>
+                                }
+                            </div>*@
+                        <!--<div class="comment-section">
+                            <div id="commentsContainer_@item.Id_Course">-->
+                        <!-- Hiển thị các bình luận -->
+                        <!--@foreach (var comment in ViewBag.Comment)
+                                {
+                                    <div class="comment">
+                                        <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                                        <div class="comment-details">
+                                            <h6>@comment.AccountName</h6>
+                                            <p>@comment.Comment</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>-->
+                    }
+                </div>
 
-
-            <!-- Phần hiển thị bình luận -->
-
-
-            <div class="comment-section">
-
-                <!-- Thêm mã HTML và Razor để hiển thị bình luận ở đây -->
             </div>
         </div>
-        <!-- Danh sách video -->
-        <div class="col-md-12 col-sm-12 col-lg-12 display-flex">
-            <!-- Thay đổi col-md-4 thành col-md-3 -->
-            <div class="row video-list display-flex">
-                @foreach (var item in Model)
-                {
-                    <div class="col-lg-3 col-md-4 col-sm-5 item">
-                    <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
-                       <div class="video-list-item" data-course-id="@item.Id_Course" data-video-id="@item.Link_Id">
-                          <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail"><br />
-                          <p class="nname" style="color: black">@item.Name</p>
-                        <span class="descriptionn" class="p-1">@item.Description</span>
-                      </div>
-                    </a>
-
-                    </div>
-                    @*<div id="commentForm_@item.Id_Course">
-                        @using (Ajax.BeginForm("Create", "Course", new AjaxOptions
-                        {
-                            HttpMethod = "Post",
-                            InsertionMode = InsertionMode.InsertBefore,
-                            UpdateTargetId = "commentsContainer_" + item.Id_Course,
-                        }, new { @class = "form" }))
-                        {
-                            <input type="hidden" name="Id_Course" value="@item.Id_Course" />
-                            <input type="hidden" name="Id_Account" value="@Session["Id"]" />
-                            <input type="hidden" name="Name" value="@Session["Name"]" />
-                            <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
-                            <button type="submit" class="form__btn">Gửi</button>
-                        }
-                    </div>*@
-                    <!--<div class="comment-section">
-                        <div id="commentsContainer_@item.Id_Course">-->
-                            <!-- Hiển thị các bình luận -->
-                            <!--@foreach (var comment in ViewBag.Comment)
-                            {
-                                <div class="comment">
-                                    <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
-                                    <div class="comment-details">
-                                        <h6>@comment.AccountName</h6>
-                                        <p>@comment.Comment</p>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>-->
-                }
+    }
+    else
+    {
+        <p>Chưa Có dữ liệu</p>
+    }
+</div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog text-center" style="margin-top: 15%">
+        <div class="modal-content text-center">
+            <div class="modal-header bg-success text-center" style="text-align: center">
+                <p class="modal-title text-center text-white" id="myModalLabel">Đăng nhập thành công</p>
             </div>
+            <div class="modal-body">
 
+                <i class="fa-regular fa-circle-check text-success" style="font-size: 64px; padding:20px"></i>
+            </div>
         </div>
     </div>
 </div>
+
+
 
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+
 }
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -120,6 +122,45 @@
         padding: 10px;
         border: 1px solid #ddd;
     }
+
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+    }
+
+    .form__btn {
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+        height: 50px;
+        line-height: 100%;
+    }
+
+    .cmt_c {
+        display: flex;
+    }
+
+        .cmt_c button {
+            margin: 20px;
+        }
+
+        .cmt_c input {
+            width: 100%;
+        }
+
+    .ten {
+        display: flex;
+    }
 </style>
 <div class="container mt-5">
     <div class="row">
@@ -130,8 +171,18 @@
                 if (item.Id_Course == ViewBag.id)
                 {
                     <div class="video-details">
+                        <div class="ten">
+
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUUqKTx77lwnS3yg0kUSKQxs3SJrSM22PaSIZpoYumhiuGlCOIRo6O7f88MtIjq1DkAuE&usqp=CAU" class="rounded-avatar mr-2" alt="Avatar">
+                           
+                            <p class="card-text card-title">@item.Create_Date</p>
+                        </div>
+                        <div>
+                            <p class="card-text card-title font-weight-bold" style="font-size: 20px;">@item.Name</p>
+                        </div>
                         <!-- Hiển thị video từ id của ViewBag -->
                         <iframe width="100%" height="400" src="https://www.youtube.com/embed/@item.Link_Id" frameborder="0" allowfullscreen></iframe>
+                        <span class="card-text" style="font-size: 18px; margin:15px;">@item.Description</span>
                     </div>
                     <div id="commentForm_@item.Id_Course">
                         @using (Ajax.BeginForm("Create", "Course", new AjaxOptions
@@ -139,6 +190,7 @@
                             HttpMethod = "Post",
                             InsertionMode = InsertionMode.InsertBefore,
                             UpdateTargetId = "commentsContainer_" + item.Id_Course,
+                            OnBegin = "CheckLogin",
                         }, new { @class = "form", id = "commentForm" + item.Id_Course }))
                         {
                             <input type="hidden" name="Id_Course" value="@item.Id_Course" />
@@ -146,35 +198,45 @@
                             {
                                 <input type="hidden" name="Id_Account" value="@Session["Id"]" />
                             }
-                            <input type="hidden" name="Name" value="@Session["Name"]" />
-                            <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
-                            <button type="submit" class="form__btn">Gửi</button>
+                            <input type="hidden" name="Name" value="@Session["name"]" />
+
+                            <div class="cmt_c">
+
+                                <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
+                                <button type="submit" class="form__btn">Gửi</button>
+                            </div>
                         }
+
                     </div>
 
                     <!-- Hiển thị bình luận tương ứng -->
-        <div class="comment-section">
-           
+                    <div class="comment-section">
+                        <div class="" style="display:none">
 
-                @foreach (var comment in ViewBag.Comment)
-                {
-                    if (comment.Id_Course == item.Id_Course)
-                    {
-                        <div class="comment">
-                            <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
-                            <div class="comment-details">
-                                <h6>@comment.AccountName</h6>
-                                <p>@comment.Comment</p>
-                            </div>
+
+
+
                         </div>
-                    }
+                        @foreach (var comment in ViewBag.Comment)
+                        {
+                            if (comment.Id_Course == item.Id_Course)
+                            {
+                                <div class="comment">
+                                    <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                                    <div class="comment-details">
+                                        <h6>@comment.AccountName</h6>
+                                        <p>@comment.Comment</p>
+                                       
+                                    </div>
+                                </div>
+                            }
 
-                    <!-- Hiển thị các thuộc tính khác của bình luận nếu cần -->
-                }
+                            <!-- Hiển thị các thuộc tính khác của bình luận nếu cần -->
+                        }
 
 
 
-        </div>
+                    </div>
                 }
             }
         </div>
@@ -196,23 +258,52 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Kiểm tra xem Session ID có tồn tại không
+        var sessionId = "@Session["Id"]";
+
+        // Nếu Session ID không rỗng, hiển thị modal
+        if (sessionId !== "") {
+            $('#myModal').modal('show');
+
+            // Sau 2 giây, tự động ẩn modal
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 2000);
+        }
+    });
+</script>
+
 @* Script JavaScript *@
 <script>
-    $(document).ready(function () {
-        $('#commentForm').submit(function (event) {
-            // Kiểm tra xem session có giá trị hay không
-            var name = '@Session["Name"]';
-            var id = '@Session["Id"]';
+     //lấy giá trị của session và gán vào biến javascript
+  function CheckLogin() {
+    var ok = '@ViewBag.id.ToString().ToLower()';
+      if (ok == "true") {
+          alert("Bạn Chưa Đăg nhập");
+        window.location.href = '/Account/Login';
+        return false;
+    } else {
+        return true;
+    }
+}
 
-            if (!name || !id) {
-                alert("Bạn Chưa Đăng nhập tài khoản");
-                // Chuyển hướng người dùng đến trang đăng nhập
-                window.location.href = '/Account/Login';
-                // Ngăn chặn việc gửi form
-                event.preventDefault();
-            }
-        });
-    });
+    //function sb(id, courseId) {
+    //    if (id == 0) {
+    //        alert("Bạn Chưa Đăng nhập tài khoản");
+    //        // Chuyển hướng người dùng đến trang đăng nhập
+    //        window.location.href = '/Account/Login';
+    //        // Ngăn chặn việc gửi form
+    //        event.preventDefault();
+    //    }
+    //    // Sử dụng tham số courseId thay cho id
+    //    $('#commentForm' + courseId).submit(function (event) {
+
+    //    });
+    //}
+
 </script>
 
 

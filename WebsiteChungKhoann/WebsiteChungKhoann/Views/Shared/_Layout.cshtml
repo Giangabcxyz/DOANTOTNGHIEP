@@ -47,18 +47,79 @@
         <link href="~/Assets/Client/css/bootstrap.min.css" rel="stylesheet" />
         <!-- Template Stylesheet -->
 
-        <link href="~/Assets/Client/css/style.css" rel="stylesheet" />
 
         <script src="~/Assets/Product/js/main.js"></script>
         <link href="~/Assets/Client/css/main.css" />
         <link href="~/Assets/Product/css/animate.css" rel="stylesheet" />
         <link href="~/Assets/Product/css/price-range.css" rel="stylesheet" />
-
+        <link href="~/Assets/Client/css/style.css" rel="stylesheet" />
         <style>
             .nav-item.dropdown {
                 list-style: none;
             }
+
+            .nav-item.nav-link {
+                text-decoration: none; /* Loại bỏ gạch chân mặc định */
+                color: inherit;
+            }
+
+                .nav-item.nav-link:hover {
+                    color: #ff0000; /* Màu chữ khi hover */
+                }
+
+                /* Các quy tắc cho thẻ <a> khi được click */
+                .nav-item.nav-link:active {
+                    color: #00ff00; /* Màu chữ khi được click */
+                }
+            /* Màu mặc định của các thẻ a */
+            .nav-item.nav-link {
+                color: black; /* Màu chữ mặc định */
+            }
+
+                /* Màu của các thẻ a khi được click */
+                .nav-item.nav-link:hover {
+                    color: red; /* Màu chữ khi được click */
+                }
+
+            #newLink .nav-item.nav-link:hover {
+                color: red;
+            }
+
+            .navbar-navs {
+            }
+
+            .nav-itemss.nav-links.hh {
+                color: #ffcc00;
+            }
+
+            .navbar-navs ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                height: 30px;
+            }
+
+            .navbar-navs a {
+                text-decoration: none;
+                transition: color 0.3s;
+                padding: 0px 20px;
+                line-height: 30px;
+                color: white;
+            }
+
+            .nav-itemss.nav-links:hover {
+                text-decoration: none;
+                transition: color 0.3s;
+                color: #ffcc00;
+            }
+
+            navbar-navs .nav-itemss.nav-links.hh {
+                color: #ffcc00;
+            }
         </style>
+        
+
     </head>
 
     <body>
@@ -75,50 +136,59 @@
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="/Home/Index" class="navbar-brand p-0">
                         <h1 class="text-success m-0"><i class="fa-solid fa-arrow-trend-up"></i> Market</h1>
-
-
-
-
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="/Home/Index" class="nav-item nav-link active-link">Home</a>
-                            <a href="/New/Index" class="nav-item nav-link ">New</a>
-                            <a href="/Post/Index" class="nav-item nav-link">Concept</a>
-                            <a href="/Course/Index" class="nav-item nav-link">Course</a>
-                            @{ Html.RenderAction("Category", "Home"); }
-
-                            <a href="/Cart/Index" class="nav-item nav-link">Cart</a>
+                        <div class="navbar-navs ms-auto py-0 pe-4">
+                            <ul>
+                                <a id="newLink" href="/New/Index" class="nav-itemss nav-links">New</a>
+                                <a id="postLink" href="/Post/Index" class="nav-itemss nav-links">Concept</a>
+                                <a id="courseLink" href="/Course/Index" class="nav-itemss nav-links">Course</a>
+                                @{ Html.RenderAction("Category", "Home");}
+                                <a id="cartLink" href="/Cart/Index" class="nav-itemss nav-links">
+                                    <i class="fa-solid fa-cart-shopping" style="font-size: 20px"></i>
+                                    @Html.Action("Bagcart", "Cart")
+                                </a>
+                            </ul>
                         </div>
+                            
 
-                        @{
-                            if (Session["name"] == null)
+                        @{if (Session["name"] == null)
                             {
-                                <a href="/Account/Login" class="btn btn-danger py-2 px-4 m-0 m-2">login</a>
-                                <a href="/Account/Register" class="btn btn-danger py-2 px-4 m-0 m-2">Register</a>
-
+                                <a id="loginLink" href="/Account/Login" class="btn btn-danger py-2 px-4 m-0 m-2">login</a>
+                                <a id="registerLink" href="/Account/Register" class="btn btn-danger py-2 px-4 m-0 m-2">Register</a>
                             }
                             else
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                                    </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                                         <li><a class="dropdown-item" href="#!"> @Session["name"]</a></li>
-                                        <li><hr class="dropdown-divider" /></li>
+                                        @if ((string)Session["role"] == "Admin")
+                                        {
+                                            <li><a class="dropdown-item" href="@Url.Action("Index", "Admin", new { area = "Admin" })">Admin</a></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("User_Order", "Order")">Xem Đơn Hàng</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a class="dropdown-item" href="@Url.Action("User_Order", "Order")">Xem Đơn Hàng</a></li>
+                                        }
                                         <li><a class="dropdown-item" href="/Account/Logout">Logout</a></li>
                                     </ul>
                                 </li>
-                            }
-                        }
+                            }}
                     </div>
+
                 </nav>
 
-                
+               
+
             </div>
             <!-- Navbar & Hero End -->
             @RenderBody();
@@ -159,10 +229,7 @@
                         <div class="col-lg-3 col-md-6">
                             <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
                             <p>Đây là một phương tiện hiệu quả để chia sẻ thông tin, cập nhật mới nhất</p>
-                            <div class="position-relative mx-auto" style="max-width: 400px;">
-                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                                <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -214,6 +281,20 @@
 
         <!-- Template Javascript -->
         <script src="~/Assets/Client/js/main.js"></script>
+        <script>
+            var navLinks = document.querySelectorAll(".nav-links .nav-item");
+
+            navLinks.forEach(function (navLink) {
+                navLink.addEventListener('click', function () {
+                    // Loại bỏ lớp 'hh' từ tất cả các phần tử <a>
+                    navLinks.forEach(function (link) {
+                        link.classList.remove('hh');
+                    });
+                    // Thêm lớp 'hh' cho phần tử <a> đang được click
+                    this.classList.add('hh');
+                });
+            });
+        </script>
     </body>
 
 </html>

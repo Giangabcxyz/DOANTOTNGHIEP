@@ -95,6 +95,13 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
             }
             return View(category);
         }
+        public ActionResult Xoa(int id)
+        {
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         // GET: Admin/Categories/Delete/5
         public ActionResult Delete(int? id)

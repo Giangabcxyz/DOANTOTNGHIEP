@@ -1,0 +1,299 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Order>
+@{
+    ViewBag.Title = "User_Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int stt = 1; // Khởi tạo biến đếm STT
+    int err = 0;
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+        width: 100%;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+
+    #commentsContainer {
+        position: relative; /* Bắt đầu vị trí tương đối */
+        max-height: 300px; /* Chiều cao mặc định của commentsContainer */
+        overflow: hidden; /* Ẩn bớt phần nội dung vượt quá max-height */
+        transition: max-height 0.8s ease; /* Hiệu ứng chuyển đổi khi thay đổi max-height */
+    }
+
+    #showMoreButton {
+        position: absolute; /* Thiết lập vị trí tuyệt đối */
+        bottom: 0; /* Nằm ở phía dưới */
+        right: 0; /* Nằm ở phía bên phải */
+        margin: 10px; /* Khoảng cách từ nút đến mép phải và dưới của commentsContainer */
+    }
+
+
+
+    /* đây là bình luận*/
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+    }
+
+    .form__btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+    }
+
+    #cm .form__textarea {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: aqua;
+        color: red;
+    }
+
+    .form__btn:hover {
+        background-color: #3B5998; /* Màu nền khi di chuột qua */
+    }
+
+    #commentForm {
+        position: relative;
+    }
+
+    .comment {
+        margin: 10px;
+    }
+
+        .comment p {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 5px 10px;
+            margin: 0px 5px;
+        }
+</style>
+<style>
+    .cart_product {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        padding: -12px;
+    }
+
+        .cart_product img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+    .bg-orange {
+        background-color: orange;
+        color: white; /* Thay đổi màu chữ nếu cần thiết */
+    }
+
+    .it:hover {
+        background-color: rgb(128, 128, 128, 0.2);
+    }
+
+    .cart_quantity_delete {
+        padding: 15px 30px;
+    }
+
+    .cart_quantity_up, .cart_quantity_down {
+        background-color: #f0f0f0; /* Màu nền */
+        color: #333; /* Màu chữ */
+        padding: 5px 10px; /* Kích thước padding */
+        border: 1px solid #ccc; /* Đường viền */
+        font-size: 16px; /* Kích thước chữ */
+        text-align: center; /* Canh giữa văn bản */
+        cursor: pointer; /* Con trỏ khi di chuột vào */
+    }
+
+    .show {
+        display: flex;
+    }
+    .emty{
+        height: 300px;
+    }
+    .inFor {
+        /* background-color: rgba(128, 0, 128,0.6);*/
+        width: 100%;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        color: black;
+        cursor: pointer;
+        transition: ease-in-out 0.5;
+        border-radius: 15px;
+    }
+        .inFor .img{
+            padding: 20px 20px;
+        }
+        .inFor p {
+            padding: 15px 10px;
+            cursor: pointer;
+            transition: ease-in-out 0.5;
+        }
+            .inFor p:hover {
+                background-color: forestgreen;
+                color: white;
+            }
+    table {
+        /*background-color: rgba(0, 128, 0,0.6);*/
+        border-collapse: collapse;
+        width: 100%;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+    }
+    thead {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        background-color: #FFA500;
+        color: white;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #DDD;
+    }
+
+    tr:hover {
+        background-color: #D6EEEE;
+    }
+</style>
+
+<div class="container-xxxl">
+    <div class="row">
+        <div class="show pd-5 mt-5" >
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <div class="inFor">
+                    <div class="img pd-2">
+                        <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                    </div>
+                   
+                    <p>Họ tên  :  @ViewBag.Name</p>
+                    <p>Địa chỉ : @ViewBag.Address</p>
+                    <p>Gmail   : @ViewBag.Email</p>
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-9 col-lg-9">
+                <table>
+                    <thead class="bg-success">
+                        <tr>
+                            <th>STT</th>
+                            <th>Product Name</th>
+                            <th>Img</th>
+                            
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var order in ViewBag.OrderList)
+                        {
+                            if (order.Id_Status != 1)
+
+
+                            {
+                                <tr>
+                                    <td>@stt</td> <!-- Hiển thị STT -->
+                                    <td>@order.Name_Pro</td>
+                                    <td>
+                                        <img src="@Url.Content(order.Product.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                                    </td>
+                                    @*<td>@order.Status.status</td>*@
+                                    <td>@order.Quantity</td>
+                                    <td>@order.Total</td>
+                                </tr>
+                                stt++; // Tăng giá trị của biến đếm sau mỗi lần lặp
+                                err = 3;
+                            }
+                          
+                        }
+                        @if (err!=3)
+                        {
+                            <tr>
+                                <td colspan="6">Chưa Có đơn hàng nào đưuọc thanh toán</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="emty"></div>
+    </div>
+</div>

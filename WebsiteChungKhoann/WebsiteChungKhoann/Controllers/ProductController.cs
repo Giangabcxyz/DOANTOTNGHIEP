@@ -20,7 +20,17 @@ namespace WebsiteChungKhoann.Controllers
         }
         public ActionResult Details(int? id)
         {
-            
+            if (Session["Id"] == null)
+            {
+                Session["Pro"] = id;
+                ViewBag.id = true;
+            }
+            else
+            {
+                Session["Pro"] = null;
+                ViewBag.id = false;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -62,7 +72,18 @@ namespace WebsiteChungKhoann.Controllers
                     //productsToShow.Add(item.p);
                 }
             }
-
+            var list = db.Products.ToList();
+            ViewBag.id = id;
+            // Lấy danh sách các comment từ csdl dựa trên id của video
+            var comments = (from comment in db.Comment_Product
+                            join account in db.Accounts on comment.Id_Account equals account.Id// Điều kiện để lấy các bình luận của bài đăng hiện tại
+                            select new CommentViewModel
+                            {
+                                Comment = comment.Comment,
+                                AccountName = account.Name, // Lấy tên từ bảng Account
+                                Id_Product = (int)comment.Id_Product                           // Các thuộc tính khác của bình luận nếu cần
+                            }).ToList();
+            ViewBag.Comment = comments;
             // Gán danh sách sản phẩm vào ViewBag để sử dụng trong view
             ViewBag.RelatedProducts = productsToShow;
             ViewBag.count = productsToShow.Count();
@@ -72,10 +93,59 @@ namespace WebsiteChungKhoann.Controllers
 
             return View(product);
         }
-        
+        public ActionResult Category()
+        {
+            var categories = db.Categories.ToList(); // Chú ý đổi từ db.Products sang db.Categories
+            return PartialView("_Category", categories);
+        }
+
+        [HttpPost]
+        public ActionResult Create(string Comment, int? Id_Account, string Name, int Id_Product)
+        {
+
+            if (Id_Account == null)
+            {
+                // Redirect hoặc hiển thị thông báo lỗi khi Id_Account là null
+                return RedirectToAction("Login", "Account"); // Chuyển hướng đến trang đăng nhập
+            }
+
+            Comment_Product newComment = new Comment_Product
+            {
+                Comment = Comment,
+                Id_Account = Id_Account,
+                Id_Product = Id_Product
+            };
+
+            // Thêm mới đối tượng Comment vào cơ sở dữ liệu
+            db.Comment_Product.Add(newComment);
+            db.SaveChanges();
+
+            // Trả về Action Index trong Controller khác có tên là HomeController
+            return RedirectToAction("Details", "Product", new { id = Id_Product });
+
+
+
+
+        }
         public ActionResult Cart(Product product)
         {
             return View(product);
         }
+      
+            // Các action khác ở đây
+
+            public ActionResult _Category(IEnumerable<WebsiteChungKhoann.Models.Product> model)
+            {
+                // Xử lý logic ở đây
+                return PartialView("_Category", model);
+            }
+        public class CommentViewModel
+        {
+            public string Comment { get; set; }
+            public string AccountName { get; set; }
+            public int Id_Product { get; set; }
+        }
+
+
     }
 }

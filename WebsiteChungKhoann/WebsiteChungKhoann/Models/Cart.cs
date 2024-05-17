@@ -17,7 +17,6 @@ namespace WebsiteChungKhoann.Models
         public int Quantity { get; set; }
         public int Id_Account { get; set; }
         public virtual Product Product { get; set; } 
-
         public Cart ()
         {
 

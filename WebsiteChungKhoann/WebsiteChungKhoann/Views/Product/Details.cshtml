@@ -125,6 +125,7 @@
         }
 
     .comment-section {
+        position: relative;
         margin-top: 20px;
     }
 
@@ -227,6 +228,172 @@
         display: inline-block;
         transform: skewX(-10deg); /* Nghiêng văn bản */
     }
+
+    .product-image.sg {
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }
+
+        .product-image.sg img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+    .product-info.sg {
+        padding: 20px;
+    }
+
+    .pr {
+        cursor: pointer;
+        display: flex;
+        margin: 5px 0px;
+        background-color: #f0f0f0; /* Màu nền */
+        /* Đường viền */
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 5px;
+    }
+
+        .pr:hover {
+            background-color: rgba(255, 255, 255, 1); /* Màu nền */
+        }
+</style>
+<style>
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+        width: 100%;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+
+    #commentsContainer {
+        position: relative; /* Bắt đầu vị trí tương đối */
+        max-height: 300px; /* Chiều cao mặc định của commentsContainer */
+        overflow: hidden; /* Ẩn bớt phần nội dung vượt quá max-height */
+        transition: max-height 0.8s ease; /* Hiệu ứng chuyển đổi khi thay đổi max-height */
+    }
+
+    #showMoreButton {
+        position: absolute; /* Thiết lập vị trí tuyệt đối */
+        bottom: 0; /* Nằm ở phía dưới */
+        right: 0; /* Nằm ở phía bên phải */
+        margin: 10px; /* Khoảng cách từ nút đến mép phải và dưới của commentsContainer */
+    }
+
+
+
+    /* đây là bình luận*/
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+    }
+
+    .form__btn {
+        position: absolute;
+        bottom: 15px;
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+    }
+
+    #cm .form__textarea {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: aqua;
+        color: red;
+    }
+
+    .form__btn:hover {
+        background-color: #3B5998; /* Màu nền khi di chuột qua */
+    }
+
+    #commentForm {
+        position: relative;
+    }
+
+    .comment {
+        margin: 10px;
+    }
+
+        .comment p {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 5px 10px;
+            margin: 0px 5px;
+        }
+
+    .cmt_c {
+        position: relative;
+    }
 </style>
 <div class="container mt-5">
     <div class="row detail_pr">
@@ -253,29 +420,79 @@
             </div>
         </div>
     </div>
+    <div id="commentForm_@Model.Id_Product">
+        @using (Ajax.BeginForm("Create", "Product", new AjaxOptions
+        {
+            HttpMethod = "Post",
+            InsertionMode = InsertionMode.InsertBefore,
+            UpdateTargetId = "commentsContainer_" + Model.Id_Product,
+            OnBegin = "CheckLogin",
+        }, new { @class = "form", id = "commentForm" + Model.Id_Product }))
+        {
+            <input type="hidden" name="Id_Product" value="@Model.Id_Product" />
+            if (Session["Id"] != null)
+            {
+                <input type="hidden" name="Id_Account" value="@Session["Id"]" />
+            }
+            <input type="hidden" name="Name" value="@Session["name"]" />
+
+            <div class="cmt_c">
+
+                <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
+                <button type="submit" class="form__btn">Gửi</button>
+            </div>
+        }
+
+    </div>
+
+    <!-- Hiển thị bình luận tương ứng -->
+    <div class="comment-section">
+        <div class="" style="display:none"></div>
+        <div id="commentsContainer">
+            @foreach (var comment in ViewBag.Comment)
+            {
+                if (comment.Id_Product == Model.Id_Product)
+                {
+                    <div class="comment">
+                        <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
+                        <div class="comment-details">
+                            <h6>@comment.AccountName</h6>
+                            <p>@comment.Comment</p>
+                        </div>
+                    </div>
+                }
+
+                <!-- Hiển thị các thuộc tính khác của bình luận nếu cần -->
+            }
+        </div>
+
+
+    </div>
     <div class="row">
         <p>Gợi ý</p>
     </div>
-    <div class="row sugget">
+    <div class="row sugget mt-5">
         @foreach (var i in ViewBag.RelatedProducts)
         {
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="product-image">
-                    <img src="@Url.Content(i.Img)" alt="Product Image" />
+            <div class="pr">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="product-image sg">
+                        <img src="@Url.Content(i.Img)" alt="Product Image sg" />
+                    </div>
+
                 </div>
-            </div>
-            <div class="col-lg-8 col-sm-8 col-md-8">
-                    <div class="product-info">
-                        <h2>@i.Price</h2>
-                        <p class="product-name">@i.Name</p>
+                <div class="col-lg-8 col-sm-8 col-md-8">
+                    <div class="product-info sg">
+                        <i>@i.Price</i>
+                        <p class="product-name sg">@i.Name</p>
                         <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"></a><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i> |
                         <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
                     </div>
                 </div>
-                
-           
+            </div>
+
         }
-        </div>
+    </div>
 </div>
 
 
@@ -285,3 +502,38 @@
         return price.ToString("N0") + " đ"; // Định dạng số tiền theo định dạng có dấu chấm phân cách hàng nghìn và thêm đơn vị tiền tệ VND
     }
 }
+<script>
+      function CheckLogin() {
+    var ok = '@ViewBag.id.ToString().ToLower()';
+      if (ok == "true") {
+          alert("Bạn Chưa Đăg nhập");
+        window.location.href = '/Account/Login';
+        return false;
+    } else {
+        return true;
+    }
+}
+    document.addEventListener("DOMContentLoaded", function () {
+        var commentsContainer = document.getElementById('commentsContainer');
+
+        var showMoreButton = document.createElement('button');
+        showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-down"></i>'; // Sử dụng innerHTML để chèn icon vào button
+        showMoreButton.id = 'showMoreButton';
+        commentsContainer.parentNode.appendChild(showMoreButton);
+
+        var initialHeight = commentsContainer.offsetHeight; // Lưu chiều cao ban đầu của commentsContainer
+
+        showMoreButton.addEventListener('click', function () {
+            commentsContainer.classList.toggle('showAllComments');
+            if (commentsContainer.classList.contains('showAllComments')) {
+                var totalHeight = commentsContainer.scrollHeight;
+                commentsContainer.style.maxHeight = totalHeight + 'px';
+                showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            } else {
+                commentsContainer.style.maxHeight = '300px'; // Đặt lại max-height về giá trị mặc định
+                showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-down"></i>'; // Sử dụng innerHTML để thay đổi icon
+            }
+        });
+    });
+
+</script>

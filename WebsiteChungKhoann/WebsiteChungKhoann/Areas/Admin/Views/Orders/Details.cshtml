@@ -12,11 +12,35 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Account.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Name)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Pay.Name)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Pay.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PayStatus.Pay_Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayStatus.Pay_Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Name)
         </dd>
 
         <dt>
@@ -36,19 +60,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Id_Account)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Id_Account)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
         </dd>
 
         <dt>
@@ -92,11 +116,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Concepct_pay)
+            @Html.DisplayNameFor(model => model.code)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Concepct_pay)
+            @Html.DisplayFor(model => model.code)
         </dd>
 
     </dl>

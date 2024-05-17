@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Security.Policy;
@@ -14,13 +15,34 @@ namespace WebsiteChungKhoann.Controllers
     {
         private Mode1 db = new Mode1();
         // GET: Cart
+        public PartialViewResult Bagcart()
+        {
+            int? totalItem = null; // Sử dụng kiểu dữ liệu nullable int?
+            var Id_Account = (int?)Session["Id"];
+            if (Id_Account != null)
+            {
+                // Lấy tổng số lượng sản phẩm trong giỏ hàng của người dùng hiện tại
+                totalItem = db.Carts_pr.Where(c => c.Id_Account == Id_Account).Sum(c => (int?)c.Quantity) ?? 0;
+            }
+            else
+            {
+                totalItem = 0;
+            }
+            ViewBag.CartItemCount = totalItem;
+            return PartialView("_CartItemCount");
+        }
 
         public ActionResult Index()
         {
             var Id_Account = (int?)Session["Id"];
             if (Id_Account == null)
             {
+                Session["Cart"] = 1;
                 return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                Session["Cart"] = null;
             }
 
             var cartItems = db.Carts_pr.Where(c => c.Id_Account == Id_Account).ToList();
@@ -69,34 +91,51 @@ namespace WebsiteChungKhoann.Controllers
             db.SaveChanges();
         }
 
+       
 
-
-        public ActionResult Disc(int id)
+        public int Quantity_Cart()
         {
-            AddOrUpdateCartItem(id, +1);
-            return RedirectToAction("Index");
+            var list =  db.Carts_pr.ToList();
+            var sum = 0;
+            foreach(var item in list )
+            {
+                sum += item.Quantity;
+            }    
+            return sum;
+            
+        }
+        public int Disc(int id)
+        {
+            var c = db.Carts_pr.Where(e => e.Id_Product ==  id).FirstOrDefault();
+            c.Quantity++;
+            db.SaveChanges();
+            var sl = c.Quantity;
+            return sl;
+              
         }
 
-        public ActionResult Desc(int id)
+        public int Desc(int id)
         {
-            var Id_Account = (int)Session["Id"];
-            var cartItem = db.Carts_pr.FirstOrDefault(item => item.Id_Product == id && item.Id_Account == Id_Account);
-            if (cartItem != null)
+            var c = db.Carts_pr.Where(e => e.Id_Product == id).FirstOrDefault();
+            if(c.Quantity <=1)
             {
-                // Kiểm tra xem số lượng có lớn hơn 1 không
-                if (cartItem.Quantity > 1)
-                {
-                    // Giảm số lượng đi 1
-                    cartItem.Quantity -= 1;
-                    db.SaveChanges();
-                }
+               c.Quantity=1;
+
             }
-            return RedirectToAction("Index");
+            else
+            {
+                c.Quantity--;
+            }  
+            db.SaveChanges();
+            var sl = c.Quantity;
+            return sl;
         }
 
 
         public ActionResult Cart(int id)
         {
+            var pr = db.Products.Find(id);
+            ViewBag.img = pr.Img;
             AddOrUpdateCartItem(id, 1);
             return RedirectToAction("Index");
         }
@@ -123,40 +162,11 @@ namespace WebsiteChungKhoann.Controllers
 
 
         [HttpPost]
-        public ActionResult Checkout(List<int> selectedItems)
+        public ActionResult Checkout(int id)
         {
-            List<int> selectedProductIds = new List<int>();
-            foreach (var itemId in selectedItems)
-            {
-                // Tìm thông tin của mục được chọn từ cơ sở dữ liệu
-                var cartItem = db.Carts_pr.FirstOrDefault(item => item.Id_Cart == itemId);
-                if (cartItem != null)
-                {
-                    // Lấy thông tin sản phẩm từ cơ sở dữ liệu
-                    var product = db.Products.FirstOrDefault(p => p.Id_Product == cartItem.Id_Product);
-                    if (product != null)
-                    {
-                        selectedProductIds.Add(product.Id_Product);
-                        // Gán thông tin sản phẩm vào ViewBag
-                        TempData["AccountId"] = cartItem.Id_Account;
-                        TempData["ProductImg"] = product.Img;
-                        TempData["ProductName"] = product.Name;
-                        TempData["ProductPrice"] = product.Price;
-                        TempData["ProductQuantity"] = cartItem.Quantity;
-                    }
-
-                    // Xóa mục khỏi giỏ hàng sau khi đã lấy thông tin sản phẩm
-                    db.Carts_pr.Remove(cartItem);
-                    db.SaveChanges();
-                }
-            }
-            TempData["SelectedProductIds"] = selectedProductIds;
-
-            // Chuyển hướng đến trang Order hoặc trang cần thiết
-            return RedirectToAction("Order", "Order");
+            return RedirectToAction("Order", "Order", new {id = id});
         }
 
-
-
+      
     }
 }

@@ -88,7 +88,13 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
             }
             return View(account);
         }
-
+        public ActionResult Xoa(int Id)
+        {
+            Account account = db.Accounts.Find(Id);
+            db.Accounts.Remove(account);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // GET: Admin/Accounts/Delete/5
         public ActionResult Delete(int? id)
         {

@@ -265,7 +265,8 @@
 
 
 </div>-->
-<div class="container mt-5">
+
+<div class="container-xl mt-5">
     <div class="row">
         @foreach (var i in Model)
         {
@@ -277,6 +278,7 @@
                     <div class="product-info">
                         <h2>@i.Price</h2>
                         <p class="product-name">@i.Name</p>
+                        <p class="count">Còn Lại :  @i.Count</p>
                         <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i></a> |
                         <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
                     </div>

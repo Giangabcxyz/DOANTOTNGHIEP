@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -94,6 +95,7 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         }
 
         // GET: Admin/Courses/Edit/5
+        // GET: Admin/Courses/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -109,43 +111,70 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
             return View(course);
         }
 
+
         // POST: Admin/Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Course,Name,Link_Id,Description,Create_Date")] Course course)
+        public ActionResult Edit(int id, [Bind(Include = "Id_Course,Name,Link_Id,Description,Create_Date")] Course updatedCourse)
         {
             if (ModelState.IsValid)
             {
+                var existingCourse = db.Courses.Find(id);
 
-                course.Create_Date = DateTime.Now;
-                if (Session["Id"] != null)
+                if (existingCourse == null)
                 {
-                    // Ép kiểu Session["Id"] về kiểu int (nếu cần thiết)
-                    int id;
-                    if (int.TryParse(Session["Id"].ToString(), out id))
+                    return HttpNotFound();
+                }
+
+                string videoId = GetYouTubeVideoId(updatedCourse.Link_Id);
+
+                if (!string.IsNullOrEmpty(videoId))
+                {
+                    updatedCourse.Link_Id = videoId;
+
+                    if (Session["Id"] != null && int.TryParse(Session["Id"].ToString(), out int userId))
                     {
-                        // Gán Id_Account bằng Id của người dùng hiện tại
-                        course.Id_Account = id;
+                        existingCourse.Name = updatedCourse.Name;
+                        existingCourse.Link_Id = updatedCourse.Link_Id;
+                        existingCourse.Description = updatedCourse.Description;
+                        existingCourse.Create_Date = DateTime.Now;
+                        existingCourse.Id_Account = userId;
+
+                        try
+                        {
+                            db.Entry(existingCourse).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            ModelState.AddModelError("", "Không thể lưu thay đổi. Thực thể đã bị cập nhật bởi người khác.");
+                        }
                     }
                     else
                     {
-                        // Xử lý trường hợp không thể chuyển đổi được Session["Id"] sang kiểu int
+                        ModelState.AddModelError("", "Không tìm thấy người dùng hoặc thông tin người dùng không hợp lệ.");
                     }
                 }
                 else
                 {
-
+                    ModelState.AddModelError("Link_Id", "Không thể lấy ID của video từ đường dẫn YouTube.");
                 }
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            ViewBag.Id_Account = new SelectList(db.Accounts, "Id", "Name", course.Id_Account);
-            return View(course);
+
+            ViewBag.Id_Account = new SelectList(db.Accounts, "Id", "Name", updatedCourse.Id_Account);
+            return View(updatedCourse);
         }
 
+        public ActionResult Xoa(int id)
+        {
+            Course course = db.Courses.Find(id);
+            db.Courses.Remove(course);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // GET: Admin/Courses/Delete/5
         public ActionResult Delete(int? id)
         {

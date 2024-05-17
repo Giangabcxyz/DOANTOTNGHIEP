@@ -3,6 +3,149 @@
     ViewBag.Title = "Status";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .container-xl {
+        text-align: center;
+    }
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
 
-<h2>Thành Công</h2>
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+        width: 100%;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+
+    #commentsContainer {
+        position: relative; /* Bắt đầu vị trí tương đối */
+        max-height: 300px; /* Chiều cao mặc định của commentsContainer */
+        overflow: hidden; /* Ẩn bớt phần nội dung vượt quá max-height */
+        transition: max-height 0.8s ease; /* Hiệu ứng chuyển đổi khi thay đổi max-height */
+    }
+
+    #showMoreButton {
+        position: absolute; /* Thiết lập vị trí tuyệt đối */
+        bottom: 0; /* Nằm ở phía dưới */
+        right: 0; /* Nằm ở phía bên phải */
+        margin: 10px; /* Khoảng cách từ nút đến mép phải và dưới của commentsContainer */
+    }
+
+
+
+    /* đây là bình luận*/
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+    }
+
+    .form__btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+    }
+
+    #cm .form__textarea {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: aqua;
+        color: red;
+    }
+
+    .form__btn:hover {
+        background-color: #3B5998; /* Màu nền khi di chuột qua */
+    }
+
+    #commentForm {
+        position: relative;
+    }
+
+    .comment {
+        margin: 10px;
+    }
+
+        .comment p {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 5px 10px;
+            margin: 0px 5px;
+        }
+</style>
+<div class="container-xl">
+      <h1>Đơn Hàng sẽ giao đên bạn sau</h1>
+</div>
 

@@ -5,34 +5,47 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<style>
+    .ip {
+        width: 500px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+</style>
+<p style="background-color: #C40C0C; color: white; text-align: center; padding: 10px">Sửa dữ liệu</p>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Category</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id_Category)
+    <div class="form-horizontal" style="display: flex; justify-content: center; margin: auto auto; margin-top: 60px;">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name_Category, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name_Category, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name_Category, "", new { @class = "text-danger" })
+        <div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Category)
+
+            <div class="form-group" style="display: flex">
+                <label style="margin: 0px 30px">Name : </label>
+                <div class="col-md-10 ip">
+                    @Html.EditorFor(model => model.Name_Category, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name_Category, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group" style="display : flex; justify-content: center">
+                <div class="col-md-10 ip" style="display: flex; justify-content: center; background-color: #C40C0C; color: white; width: 120px; border-radius: 10px">
+                    <input style="color:white; outline: none; border: none;" onclick="confirmAndSubmit()" type="submit" value="Cập nhật" class="btn btn-default" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+          
         </div>
-    </div>
-}
+        }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+  <script>
+      function confirmAndSubmit() {
+          alert("Cập nhật dữ liệu thành công !!");
+      }
+  </script>

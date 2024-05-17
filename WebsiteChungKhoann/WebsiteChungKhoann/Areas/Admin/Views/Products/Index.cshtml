@@ -5,13 +5,40 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 98%;
+        margin-left: 20px;
+        margin-top: -15px;
+    }
 
+    thead {
+        background-color: #C40C0C;
+        color: white;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        white-space: nowrap; /* Ngăn chữ xuống dòng */
+        overflow: hidden; /* Ẩn chữ thừa */
+        text-overflow: ellipsis; /* Thêm dấu ba chấm */
+        max-width: 150px;
+    }
+
+    tr:hover {
+        background-color: rgba(255, 127, 80, 0.4 );
+    }
+</style>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create")"><i class="fa-solid fa-square-plus" style="color: #C40C0C; font-size: 34px; margin-top: 10px; margin-left: 20px; cursor: pointer "></i></a>
 </p>
 <table class="table">
-    <tr>
+    <thead>
+         <tr>
         <th>
             @Html.DisplayNameFor(model => model.Author.Name_Author)
         </th>
@@ -21,7 +48,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
@@ -32,48 +58,62 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Year)
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.Name_Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name_Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Img))
+                {
+                    <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                }
+                else
+                {
+                    <span>No image available</span>
+                }
+            </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author.Name_Author)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name_Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @if (!string.IsNullOrEmpty(item.Img))
-            {
-                <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
-            }
-            else
-            {
-                <span>No image available</span>
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Product }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Product }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Product })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit",new { id = item.Id_Product })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px; "></i></a>
+
+                <a href="@Url.Action("Xoa",new { id = item.Id_Product })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
+            </td>
+        </tr>
+    }
+    </tbody>
 
 </table>
+<script>
+    function Notifical() {
+        alert("Bạn có chắc muốn xóa ??");
+    }
+</script>

@@ -9,6 +9,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
+    :root {
+        --primary: #800080;
+        --light: #F1F8FF;
+        --dark: #0F172B;
+    }
     /* Add your custom CSS styles here */
     .rounded-avatar {
         width: 50px;
@@ -70,8 +75,17 @@
             margin: 0; /* Không có margin */
         }
 </style>
+<style>
+    .notifications {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+</style>
 <div class="container-xxl py-5 bg-dark hero-header mb-5">
-    <div class="container my-5 py-5">
+    <div class="container-xl my-5 py-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 text-center text-lg-start">
                 <h1 class="display-4 text-white animated slideInLeft">Website<br>hướng dẫn đầu tư</h1>
@@ -84,29 +98,41 @@
         </div>
     </div>
 </div>
-<h1>@ViewBag.sl</h1>
 <style>
 
     .form-control:focus {
         outline-color: transparent !important;
         box-shadow: none !important;
     }
+
+    .container-xxl {
+        padding: 0;
+    }
+
+    h2.mt-4 {
+        text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.5);
+    }
 </style>
-<div class="container-xxl py-5">
-    <div class="container">
-        <h2>
-            Dữ Liệu : @Session["Id"]
-            @if (Session["giohang"] != null && ((List<string>)Session["giohang"]).Count > 0)
-            {
-                <h2>Name : @((List<string>)Session["giohang"]).Count</h2>
-            }
-        </h2>
-        <h1 class="mt-4">Bảng Giá Chứng Khoán </h1>
+@*<h1>@ViewBag.sl</h1>*@
+<div class="container-xxl">
+    <div class="container-xl">
+
+
+
+        @*<h2>
+                Course : @Session["Course"];
+                Dữ Liệu : @Session["Id"]
+                @if (Session["giohang"] != null && ((List<string>)Session["giohang"]).Count > 0)
+                {
+                    <h2>Name : @((List<string>)Session["giohang"]).Count</h2>
+                }
+            </h2>*@
+        <h4 class="mt-4 p-2">Biểu Đồ Giá  </h4>
         <div class="row">
             <div class="input-group mb-3">
-                <input style="width:200px" type="text" class="form-control col-md-8 mx-3" id="stockSymbol" placeholder="Nhập mã cổ phiếu">
+                <input style="width:200px; border-radius: 12px" type="text" class="form-control col-md-3 mx-3" id="stockSymbol" placeholder="Nhập mã cổ phiếu">
                 <div class="input-group-append">
-                    <button class="btn btn-success" type="button" onclick="updateSymbol()">Tìm Kiếm</button>
+                    <button style="border-radius: 12px ; padding : 5px 20px; font-size: 16px" class="btn btn-success" type="button" onclick="updateSymbol()">Tìm Kiếm</button>
                 </div>
             </div>
             <script type="text/javascript">
@@ -148,7 +174,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-sm-12" data-wow-delay="0.1s">
-                <div id="dnse-market-index" class="dnse-market-index">
+                <div style="border: none; outline: none" id="dnse-market-index" class="dnse-market-index">
                     <script src="https://www.fireant.vn/Scripts/web/widgets.js"></script>
                     <div id="fan-quote-192"></div>
                     <script type="text/javascript">
@@ -168,55 +194,66 @@
         </div>
     </div>
 </div>
+<div class="row mt-5">
 
-<!-- Service Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                        <h5>Financial Advisor</h5>
-                        <p>cung cấp các lời khuyên và hướng dẫn cho khách hàng về các quyết định tài chính, bao gồm đầu tư, quản lý tiền bạc, hưu trí và bảo hiểm</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
+</div>
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container-xl">
 
-                        <i class="fa-solid fa-3x fa-money-bill-trend-up text-primary mb-4"></i>
-                        <h5>Stock</h5>
-                        <p>cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh</p>
+
+        <div class="text-center">
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-dark mb-3"></i>
+                <p>Một loại chứng khoán biểu thị sở hữu một phần của một công ty cụ thể</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/cp.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Cổ Phiếu</h5>
+                        <small>Vnindex</small>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
-                        <h5>Online Order</h5>
-                        <p>Hiện tại đang hỗ trợ mặt hàng Sách , trong tương lai thì sẽ có thêm các mặt hàng khác như Sổ tay, bút ...  , hoặc là các thẻ Cart dễ hiểu </p>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-dark mb-3"></i>
+                <p>Nơi mà các loại tiền tệ từ các quốc gia trên toàn thế giới được trao đổi</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/nh.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ngoại Hối</h5>
+                        <small>Việt Nam</small>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-headset text-primary mb-4"></i>
-                        <h5>24/7 Service</h5>
-                        <p> Nhân viên hỗ trợ trực tiếp để xử lý các vấn đề phát sinh khi khách hàng sử dụng dịch vụ . Những bài viết có cơ sở kiến thức, các câu hỏi thường gặp</p>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-dark mb-3"></i>
+                <p>Một tổ chức tài chính cung cấp nhiều dịch vụ và sản phẩm tài chính </p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/bank.png" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ngân Hàng</h5>
+                        <small>Banking</small>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-dark mb-3"></i>
+                <p>Các sản phẩm hoặc tài sản có thể được mua bán hoặc giao dịch trên thị trường</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/hh.jpg" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Hàng Hóa</h5>
+                        <small>Dầu,Vàng</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Service End -->
-<!-- About Start -->
+<!-- Service Start -->
 <div class="container-xxl py-5">
-    <div class="container">
+    <div class="container-xl">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
                 <div class="row g-3">
@@ -235,8 +272,6 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Introduce</h5>
-                <h1 class="mb-4">Welcome to <i class="fa-solid text-primary fa-arrow-trend-down "></i> Stock Market</h1>
                 <p class="mb-4">Chứng khoán bao gồm các loại như cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh và các loại chứng khoán khác. Chứng khoán là một tài sản tài chính có thể giao dịch.</p>
                 <p class="mb-4">
                     Thị trường ngoại hối (còn được gọi là ngoại hối hoặc FX) là thị trường trao đổi tiền tệ quốc gia trên toàn cầu. Tiền tệ đóng vai trò quan trọng, cho phép chúng ta mua bán dịch vụ, hàng hóa trong nước và quốc tế. Khi kinh doanh và thương mại, tiền tệ quốc tế cần được trao đổi.
@@ -245,8 +280,8 @@
                 </p>
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
-                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
+                        <div class="d-flex align-items-center border-start border-5 border-danger px-3">
+                            <h1 class="flex-shrink-0 display-5 text-danger mb-0" data-toggle="counter-up">15</h1>
                             <div class="ps-4">
                                 <p class="mb-0">Years of</p>
                                 <h6 class="text-uppercase mb-0">Experience</h6>
@@ -254,8 +289,8 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                        <div class="d-flex align-items-center border-start border-5 border-danger px-3">
+                            <h1 class="flex-shrink-0 display-5 text-danger mb-0" data-toggle="counter-up">50</h1>
                             <div class="ps-4">
                                 <p class="mb-0">Popular</p>
                                 <h6 class="text-uppercase mb-0">Master Financial</h6>
@@ -263,17 +298,62 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-success py-3 px-5 mt-2" href="">Read More</a>
+                <a class="btn btn-warning py-3 px-5 mt-2" href="">Read More</a>
             </div>
         </div>
     </div>
 </div>
+<div class="container-xxl py-5">
+    <div class="container-xl">
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-user-tie text-info mb-4"></i>
+                        <h5>Financial Advisor</h5>
+                        <p>cung cấp các lời khuyên và hướng dẫn cho khách hàng về các quyết định tài chính, bao gồm đầu tư, quản lý tiền bạc, hưu trí và bảo hiểm</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+
+                        <i class="fa-solid fa-3x fa-money-bill-trend-up text-success mb-4"></i>
+                        <h5>Stock</h5>
+                        <p>cổ phiếu, trái phiếu, chứng chỉ quỹ; chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; chứng khoán phái sinh</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-cart-plus text-danger mb-4"></i>
+                        <h5>Online Order</h5>
+                        <p>Hiện tại đang hỗ trợ mặt hàng Sách , trong tương lai thì sẽ có thêm các mặt hàng khác như Sổ tay, bút ...  , hoặc là các thẻ Cart dễ hiểu </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-headset text-warning mb-4"></i>
+                        <h5>24/7 Service</h5>
+                        <p> Nhân viên hỗ trợ trực tiếp để xử lý các vấn đề phát sinh khi khách hàng sử dụng dịch vụ . Những bài viết có cơ sở kiến thức, các câu hỏi thường gặp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service End -->
+<!-- About Start -->
 <!-- About End -->
 <!-- Menu Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Sản phẩm chính</h5>
             <h1 class="mb-5">Most Popular Items</h1>
         </div>
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -281,7 +361,7 @@
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
 
-                        <i class="fa-solid fa-book fa-2x text-primary"></i>
+                        <i class="fa-solid fa-book fa-2x text-success"></i>
                         <div class="ps-3">
                             <small class="text-body">Popular</small>
                             <h6 class="mt-n1 mb-0">Books</h6>
@@ -290,7 +370,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                        <i class="fa-solid fa-clapperboard fa-2x text-primary"></i>
+                        <i class="fa-solid fa-clapperboard fa-2x text-warning"></i>
                         <div class="ps-3">
                             <small class="text-body">Special</small>
                             <h6 class="mt-n1 mb-0">Courses</h6>
@@ -299,7 +379,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                        <i class="fa-solid fa-arrows-to-circle fa-2x text-primary"></i>
+                        <i class="fa-solid fa-arrows-to-circle fa-2x text-danger"></i>
                         <div class="ps-3">
                             <small class="text-body">Lovely</small>
                             <h6 class="mt-n1 mb-0">Concept</h6>
@@ -614,7 +694,7 @@
 </div>
 <!-- Menu End -->
 <!-- Reservation Start -->
-<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+<div class="container-xl wow fadeInUp" data-wow-delay="0.1s">
     <div class="row g-0">
         <div class="col-md-6">
             <div class="video">
@@ -625,7 +705,7 @@
 
         </div>
         <div class="col-md-6 bg-dark d-flex align-items-center">
-            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="wow fadeInUp" data-wow-delay="0.2s">
                 <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
                 <h1 class="text-white mb-4">Book A Table Online</h1>
                 <form>
@@ -691,13 +771,45 @@
         </div>
     </div>
 </div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog text-center" style="margin-top: 15%; border-radius: 25px;">
+        <div class="modal-content text-center" style="border-radius: 13px">
+            <div class="modal-header bg-success text-center" style="text-align: center">
+                <p class="modal-title text-center text-white"  id="myModalLabel">Đăng nhập thành công</p>
+            </div>
+            <div class="modal-body">
+               
+                <i class="fa-regular fa-circle-check text-success" style="font-size: 64px; padding:20px"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Kiểm tra xem Session ID có tồn tại không
+        var sessionId = "@Session["Id"]";
+
+        // Nếu Session ID không rỗng, hiển thị modal
+        if (sessionId !== "") {
+            $('#myModal').modal('show');
+
+            // Sau 2 giây, tự động ẩn modal
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 2000);
+        }
+    });
+</script>
+
+
+
+
 <!-- Reservation Start -->
 <!-- Team Start -->
 <div class="container-xxl pt-5 pb-3">
-    <div class="container">
+    <div class="container-xl">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
-            <h1 class="mb-5">Our Master Financial</h1>
         </div>
         <div class="row g-4">
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -761,58 +873,3 @@
 </div>
 <!-- Team End -->
 <!-- Testimonial Start -->
-<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container">
-        <div class="text-center">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
-            <h1 class="mb-5">Our Clients Say!!!</h1>
-        </div>
-        <div class="owl-carousel testimonial-carousel">
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Một loại chứng khoán biểu thị sở hữu một phần của một công ty cụ thể</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/cp.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Cổ Phiếu</h5>
-                        <small>Vnindex</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Nơi mà các loại tiền tệ từ các quốc gia trên toàn thế giới được trao đổi</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/nh.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Ngoại Hối</h5>
-                        <small>Việt Nam</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Một tổ chức tài chính cung cấp nhiều dịch vụ và sản phẩm tài chính </p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/bank.png" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Ngân Hàng</h5>
-                        <small>Banking</small>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item bg-transparent border rounded p-4">
-                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                <p>Các sản phẩm hoặc tài sản có thể được mua bán hoặc giao dịch trên thị trường</p>
-                <div class="d-flex align-items-center">
-                    <img class="img-fluid flex-shrink-0 rounded-circle" src="~/Assets/Client/img/hh.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                        <h5 class="mb-1">Hàng Hóa</h5>
-                        <small>Dầu,Vàng</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
