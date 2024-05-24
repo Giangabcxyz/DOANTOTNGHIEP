@@ -61,7 +61,7 @@ namespace WebsiteChungKhoann.Models
         //public virtual Detail_Order Detail { get; set; }
         //public virtual History_Pay History_Pay { get; set; }
 
-
+        
 
     }
    

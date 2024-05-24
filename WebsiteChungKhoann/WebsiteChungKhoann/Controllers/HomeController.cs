@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebsiteChungKhoann.Models;
+using static System.Net.WebRequestMethods;
 
 namespace WebsiteChungKhoann.Controllers
 {
@@ -35,7 +36,6 @@ namespace WebsiteChungKhoann.Controllers
             var categories = db.Categories;
             return PartialView("Category", categories);
         }
-
         [HttpGet]
         public ActionResult GetProductsByCategory(int categoryId)
         {
@@ -50,3 +50,4 @@ namespace WebsiteChungKhoann.Controllers
 //Tên chủ thẻ:NGUYEN VAN A
 //Ngày phát hành:07 / 15
 //Mật khẩu OTP:123456
+

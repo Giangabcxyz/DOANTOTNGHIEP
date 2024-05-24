@@ -1,9 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using PagedList;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -17,10 +19,22 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Courses
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 5;
+            // Số trang hiện tại, nếu không có thì mặc định là 1
+            int pageNumber = (page ?? 1);
+
+            // Lấy danh sách các khóa học từ cơ sở dữ liệu, và kèm theo thông tin về tài khoản (nếu có)
             var courses = db.Courses.Include(c => c.Account);
-            return View(courses.ToList());
+
+            // Sắp xếp các khóa học theo một tiêu chí nào đó (nếu cần)
+            // Ví dụ: courses = courses.OrderBy(c => c.TenCot);
+            courses = courses.OrderBy(c => c.Id_Course);
+            // Phân trang cho danh sách các khóa học
+            var pagedCourses = courses.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedCourses);
         }
 
         // GET: Admin/Courses/Details/5

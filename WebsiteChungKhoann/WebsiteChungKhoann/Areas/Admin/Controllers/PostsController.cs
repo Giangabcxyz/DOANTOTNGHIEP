@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,10 +17,25 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Posts
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Posts.ToList());
+            // Số lượng bài viết trên mỗi trang
+            int pageSize = 5;
+            // Số trang hiện tại, nếu không có thì mặc định là 1
+            int pageNumber = (page ?? 1);
+
+            // Truy vấn dữ liệu từ DbSet
+            var postsQuery = db.Posts;
+
+            // Sắp xếp các bài viết theo một tiêu chí nào đó (ví dụ: Id hoặc Ngày đăng)
+            var sortedPostsQuery = postsQuery.OrderByDescending(p => p.Id_Post);
+
+            // Phân trang cho danh sách các bài viết
+            var pagedPosts = sortedPostsQuery.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedPosts);
         }
+
 
         // GET: Admin/Posts/Details/5
         public ActionResult Details(int? id)
@@ -92,7 +108,13 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
 
             return View(post);
         }
-
+        public ActionResult Xoa(int id)
+        {
+            Post post = db.Posts.Find(id);
+            db.Posts.Remove(post);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         // GET: Admin/Posts/Edit/5
         public ActionResult Edit(int? id)

@@ -81,3 +81,7 @@ D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\obj\Debug\WebsiteChungKh
 D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\obj\Debug\WebsiteC.39EA9808.Up2Date
 D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\obj\Debug\WebsiteChungKhoann.dll
 D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\obj\Debug\WebsiteChungKhoann.pdb
+D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\bin\PagedList.dll
+D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\bin\PagedList.Mvc.dll
+D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\bin\PagedList.xml
+D:\Workspace\DoAn\WebsiteChungKhoann\WebsiteChungKhoann\bin\PagedList.Mvc.xml

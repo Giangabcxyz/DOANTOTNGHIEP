@@ -14,7 +14,9 @@
           crossorigin="anonymous">
     <style>
         .login {
-            background: url('/Assets/Account/dist/images/login-new.jpeg')
+            background: url('/Assets/Account/dist/images/login-new.jpeg');
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
     <title>Register</title>
@@ -24,7 +26,7 @@
         <div class="w-full max-w-lg">
             <div class="leading-loose">
                 <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl" action="/Account/Register" method="post">
-                    <p class="text-gray-800 font-medium">Register</p>
+                    <p class="text-gray-800 font-medium text-center">Đăng Kí</p>
                     <div class="">
                         <label class="block text-sm text-gray-00" for="cus_name">Name</label>
                         <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="cus_name" name="Name" type="text" required="" placeholder="Your Name" aria-label="Name">

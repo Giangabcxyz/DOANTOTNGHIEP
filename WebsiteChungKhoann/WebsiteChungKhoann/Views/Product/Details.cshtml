@@ -395,6 +395,61 @@
         position: relative;
     }
 </style>
+<style>
+    .sugget {
+        display: flex;
+        flex-wrap: wrap; /* Đảm bảo các sản phẩm sẽ xuống hàng nếu không đủ chỗ */
+        gap: 15px; /* Khoảng cách giữa các sản phẩm */
+    }
+
+    .pr {
+        display: flex;
+        align-items: center; /* Căn giữa theo trục dọc */
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product-image.sg {
+        flex: 1;
+    }
+
+        .product-image.sg img {
+            width: 100px; /* Kích thước hình ảnh */
+            height: auto;
+            object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+        }
+
+    .product-info.sg {
+        flex: 2;
+        padding-left: 15px; /* Khoảng cách giữa hình ảnh và thông tin sản phẩm */
+    }
+
+        .product-info.sg i {
+            font-size: 18px;
+            color: red;
+        }
+
+        .product-info.sg .product-name.sg {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .product-info.sg a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .product-info.sg a:hover {
+                text-decoration: underline;
+            }
+
+</style>
 <div class="container mt-5">
     <div class="row detail_pr">
         <div class="col-sm-6 col-md-4 col-lg-4">
@@ -404,15 +459,10 @@
         </div>
         <div class="col-sm-6 col-md-8 col-lg-8">
             <div class="product-info">
-                @if (Model.Price.HasValue)
-                {
-                    decimal price = (decimal)Model.Price; // Chuyển đổi từ kiểu int? sang decimal
-                    <h2 class="product-price">@FormatPrice(price)</h2>
-                }
-                else
-                {
-                    <h2 class="product-price">Price not available</h2>
-                }
+
+
+                <span>@Model.Price</span>
+
                 <p class="product-name">@Model.Name</p>
                 <p class="product-description">@Model.Description</p>
                 <a href="@Url.Action("Cart", "Cart", new { id = Model.Id_Product })"><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i></a> |
@@ -474,25 +524,23 @@
     <div class="row sugget mt-5">
         @foreach (var i in ViewBag.RelatedProducts)
         {
-            <div class="pr">
+            <div class="pr d-flex">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="product-image sg">
                         <img src="@Url.Content(i.Img)" alt="Product Image sg" />
                     </div>
-
                 </div>
                 <div class="col-lg-8 col-sm-8 col-md-8">
                     <div class="product-info sg">
                         <i>@i.Price</i>
                         <p class="product-name sg">@i.Name</p>
-                        <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"></a><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i> |
                         <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
                     </div>
                 </div>
             </div>
-
         }
     </div>
+
 </div>
 
 

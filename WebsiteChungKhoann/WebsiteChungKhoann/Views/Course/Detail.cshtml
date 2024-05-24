@@ -2,25 +2,20 @@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<!-- Link to Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<!-- Link to Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
-    /* Add your custom CSS styles here */
     .rounded-avatar {
         width: 50px;
         height: 50px;
         border-radius: 50%;
     }
-    /* Style the comment box and send button */
+
     .comment-box-wrapper {
         position: relative;
     }
@@ -35,16 +30,16 @@
             right: 10px;
             border-radius: 20px;
         }
-    /* Set the width and height for the post image */
+
     .post-image {
         max-width: 100%;
         height: auto;
     }
-    /* Override Bootstrap card header padding */
+
     .card-text {
         padding: 15px;
     }
-    /* Override Bootstrap card body padding */
+
     .card-body {
         padding: 0;
     }
@@ -61,22 +56,11 @@
         position: relative;
     }
 
-
-    .full-width {
-        width: 100%;
-    }
-
-    .card-body {
-        position: relative;
-    }
-
         .card-body .form-control.full-width {
-            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
-            margin: 0; /* Không có margin */
+            width: calc(100% - 20px);
+            margin: 0;
         }
-</style>
-<style>
-    /* Custom CSS */
+
     .video-list {
         height: 100vh;
         overflow-y: auto;
@@ -89,7 +73,7 @@
     }
 
         .video-list-item.selected {
-            border: 2px solid red; /* Đổi màu và độ rộng viền tùy ý */
+            border: 2px solid red;
         }
 
         .video-list-item:hover {
@@ -97,8 +81,8 @@
         }
 
     .video-player {
-        height: 60vh; /* Giảm kích thước video */
-        padding: 0 20px; /* Khoảng cách giữa video và danh sách */
+        height: 60vh;
+        padding: 0 20px;
     }
 
         .video-player iframe {
@@ -108,9 +92,9 @@
         }
 
     .video-thumbnail {
-        width: 300px; /* Độ rộng của hình ảnh */
-        height: 200px; /* Chiều cao tự động */
-        margin-right: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+        width: 300px;
+        height: 200px;
+        margin-right: 10px;
     }
 
     .comment-section {
@@ -128,20 +112,20 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 15px;
-        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        resize: vertical;
         margin-bottom: 10px;
         outline: none;
         margin: 10px;
     }
 
     .form__btn {
-        background-color: #4267B2; /* Màu nền tương tự Facebook */
-        color: #fff; /* Màu chữ trắng */
+        background-color: #4267B2;
+        color: #fff;
         padding: 10px 20px;
         border: 1px solid #000000;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+        transition: background-color 0.3s ease;
         height: 50px;
         line-height: 100%;
     }
@@ -161,10 +145,15 @@
     .ten {
         display: flex;
     }
+
+    .selected-video {
+        border: 1px solid red;
+        padding: 5px;
+    }
 </style>
-<div class="container mt-5">
+
+<div class="container-xxl mt-5">
     <div class="row">
-        <!-- Nội dung video -->
         <div class="col-md-9 col-lg-9">
             @foreach (var item in Model)
             {
@@ -172,15 +161,12 @@
                 {
                     <div class="video-details">
                         <div class="ten">
-
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUUqKTx77lwnS3yg0kUSKQxs3SJrSM22PaSIZpoYumhiuGlCOIRo6O7f88MtIjq1DkAuE&usqp=CAU" class="rounded-avatar mr-2" alt="Avatar">
-                           
                             <p class="card-text card-title">@item.Create_Date</p>
                         </div>
                         <div>
                             <p class="card-text card-title font-weight-bold" style="font-size: 20px;">@item.Name</p>
                         </div>
-                        <!-- Hiển thị video từ id của ViewBag -->
                         <iframe width="100%" height="400" src="https://www.youtube.com/embed/@item.Link_Id" frameborder="0" allowfullscreen></iframe>
                         <span class="card-text" style="font-size: 18px; margin:15px;">@item.Description</span>
                     </div>
@@ -201,22 +187,14 @@
                             <input type="hidden" name="Name" value="@Session["name"]" />
 
                             <div class="cmt_c">
-
                                 <textarea class="form__textarea" placeholder="Nhập bình luận" name="Comment"></textarea>
                                 <button type="submit" class="form__btn">Gửi</button>
                             </div>
                         }
-
                     </div>
 
-                    <!-- Hiển thị bình luận tương ứng -->
                     <div class="comment-section">
-                        <div class="" style="display:none">
-
-
-
-
-                        </div>
+                        <div class="" style="display:none"></div>
                         @foreach (var comment in ViewBag.Comment)
                         {
                             if (comment.Id_Course == item.Id_Course)
@@ -226,49 +204,34 @@
                                     <div class="comment-details">
                                         <h6>@comment.AccountName</h6>
                                         <p>@comment.Comment</p>
-                                       
                                     </div>
                                 </div>
                             }
-
-                            <!-- Hiển thị các thuộc tính khác của bình luận nếu cần -->
                         }
-
-
-
                     </div>
                 }
             }
         </div>
         <div class="col-md-3">
-            <!-- Hiển thị các video khác -->
+            <!-- Hiển thị tất cả các video -->
             @foreach (var item in Model)
             {
-                if (item.Id_Course != ViewBag.id)
-                {
-                    <div class="other-video">
-                        <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
-                            <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="thumbnail" alt="Thumbnail">
-                            <p>@item.Name</p>
-                        </a>
-                    </div>
-                }
+                <div class="other-video @((item.Id_Course == ViewBag.id) ? "selected-video" : "")">
+                    <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
+                        <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="thumbnail" alt="Thumbnail">
+                        <p style="color:black; font-weight:bold; font-size:14px; padding:10px">@item.Name</p>
+                    </a>
+                </div>
             }
         </div>
     </div>
 </div>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
-        // Kiểm tra xem Session ID có tồn tại không
         var sessionId = "@Session["Id"]";
-
-        // Nếu Session ID không rỗng, hiển thị modal
         if (sessionId !== "") {
             $('#myModal').modal('show');
-
-            // Sau 2 giây, tự động ẩn modal
             setTimeout(function() {
                 $('#myModal').modal('hide');
             }, 2000);
@@ -276,35 +239,15 @@
     });
 </script>
 
-@* Script JavaScript *@
 <script>
-     //lấy giá trị của session và gán vào biến javascript
-  function CheckLogin() {
-    var ok = '@ViewBag.id.ToString().ToLower()';
-      if (ok == "true") {
-          alert("Bạn Chưa Đăg nhập");
-        window.location.href = '/Account/Login';
-        return false;
-    } else {
-        return true;
+    function CheckLogin() {
+        var ok = '@ViewBag.id.ToString().ToLower()';
+        if (ok == "true") {
+            alert("Bạn Chưa Đăg nhập");
+            window.location.href = '/Account/Login';
+            return false;
+        } else {
+            return true;
+        }
     }
-}
-
-    //function sb(id, courseId) {
-    //    if (id == 0) {
-    //        alert("Bạn Chưa Đăng nhập tài khoản");
-    //        // Chuyển hướng người dùng đến trang đăng nhập
-    //        window.location.href = '/Account/Login';
-    //        // Ngăn chặn việc gửi form
-    //        event.preventDefault();
-    //    }
-    //    // Sử dụng tham số courseId thay cho id
-    //    $('#commentForm' + courseId).submit(function (event) {
-
-    //    });
-    //}
-
 </script>
-
-
-

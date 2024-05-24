@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using PagedList;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebsiteChungKhoann.Models;
+
 
 namespace WebsiteChungKhoann.Areas.Admin.Controllers
 {
@@ -15,9 +17,15 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Accounts
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Accounts.ToList());
+            // Sắp xếp dữ liệu trước khi áp dụng phân trang
+            var account = db.Accounts.OrderBy(a => a.Id);
+
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+
+            return View(account.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/Accounts/Details/5

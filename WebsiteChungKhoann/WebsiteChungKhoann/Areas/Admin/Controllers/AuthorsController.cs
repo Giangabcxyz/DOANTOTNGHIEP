@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,13 +16,54 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Authors
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
-            return View(db.Authors.ToList());
+            // Define a default sort order if none is specified
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.AddressSortParm = sortOrder == "Address" ? "address_desc" : "Address";
+            ViewBag.AgeSortParm = sortOrder == "Age" ? "age_desc" : "Age";
+
+            // Query all authors
+            var authors = from a in db.Authors
+                          select a;
+
+            // Apply sorting based on the sortOrder parameter
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    authors = authors.OrderByDescending(a => a.Name_Author);
+                    break;
+                case "Address":
+                    authors = authors.OrderBy(a => a.Address_Author);
+                    break;
+                case "address_desc":
+                    authors = authors.OrderByDescending(a => a.Address_Author);
+                    break;
+                case "Age":
+                    authors = authors.OrderBy(a => a.Age_Author);
+                    break;
+                case "age_desc":
+                    authors = authors.OrderByDescending(a => a.Age_Author);
+                    break;
+                default:
+                    authors = authors.OrderBy(a => a.Name_Author);
+                    break;
+            }
+
+            // Set page size (number of items per page)
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+
+            // Return the paginated list to the view
+            return View(authors.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Admin/Authors/Details/5
-        public ActionResult Details(int? id)
+        // Other actions
+    
+
+    // GET: Admin/Authors/Details/5
+    public ActionResult Details(int? id)
         {
             if (id == null)
             {

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using PagedList;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -15,9 +17,12 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Categories
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Categories.ToList());
+            var category = db.Categories.OrderBy(a => a.Id_Category);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            return View(category.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/Categories/Details/5

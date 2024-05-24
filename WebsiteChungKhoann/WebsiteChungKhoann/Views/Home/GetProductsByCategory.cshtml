@@ -227,6 +227,35 @@
         display: inline-block;
         transform: skewX(-10deg); /* Nghiêng văn bản */
     }
+    .product-item {
+        position: relative;
+    }
+
+        .product-item.out-of-stock .product-image {
+            position: relative;
+        }
+
+        .product-item.out-of-stock .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7); /* Màu trắng trong suốt khoảng 0.4 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: red;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-item.out-of-stock .btn.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
 </style>
 
 <!--<div class="col-sm-9 padding-right">
@@ -260,10 +289,8 @@
                     </div>
                 </div>
             </div>
-        }
+        } 
     </div>
-
-
 </div>-->
 
 <div class="container-xl mt-5">
@@ -271,20 +298,42 @@
         @foreach (var i in Model)
         {
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="product-item">
-                    <div class="product-image">
-                        <img src="@Url.Content(i.Img)" alt="Product Image" />
+                @if (i.Count > 0)
+                {
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img src="@Url.Content(i.Img)" alt="Product Image" />
+                        </div>
+                        <div class="product-info">
+                            <h2>@i.Price</h2>
+                            <p class="product-name">@i.Name</p>
+                            <p class="count">Còn Lại: @i.Count</p>
+                            <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })" class="btn btn-primary add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+                            <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })" class="btn btn-secondary">Chi Tiết</a>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <h2>@i.Price</h2>
-                        <p class="product-name">@i.Name</p>
-                        <p class="count">Còn Lại :  @i.Count</p>
-                        <a href="@Url.Action("Cart", "Cart", new { id = i.Id_Product })"><i class="btn btn-primary add-to-cart fa fa-shopping-cart">Add to Cart</i></a> |
-                        <a href="@Url.Action("Details", "Product", new { id = i.Id_Product })">Chi Tiết</a>
+                }
+                else
+                {
+                    <div class="product-item out-of-stock">
+                        <div class="product-image">
+                            <img src="@Url.Content(i.Img)" alt="Product Image" />
+                            <div class="overlay">
+                                <span>Hết hàng</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h2>@i.Price</h2>
+                            <p class="product-name">@i.Name</p>
+                            <p class="count">Còn Lại: @i.Count</p>
+                            <a href="#" class="btn btn-primary add-to-cart disabled" onclick="return false;"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+                            <a href="#" class="btn btn-secondary disabled" onclick="return false;">Chi Tiết</a>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         }
+
     </div>
 </div>
 

@@ -1,0 +1,487 @@
+﻿@using PagedList;
+@using PagedList.Mvc
+@model IPagedList<WebsiteChungKhoann.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Link to Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .container-xl {
+        padding: 10px;
+        text-align: center;
+    }
+    /* Add your custom CSS styles here */
+    .rounded-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    /* Style the comment box and send button */
+    .comment-box-wrapper {
+        position: relative;
+    }
+
+        .comment-box-wrapper textarea {
+            border-radius: 20px;
+        }
+
+        .comment-box-wrapper .btn-primary {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            border-radius: 20px;
+        }
+    /* Set the width and height for the post image */
+    .post-image {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Override Bootstrap card header padding */
+    .card-text {
+        padding: 15px;
+    }
+    /* Override Bootstrap card body padding */
+    .card-body {
+        padding: 0;
+    }
+
+    .comment {
+        display: flex;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+        width: 100%;
+    }
+
+
+    .full-width {
+        width: 100%;
+    }
+
+    .card-body {
+        position: relative;
+    }
+
+        .card-body .form-control.full-width {
+            width: calc(100% - 20px); /* Trừ điều chỉnh margin của textarea */
+            margin: 0; /* Không có margin */
+        }
+
+    #commentsContainer {
+        position: relative; /* Bắt đầu vị trí tương đối */
+        max-height: 300px; /* Chiều cao mặc định của commentsContainer */
+        overflow: hidden; /* Ẩn bớt phần nội dung vượt quá max-height */
+        transition: max-height 0.8s ease; /* Hiệu ứng chuyển đổi khi thay đổi max-height */
+    }
+
+    #showMoreButton {
+        position: absolute; /* Thiết lập vị trí tuyệt đối */
+        bottom: 0; /* Nằm ở phía dưới */
+        right: 0; /* Nằm ở phía bên phải */
+        margin: 10px; /* Khoảng cách từ nút đến mép phải và dưới của commentsContainer */
+    }
+
+
+
+    /* đây là bình luận*/
+    .form__textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        resize: vertical; /* Cho phép điều chỉnh chiều cao theo chiều dọc */
+        margin-bottom: 10px;
+        outline: none;
+        margin: 10px;
+    }
+
+    .form__btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background-color: #4267B2; /* Màu nền tương tự Facebook */
+        color: #fff; /* Màu chữ trắng */
+        padding: 10px 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+    }
+
+    #cm .form__textarea {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: aqua;
+        color: red;
+    }
+
+    .form__btn:hover {
+        background-color: #3B5998; /* Màu nền khi di chuột qua */
+    }
+
+    #commentForm {
+        position: relative;
+    }
+
+    .comment {
+        margin: 10px;
+    }
+
+        .comment p {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 5px 10px;
+            margin: 0px 5px;
+        }
+</style>
+@*<style>
+        .product-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 2px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            white-space: nowrap; /* Không xuống dòng */
+            overflow: hidden; /* Ẩn phần văn bản vượt quá */
+            text-overflow: ellipsis;
+        }
+
+        .add-to-cart {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .add-to-cart:hover {
+                background-color: #0056b3;
+            }
+
+        .product-price {
+            font-size: 14px;
+            color: red;
+            margin-bottom: 10px;
+            display: inline-block;
+            transform: skewX(-10deg); /* Nghiêng văn bản */
+        }
+
+        .product-item {
+            position: relative;
+        }
+
+            .product-item.out-of-stock .product-image {
+                position: relative;
+            }
+
+            .product-item.out-of-stock .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(255, 255, 255, 0.7); /* Màu trắng trong suốt khoảng 0.4 */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5em;
+                color: red;
+                font-weight: bold;
+                z-index: 2;
+            }
+
+            .product-item.out-of-stock .btn.disabled {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+    </style>*@
+<style>
+    /* Phân trang */
+    .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .pagination-container .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+            .pagination-container .pagination li {
+                display: inline;
+            }
+
+                .pagination-container .pagination li a {
+                    position: relative;
+                    float: left;
+                    padding: 6px 12px;
+                    line-height: 1.428571429;
+                    text-decoration: none;
+                    color: #C40C0C;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    margin-left: -1px;
+                }
+
+                .pagination-container .pagination li.active a {
+                    background-color: #C40C0C;
+                    color: #fff;
+                }
+
+                .pagination-container .pagination li a:hover {
+                    z-index: 3;
+                    color: #fff;
+                    background-color: #C40C0C;
+                    border-color: #C40C0C;
+                }
+
+                .pagination-container .pagination li:first-child a {
+                    margin-left: 0;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                }
+
+                .pagination-container .pagination li:last-child a {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                }
+
+                .pagination-container .pagination li a:focus {
+                    outline: none;
+                }
+</style>
+<style>
+    <style >
+    .product-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 2px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        margin: 10px 0px;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover; /* Đảm bảo hình ảnh phù hợp với khung */
+    }
+
+    .product-price {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .product-info {
+        padding: 0 10px;
+    }
+
+    .product-name {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .add-to-cart {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        font-size: 12px;
+    }
+
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+
+    .product-price {
+        font-size: 14px;
+        color: red;
+        margin-bottom: 10px;
+        display: inline-block;
+        transform: skewX(-10deg);
+    }
+
+    .product-item {
+        position: relative;
+    }
+
+        .product-item.out-of-stock .product-image {
+            position: relative;
+        }
+
+        .product-item.out-of-stock .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: red;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-item.out-of-stock .btn.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+
+    /* CSS cho mục danh mục */
+    .list-group-item:focus,
+    .list-group-item.active {
+        background-color: red;
+        color: #fff;
+        outline: none;
+        border: none;
+    }
+
+    .list-group-item.activev {
+        background-color: #007bff;
+        color: #fff;
+    }
+</style>
+<div class="container">
+   
+    <div class="row" style="padding:20px">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="@Url.Action("Index","List")" class="list-group-item list-group-item-action activev" id="category-0">Danh Mục</a>
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <a href="@Url.Action("Index", "List", new { categoryId = category.Id_Category })" class="list-group-item list-group-item-action" id="category-@category.Id_Category">@category.Name_Category</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12" style="display:flex; justify-content:space-around; margin:10px 0px;">
+                    <form action="@Url.Action("Search", "List")" method="get" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" name="query" placeholder="Tìm kiếm sách" aria-label="Search">
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                    </form>
+                    <form action="@Url.Action("Index", "List")" method="get" class="form-inline my-2 my-lg-0" style="margin: 0px 20px">
+                        <select name="priceRange" class="form-control mr-sm-2">
+                            <option value="">Chọn khoảng giá</option>
+                            <option value="0-100000">0 - 100,000 VND</option>
+                            <option value="100000-500000">100,000 - 500,000 VND</option>
+                            <option value="500000-1000000">500,000 - 1,000,000 VND</option>
+                            <option value="1000000-">Trên 1,000,000 VND</option>
+                        </select>
+                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Áp dụng</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-4" style="margin: 10px 0px">
+                        <!-- Điều chỉnh kích thước cột cho từng sản phẩm -->
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img src="@Url.Content(product.Img)" alt="Product Image" />
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-name">@product.Name</h4>
+                                <p class="product-price">đ @product.Price</p>
+                                <p class="count">Còn Lại: @product.Count</p>
+                                <div style="display:flex; justify-content: space-between">
+                                    <a style="font-size: 10px;" href="@Url.Action("Cart", "Cart", new { id = product.Id_Product })" class="btn btn-primary add-to-cart"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                                    <a style="font-size: 10px" href="@Url.Action("Details", "Product", new { id = product.Id_Product })" class="btn btn-secondary">Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="row justify-content-center">
+                <div class="pagination-container">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        // Lấy ID của mục active từ localStorage
+        var activeCategoryId = localStorage.getItem('activeCategoryId');
+
+        if (activeCategoryId) {
+            // Nếu đã lưu ID của mục active, thêm lớp active vào mục đó
+            $('#' + activeCategoryId).addClass('active');
+        }
+
+        $('.list-group-item').click(function () {
+            // Xóa lớp active khỏi tất cả các mục danh sách
+            $('.list-group-item').removeClass('active');
+            // Thêm lớp active vào mục được nhấp vào
+            $(this).addClass('active');
+            // Lưu ID của mục được nhấp vào localStorage
+            localStorage.setItem('activeCategoryId', $(this).attr('id'));
+        });
+    });
+
+</script>
+

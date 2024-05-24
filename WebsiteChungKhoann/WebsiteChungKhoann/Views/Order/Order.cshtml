@@ -214,11 +214,44 @@
         .submit-btn:hover {
             background-color: #45a049;
         }
+    .register input{
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        border-bottom: solid gray 1px ;
+        
+    }
+    /* CSS cho thẻ select */
+    #payment-method {
+        padding: 8px 10px; /* Khoảng cách bên trong */
+        font-size: 16px; /* Cỡ chữ */
+        border: 1px solid #ccc; /* Viền */
+        border-radius: 5px; /* Bo tròn góc */
+        background-color: #fff; /* Màu nền */
+        width: 200px; /* Độ rộng */
+    }
+
+        /* CSS cho tùy chọn trong thẻ select */
+        #payment-method option {
+            font-size: 16px; /* Cỡ chữ */
+        }
+
+        /* CSS cho khi hover */
+        #payment-method:hover {
+            border-color: #007bff; /* Màu viền khi hover */
+        }
+
+        /* CSS cho khi focus */
+        #payment-method:focus {
+            outline: none; /* Loại bỏ đường viền khi focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiển thị shadow khi focus */
+        }
+
 </style>
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-sm-8 col-md-8 col-lg-8">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <div class="rdetail_pr">
                 <div class="product-image">
                     <img src="@Url.Content(ViewBag.ProductImg)" alt="Product Image" />
@@ -228,7 +261,7 @@
                     @if (ViewBag.ProductPrice != null)
                     {
                         decimal price = (decimal)ViewBag.ProductPrice; // Chuyển đổi từ kiểu int? sang decimal
-                        <h2 class="product-price">@FormatPrice(price)</h2>
+                        <i class="product-price" style="color: red">@FormatPrice(price)</i>
                     }
                     else
                     {
@@ -236,31 +269,32 @@
                     }
 
                     <p class="product-name">@ViewBag.ProductName</p>
-                    <p class="product-description">@ViewBag.ProductDescript</p>
+                    
                 </div>
 
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <div class="center">
                 <div class="product">
-                </div>
+                           <p class="text-center">Điền Thông Tin Nhận Hàng</p>
+                    </div>
                 <div class="register">
                     <form action="/Order/Order" method="post">
-                        <label for="full-name">Họ và tên:</label>
-                        <input type="text" name="fullname">
-
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address">
-
+                        <label  for="full-name">Họ và tên:</label>
+                        <input style="margin-left: 25px" type="text" name="fullname">
+                        <br />
+                        <label  for="address">Địa chỉ:</label>
+                        <input style="margin-left: 45px" type="text" name="address">
+                        <br />
                         <label for="phone-number">Số điện thoại:</label>
                         <input type="text" name="phonenumber">
-
+                        <br />
                         <label for="payment-method">Chọn phương thức thanh toán:</label>
                         <select id="payment-method" name="paymentmethod">
 
-                            <option value="1">Thanh toán trực tuyến</option>
-                            <option value="2">Thanh toán khi nhận hàng</option>
+                            <option style="padding: 10px;" value="1">Thanh toán trực tuyến</option>
+                            <option style="padding: 10px" value="2">Thanh toán khi nhận hàng</option>
                         </select>
                         <input type="hidden" name="idCart" value="@ViewBag.IdCart" />
                         <input type="hidden" name="id_pr" value="@ViewBag.ProductId" />
@@ -273,7 +307,7 @@
                         <input type="hidden" name="id" value="@ViewBag.AccountId" />
                         <input type="hidden" name="date" value="@DateTime.Now" />
                         <input type="hidden" name="quantity" value="@ViewBag.ProductQuantity" />
-                        <input type="submit" value="Thanh Toán" class="submit-btn">
+                        <input style="margin-top: 20px" type="submit" value="Đặt Hàng" class="submit-btn">
                     </form>
                 </div>
             </div>

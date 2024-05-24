@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -17,10 +18,12 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Products
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var products = db.Products.Include(p => p.Author).Include(p => p.Category);
-            return View(products.ToList());
+            var products = db.Products.Include(p => p.Author).Include(p => p.Category).ToList();
+            int pageSize = 5; // Số lượng mục trên mỗi trang
+            int pageNumber = (page ?? 1); // Trang hiện tại, nếu không có trang nào thì mặc định là trang 1
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/Products/Details/5

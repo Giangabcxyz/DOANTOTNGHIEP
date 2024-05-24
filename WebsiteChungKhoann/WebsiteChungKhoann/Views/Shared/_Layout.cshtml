@@ -64,12 +64,13 @@
             }
 
                 .nav-item.nav-link:hover {
-                    color: #ff0000; /* Màu chữ khi hover */
+                    color: red;
+                    /* Màu chữ khi hover */
                 }
 
                 /* Các quy tắc cho thẻ <a> khi được click */
                 .nav-item.nav-link:active {
-                    color: #00ff00; /* Màu chữ khi được click */
+                    color: red; /* Màu chữ khi được click */
                 }
             /* Màu mặc định của các thẻ a */
             .nav-item.nav-link {
@@ -89,7 +90,7 @@
             }
 
             .nav-itemss.nav-links.hh {
-                color: #ffcc00;
+                color: red;
             }
 
             .navbar-navs ul {
@@ -111,11 +112,18 @@
             .nav-itemss.nav-links:hover {
                 text-decoration: none;
                 transition: color 0.3s;
-                color: #ffcc00;
+                color: white;
             }
 
             navbar-navs .nav-itemss.nav-links.hh {
-                color: #ffcc00;
+                color: red;
+                transform: scale(1.1);
+            }
+
+            .active {
+                color: red; /* Màu chữ khi liên kết được chọn */
+                font-weight: bold; /* Đậm chữ khi liên kết được chọn */
+                font-size :20px;
             }
         </style>
         
@@ -147,7 +155,8 @@
                                 <a id="newLink" href="/New/Index" class="nav-itemss nav-links">New</a>
                                 <a id="postLink" href="/Post/Index" class="nav-itemss nav-links">Concept</a>
                                 <a id="courseLink" href="/Course/Index" class="nav-itemss nav-links">Course</a>
-                                @{ Html.RenderAction("Category", "Home");}
+                                <a id="ListLink" href="/List/Index" class="nav-itemss nav-links">Books</a>
+                                @*@{ Html.RenderAction("Category", "Home");}*@
                                 <a id="cartLink" href="/Cart/Index" class="nav-itemss nav-links">
                                     <i class="fa-solid fa-cart-shopping" style="font-size: 20px"></i>
                                     @Html.Action("Bagcart", "Cart")
@@ -213,9 +222,9 @@
                             <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+084 967 126965</p>
                             <p class="mb-2"><i class="fa fa-envelope me-3"></i>Doangiang002@gmail.com</p>
                             <div class="d-flex pt-2">
-                                <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-outline-light btn-social" href="https://www.tiktok.com"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-social" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a>
                                 <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
@@ -294,6 +303,26 @@
                     this.classList.add('hh');
                 });
             });
+            $(document).ready(function () {
+                // Lấy URL hiện tại
+                var currentUrl = window.location.href;
+
+                // Lặp qua các liên kết
+                $('.nav-links').each(function () {
+                    // Lấy href của liên kết
+                    var linkUrl = $(this).attr('href');
+
+                    // So sánh href với URL hiện tại
+                    if (currentUrl.indexOf(linkUrl) !== -1) {
+                        // Nếu href trùng khớp với URL hiện tại, thêm lớp active
+                        $(this).addClass('active');
+                    } else {
+                        // Nếu không trùng khớp, loại bỏ lớp active
+                        $(this).removeClass('active');
+                    }
+                });
+            });
+
         </script>
     </body>
 

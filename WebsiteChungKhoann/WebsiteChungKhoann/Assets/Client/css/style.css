@@ -226,7 +226,7 @@
 }
 
 .service-item:hover * {
-    color: var(--light) !important;
+    color: var(--primary) !important;
 }
 
 
@@ -382,16 +382,17 @@
 .testimonial-carousel .owl-item .testimonial-item,
 .testimonial-carousel .owl-item.center .testimonial-item * {
     transition: .5s;
+    background: var(--primary) !important;
 }
 
 .testimonial-carousel .owl-item.center .testimonial-item {
-   /* background: var(--primary) !important;*/
+    background: var(--primary) !important;
     border-color: var(--primary) !important;
 }
 
-.testimonial-carousel .owl-item.center .testimonial-item * {
-    color: var(--light) !important;
-}
+    .testimonial-carousel .owl-item.center .testimonial-item * {
+        background: var(--primary) !important;
+    }
 
 .testimonial-carousel .owl-dots {
     margin-top: 24px;

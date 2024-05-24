@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WebsiteChungKhoann.Models.Category>
+<div class="categories-container">
+    <h3>Danh Mục</h3>
+    <ul class="categories-list">
+        @foreach (var category in Model)
+        {
+            <li>
+                <a href="#" onclick="loadProducts(@category.Id_Category); return false;">@category.Name_Category</a>
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Load tất cả sản phẩm ban đầu khi trang được tải
+        loadProducts(null);
+
+        // Hàm gửi yêu cầu AJAX để lấy danh sách sản phẩm dựa trên danh mục được chọn
+        function loadProducts(categoryId) {
+            $.ajax({
+                url: "@Url.Action("GetProductsByCategory", "List")",
+                type: "GET",
+                data: { categoryId: categoryId },
+                success: function (data) {
+                    $('#product-container').html(data);
+                },
+                error: function () {
+                    alert("Đã xảy ra lỗi khi tải sản phẩm.");
+                }
+            });
+        }
+
+        // Hủy sự kiện mặc định của thẻ <a> khi click vào danh mục
+        $('.categories-list li a').click(function (e) {
+            e.preventDefault();
+        });
+    });
+</script>

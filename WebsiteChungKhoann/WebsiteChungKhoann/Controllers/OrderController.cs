@@ -68,7 +68,12 @@ namespace WebsiteChungKhoann.Controllers
                     }
                     else
                     {
+                        Order order = db.Orders_pr.Find(int.Parse(Session["OrderId"].ToString()));
+                        order.Id_PayStatus = 2;
+                        db.SaveChanges();
+
                         return RedirectToAction("Error", "Order");
+
                         ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý.Mã lỗi: " + vnp_ResponseCode;
 
                     }
@@ -103,7 +108,7 @@ namespace WebsiteChungKhoann.Controllers
             order.Name = form["fullname"];
             order.Address = form["address"];
             order.Phone = form["phonenumber"];
-            order.Id_Pay= int.Parse(form["status"]);
+            order.Id_Pay= int.Parse(form["paymentmethod"]);
             order.Id_Status= int.Parse(form["status"]);
             order.Id_PayStatus = int.Parse(form["status"]);
             order.Total= int.Parse(form["total"]);
@@ -118,6 +123,10 @@ namespace WebsiteChungKhoann.Controllers
                 int quantity;
                 if (int.TryParse(form["quantity"], out quantity))
                 {
+                    if(product.Count <=0)
+                    {
+                        product.Count = 0;
+                    }    
                     product.Count -= quantity;
                     db.SaveChanges();
                 }
@@ -133,6 +142,7 @@ namespace WebsiteChungKhoann.Controllers
             
             if (TypePayMent == 1)
             {
+                Session["OrderId"]= order.Id_Order;
                 return Redirect(url);
             }
             else
@@ -226,11 +236,21 @@ namespace WebsiteChungKhoann.Controllers
         public ActionResult User_Order()
         {
                 int id = int.Parse(Session["Id"].ToString());
-              List<Order> orders = new List<Order>();
-              orders = db.Orders_pr.Where(e=>e.Id_Account == id && e.Id_Status == 3).ToList();
+            //List<Order> orders = new List<Order>();
+            //orders = db.Orders_pr.Where(e=>e.Id_Account == id && e.Id_Status == 3).ToList();
+            //List<Order> Pendding = new List<Order>();
+            //  Pendding = db.Orders_pr.Where(e => e.Id_Account == id && e.Id_Status == 1).ToList();
+            //List<Order>danger = new List<Order>();
+            //  danger = db.Orders_pr.Where(e=> e.Id_Order == id && e.Id_Status== 4).ToList();
+
+            // List<Order> Wanrring = new List<Order>();
+            // Wanrring = db.Orders_pr.Where(e => e.Id_Order == id && e.Id_Status == 2).ToList();
+            List<Order> orders = db.Orders_pr.Where(e => e.Id_Account == id && e.Id_Status == 3).ToList();
+            List<Order> Pendding = db.Orders_pr.Where(e => e.Id_Account == id && e.Id_Status == 1).ToList();
+            List<Order> danger = db.Orders_pr.Where(e => e.Id_Account == id && e.Id_Status == 4).ToList();
+            List<Order> Wanrring = db.Orders_pr.Where(e => e.Id_Account == id && e.Id_Status == 2).ToList();
 
             Order k = new Order();
-           
             if(orders != null)
             {
                ViewBag.status = "Có";
@@ -241,6 +261,9 @@ namespace WebsiteChungKhoann.Controllers
             }
             var Account = db.Accounts.Find(id);
             ViewBag.OrderList = orders;
+            ViewBag.pending = Pendding;
+            ViewBag.danger = danger;
+            ViewBag.Wanrring = Wanrring;
             ViewBag.Name = Account.Name;
             ViewBag.Address = Account.Address;
             ViewBag.Email = Account.Email;

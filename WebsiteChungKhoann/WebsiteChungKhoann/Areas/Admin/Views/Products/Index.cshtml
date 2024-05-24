@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WebsiteChungKhoann.Models.Product>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<WebsiteChungKhoann.Models.Product>
 
 @{
     ViewBag.Title = "Index";
@@ -32,86 +34,85 @@
     tr:hover {
         background-color: rgba(255, 127, 80, 0.4 );
     }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+        .pagination li a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .pagination li a:hover, .pagination li.active a {
+                background-color: #007bff;
+                color: white;
+            }
 </style>
+
 <p>
     <a href="@Url.Action("Create")"><i class="fa-solid fa-square-plus" style="color: #C40C0C; font-size: 34px; margin-top: 10px; margin-left: 20px; cursor: pointer "></i></a>
 </p>
+
 <table class="table">
     <thead>
-         <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Author.Name_Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Name_Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Img)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Count)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>Name_Author</th>
+            <th>Name_Category</th>
+            <th>Name_Product</th>
+            <th>Price</th>
+            <th>Img</th>
+            <th>Description</th>
+            <th>Count</th>
+            <th>Publishing_Year</th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.Name_Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name_Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.Img))
-                {
-                    <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
-                }
-                else
-                {
-                    <span>No image available</span>
-                }
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                <a href="@Url.Action("Edit",new { id = item.Id_Product })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px; "></i></a>
-
-                <a href="@Url.Action("Xoa",new { id = item.Id_Product })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
-            </td>
-        </tr>
-    }
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Author.Name_Author)</td>
+                <td>@Html.DisplayFor(modelItem => item.Category.Name_Category)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Img))
+                    {
+                        <img src="@Url.Content(item.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Count)</td>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id_Product })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px;"></i></a>
+                    <a href="@Url.Action("Xoa", new { id = item.Id_Product })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
-
 </table>
+
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
 <script>
     function Notifical() {
         alert("Bạn có chắc muốn xóa ??");

@@ -184,9 +184,11 @@
     .show {
         display: flex;
     }
-    .emty{
+
+    .emty {
         height: 300px;
     }
+
     .inFor {
         /* background-color: rgba(128, 0, 128,0.6);*/
         width: 100%;
@@ -196,18 +198,22 @@
         transition: ease-in-out 0.5;
         border-radius: 15px;
     }
-        .inFor .img{
+
+        .inFor .img {
             padding: 20px 20px;
         }
+
         .inFor p {
             padding: 15px 10px;
             cursor: pointer;
             transition: ease-in-out 0.5;
         }
+
             .inFor p:hover {
                 background-color: forestgreen;
                 color: white;
             }
+
     table {
         /*background-color: rgba(0, 128, 0,0.6);*/
         border-collapse: collapse;
@@ -215,12 +221,14 @@
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
         border-radius: 15px;
     }
+
     thead {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         background-color: #FFA500;
         color: white;
     }
+
     th, td {
         padding: 8px;
         text-align: left;
@@ -230,58 +238,186 @@
     tr:hover {
         background-color: #D6EEEE;
     }
+
+    .danger, .padding, .wanrring, .success {
+        display: none;
+    }
+
+        .danger.show {
+            display: block;
+        }
+
+        .padding.show {
+            display: block;
+        }
+
+        .wanrring.show {
+            display: block;
+        }
+        .success.show{
+            display: block;
+        }
+        button{
+            margin: 6px 15px;
+        }
+    table {
+        /* Bổ sung độ rộng cố định và loại bỏ việc thay đổi khi sử dụng flex */
+        display: table;
+        width: 100%;
+    }
+
+    tbody {
+        /* Xác định kiểu hiển thị mặc định cho tbody */
+        display: table-row-group;
+    }
+
+    tr {
+        /* Xác định kiểu hiển thị mặc định cho tr */
+        display: table-row;
+    }
+    .btn-outline-custom {
+        outline: 5px solid transparent; /* Định dạng mặc định của đường viền */
+    }
+
+        .btn-outline-custom.active {
+            outline-color: #007bff; /* Màu của đường viền khi nút được click */
+        }
+
 </style>
 
 <div class="container-xxxl">
     <div class="row">
-        <div class="show pd-5 mt-5" >
+        <div class="show pd-5 mt-5">
             <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="inFor">
                     <div class="img pd-2">
                         <img src="https://cdn.icon-icons.com/icons2/11/PNG/256/customer_person_people_man_you_1625.png" class="rounded-avatar mr-2" alt="Avatar">
                     </div>
-                   
+
                     <p>Họ tên  :  @ViewBag.Name</p>
                     <p>Địa chỉ : @ViewBag.Address</p>
                     <p>Gmail   : @ViewBag.Email</p>
                 </div>
             </div>
             <div class="col-sm-9 col-md-9 col-lg-9">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-secondary" onclick="showOrders(1)">Chưa Xác Nhận</button>
+                    <button type="button" class="btn btn-warning" onclick="showOrders(2)">Đang Giao</button>
+                    <button type="button" class="btn btn-success" onclick="showOrders(3)">Thành Công</button>
+                    <button type="button" class="btn btn-danger" onclick="showOrders(4)">Hủy Đơn Hàng</button>
+                </div>
+
                 <table>
-                    <thead class="bg-success">
+                    @*<thead class="bg-success">
                         <tr>
                             <th>STT</th>
                             <th>Product Name</th>
                             <th>Img</th>
-                            
+                            <th>Status</th>
                             <th>Quantity</th>
                             <th>Total</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                    </thead>*@
+                    <tbody class="success">
 
                         @foreach (var order in ViewBag.OrderList)
                         {
                             if (order.Id_Status != 1)
-
-
                             {
                                 <tr>
-                                    <td>@stt</td> <!-- Hiển thị STT -->
+                                    <td>@stt</td>
                                     <td>@order.Name_Pro</td>
                                     <td>
                                         <img src="@Url.Content(order.Product.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
                                     </td>
-                                    @*<td>@order.Status.status</td>*@
+                                    <td>@order.Status.status</td>
                                     <td>@order.Quantity</td>
                                     <td>@order.Total</td>
                                 </tr>
                                 stt++; // Tăng giá trị của biến đếm sau mỗi lần lặp
                                 err = 3;
                             }
-                          
+
                         }
-                        @if (err!=3)
+                        @if (err != 3)
+                        {
+                            <tr>
+                                <td colspan="6">Chưa Có đơn hàng nào đưuọc thanh toán</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tbody class="padding">
+                        @foreach (var order in ViewBag.pending)
+                        {
+
+                            <tr>
+                                <td>@stt</td>
+                                <td>@order.Name_Pro</td>
+                                <td>
+                                    <img src="@Url.Content(order.Product.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                                </td>
+                                <td>@order.Status.status</td>
+                                <td>@order.Quantity</td>
+                                <td>@order.Total</td>
+                            </tr>
+                            stt++; // Tăng giá trị của biến đếm sau mỗi lần lặp
+                            err = 3;
+
+
+                        }
+                        @if (err != 3)
+                        {
+                            <tr>
+                                <td colspan="6">Chưa Có đơn hàng nào đưuọc thanh toán</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tbody class="wanrring">
+                        @foreach (var order in ViewBag.Wanrring)
+                        {
+
+                            <tr>
+                                <td>@stt</td>
+                                <td>@order.Name_Pro</td>
+                                <td>
+                                    <img src="@Url.Content(order.Product.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                                </td>
+                                <td>@order.Status.status</td>
+                                <td>@order.Quantity</td>
+                                <td>@order.Total</td>
+                            </tr>
+                            stt++; // Tăng giá trị của biến đếm sau mỗi lần lặp
+                            err = 3;
+
+
+                        }
+                        @if (err != 3)
+                        {
+                            <tr>
+                                <td colspan="6">Chưa Có đơn hàng nào đưuọc thanh toán</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tbody class="danger">
+                        @foreach (var order in ViewBag.danger)
+                        {
+
+                            <tr>
+                                <td>@stt</td>
+                                <td>@order.Name_Pro</td>
+                                <td>
+                                    <img src="@Url.Content(order.Product.Img)" alt="Image" style="max-width: 100px; max-height: 100px;" />
+                                </td>
+                                <td>@order.Status.status</td>
+                                <td>@order.Quantity</td>
+                                <td>@order.Total</td>
+                            </tr>
+                            stt++; // Tăng giá trị của biến đếm sau mỗi lần lặp
+                            err = 3;
+
+
+                        }
+                        @if (err != 3)
                         {
                             <tr>
                                 <td colspan="6">Chưa Có đơn hàng nào đưuọc thanh toán</td>
@@ -297,3 +433,44 @@
         <div class="emty"></div>
     </div>
 </div>
+<script>
+    function showOrders(status) {
+        // Ẩn tất cả các tbody trước khi hiển thị
+        document.querySelectorAll('tbody').forEach(function (tbody) {
+            tbody.classList.remove('show');
+        });
+
+        // Hiển thị tbody tương ứng với trạng thái được chọn
+        switch (status) {
+            case 1:
+                document.querySelector('.padding').classList.add('show');
+                break;
+            case 2:
+                document.querySelector('.wanrring').classList.add('show');
+                break;
+            case 3:
+                document.querySelector('.success').classList.add('show');
+                break;
+            case 4:
+                document.querySelector('.danger').classList.add('show');
+                break;
+            default:
+                break;
+        }
+    }
+    // Lấy tất cả các nút trong btn-group
+    var buttons = document.querySelectorAll('.btn-group button');
+
+    // Thêm sự kiện click cho mỗi nút
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Loại bỏ lớp 'active' từ tất cả các nút
+            buttons.forEach(function (btn) {
+                btn.classList.remove('active');
+            });
+            // Thêm lớp 'active' cho nút hiện tại
+            this.classList.add('active');
+        });
+    });
+
+</script>

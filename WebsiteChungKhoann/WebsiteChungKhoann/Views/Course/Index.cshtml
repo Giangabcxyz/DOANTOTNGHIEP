@@ -214,8 +214,8 @@
                             <a href="@Url.Action("Detail", "Course", new { id = item.Id_Course })">
                                 <div class="video-list-item" data-course-id="@item.Id_Course" data-video-id="@item.Link_Id">
                                     <img src="https://img.youtube.com/vi/@item.Link_Id/default.jpg" class="video-thumbnail" alt="Thumbnail"><br />
-                                    <p class="nname" style="color: black">@item.Name</p>
-                                    <span class="descriptionn" class="p-1">@item.Description</span>
+                                    <p class="nname" style="color: black; font-weight: bold">@item.Name</p>
+                                    @*<span class="descriptionn" class="p-1">@item.Description</span>*@
                                 </div>
                             </a>
 

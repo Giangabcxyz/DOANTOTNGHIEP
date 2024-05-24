@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,10 +16,42 @@ namespace WebsiteChungKhoann.Areas.Admin.Controllers
         private Mode1 db = new Mode1();
 
         // GET: Admin/Orders
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var orders_pr = db.Orders_pr.Include(o => o.Account).Include(o => o.Pay).Include(o => o.PayStatus).Include(o => o.Product).Include(o => o.Status);
-            return View(orders_pr.ToList());
+            int pageSize = 5; // Số lượng phần tử trên mỗi trang
+            int pageNumber = (page ?? 1); // Nếu không có giá trị trang hiện tại, mặc định là trang 1
+
+            var orders_pr = db.Orders_pr.Include(o => o.Account)
+                                        .Include(o => o.Pay)
+                                        .Include(o => o.PayStatus)
+                                        .Include(o => o.Product)
+                                        .Include(o => o.Status)
+                                        .OrderBy(o => o.Id_Order); // Sắp xếp nếu cần thiết
+
+            return View(orders_pr.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult Xoa(int id)
+        {
+                // Tìm Order theo Id_Order
+                var order = db.Orders_pr.Find(id);
+                if (order != null)
+                {
+                    // Tìm Finance liên quan đến Order
+                    var finances = db.Finance.Where(f => f.Id_Order == id).ToList();
+                    foreach (var finance in finances)
+                    {
+                        db.Finance.Remove(finance);
+                    }
+
+                    // Xóa Order
+                    db.Orders_pr.Remove(order);
+
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    db.SaveChanges();
+                
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/Orders/Details/5

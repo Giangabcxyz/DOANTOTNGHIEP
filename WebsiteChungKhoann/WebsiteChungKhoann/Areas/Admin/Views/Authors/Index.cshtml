@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WebsiteChungKhoann.Models.Author>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<WebsiteChungKhoann.Models.Author>
 
 @{
     ViewBag.Title = "Index";
@@ -28,6 +30,63 @@
         background-color: rgba(255, 127, 80, 0.4 );
     }
 </style>
+<style>
+    /* Phân trang */
+    .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .pagination-container .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+            .pagination-container .pagination li {
+                display: inline;
+            }
+
+                .pagination-container .pagination li a {
+                    position: relative;
+                    float: left;
+                    padding: 6px 12px;
+                    line-height: 1.428571429;
+                    text-decoration: none;
+                    color: #C40C0C;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    margin-left: -1px;
+                }
+
+                .pagination-container .pagination li.active a {
+                    background-color: #C40C0C;
+                    color: #fff;
+                }
+
+                .pagination-container .pagination li a:hover {
+                    z-index: 3;
+                    color: #fff;
+                    background-color: #C40C0C;
+                    border-color: #C40C0C;
+                }
+
+                .pagination-container .pagination li:first-child a {
+                    margin-left: 0;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                }
+
+                .pagination-container .pagination li:last-child a {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                }
+
+                .pagination-container .pagination li a:focus {
+                    outline: none;
+                }
+</style>
 
 <p>
     <a href="@Url.Action("Create")"><i class="fa-solid fa-square-plus" style="color: #C40C0C; font-size: 34px; margin-top: 10px; margin-left: 20px; cursor: pointer "></i></a>
@@ -36,9 +95,9 @@
 <table>
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Age</th>
+            <th><a style="text-decoration: none; color: white" href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })">Name</a></th>
+            <th><a style="text-decoration: none; color: white " href="@Url.Action("Index", new { sortOrder = ViewBag.AddressSortParm })">Address</a></th>
+            <th><a style="text-decoration: none; color: white" href="@Url.Action("Index", new { sortOrder = ViewBag.AgeSortParm })">Age</a></th>
             <th></th>
         </tr>
     </thead>
@@ -59,12 +118,17 @@
                     <a href="@Url.Action("Edit",new { id = item.Id_Author })"><i class="fa-solid fa-pencil text-warning" style="font-size: 14px; margin: 0px 10px; "></i></a>
 
                     <a href="@Url.Action("Xoa",new { id = item.Id_Author })" onclick="Notifical()"><i class="fa-solid fa-trash-can text-danger" style="font-size: 14px"></i></a>
-                 
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
 
 <script>
     function Notifical() {
